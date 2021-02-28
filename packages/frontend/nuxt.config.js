@@ -19,6 +19,10 @@ export default {
     middleware: 'me',
   },
 
+  server: {
+    host: '0.0.0.0',
+  },
+
   ssr: false,
 
   target: 'static',

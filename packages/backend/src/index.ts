@@ -16,6 +16,7 @@ const app = hookFastify({
     path.join(__dirname, 'ws', 'controllers', '*Controller.{ts,js}'),
   ],
   port: 4200,
+  host: '0.0.0.0',
   cors: {
     origin:
       process.env.NODE_ENV === 'production'
