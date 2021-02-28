@@ -2,12 +2,12 @@ import axios from 'axios'
 
 const BASE_ENDPOINTS: Record<string, string> = {
   development: 'http://localhost:4200/api',
-  production: 'https://pastte.vott.us/api',
+  production: 'https://pastte-api.vott.us/api',
 }
 
 const WS_BASE_ENDPOINTS: Record<string, string> = {
   development: 'ws://localhost:4200/api',
-  production: 'wss://pastte.vott.us/api',
+  production: 'wss://pastte-api.vott.us/api',
 }
 
 /// TODO: dont use ip
