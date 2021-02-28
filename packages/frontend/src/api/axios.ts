@@ -2,18 +2,18 @@ import axios from 'axios'
 
 const BASE_ENDPOINTS: Record<string, string> = {
   development: 'http://localhost:4200/api',
-  production: 'https://pastte.it/api',
+  production: 'https://pastte-api.vott.us/api',
 }
 
 const RAW_BASE_ENDPOINTS: Record<string, string> = {
   development: 'localhost:4200/api',
-  production: 'pastte.it/api',
+  production: 'pastte-api.vott.us/api',
 }
 
 const baseUrl = (raw = false) =>
   raw
-    ? RAW_BASE_ENDPOINTS[env] ?? RAW_BASE_ENDPOINTS['production']
-    : BASE_ENDPOINTS[env] ?? BASE_ENDPOINTS['production']
+    ? RAW_BASE_ENDPOINTS[env] ?? RAW_BASE_ENDPOINTS.production
+    : BASE_ENDPOINTS[env] ?? BASE_ENDPOINTS.production
 
 const env = process.env.NODE_ENV ?? 'production'
 
