@@ -28,6 +28,7 @@
     "typed-vuex": "^0.1.22"
   },
   "devDependencies": {
+    "@pastte/backend": "1.0.0",
     "@nuxt/types": "^2.14.12",
     "@nuxt/typescript-build": "^2.0.4",
     "@nuxtjs/eslint-config-typescript": "^5.0.0",

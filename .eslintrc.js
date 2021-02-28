@@ -12,5 +12,6 @@ module.exports = {
   // add your custom rules here
   rules: {
     'require-await': 'off',
+    'no-unused-expressions': 'off',
   },
 }
