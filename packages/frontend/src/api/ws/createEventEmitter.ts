@@ -13,6 +13,7 @@ const createEventEmitter = (socket: WebSocket) => {
       return
     }
 
+    // eslint-disable-next-line no-console
     console.log('[server] parsed:', { msg })
 
     eventEmitter.emit(msg.event, msg)
