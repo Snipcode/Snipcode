@@ -49,11 +49,25 @@ export default defineComponent({
 
     const socket = new WebSocket(`${baseUrl(true)}/paste/websocket`)
 
-    const createPaste = () =>
-      socketSend(socket, {
-        action: 'create_paste',
-        data: { content: state.newPaste },
-      })
+    const createPaste = () => {
+      try {
+        socketSend(socket, {
+          action: 'create_paste',
+          data: { content: state.newPaste },
+        })
+        state.newPaste = ''
+      } catch (_) {}
+    }
+
+    window.addEventListener('paste', async () => {
+      try {
+        const paste = await navigator.clipboard.readText()
+        if (!paste) return
+
+        state.newPaste = paste
+        createPaste()
+      } catch (_) {}
+    })
 
     socket.addEventListener('open', () => {
       socketSend(socket, { action: 'fetch_pastes' })
