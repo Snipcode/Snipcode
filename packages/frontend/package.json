@@ -1,0 +1,40 @@
+{
+  "name": "@pastte/frontend",
+  "version": "1.0.0",
+  "description": "Frontend of the Pastte.it website",
+  "main": "dist/index.js",
+  "repository": "git@github.com:VottusCode/pastte",
+  "author": "VottusCode",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt-ts",
+    "build": "nuxt-ts build",
+    "start": "nuxt-ts start",
+    "generate": "nuxt-ts generate"
+  },
+  "dependencies": {
+    "@nuxt/typescript-runtime": "^2.0.1",
+    "@nuxtjs/composition-api": "^0.20.2",
+    "@nuxtjs/tailwindcss": "^3.4.2",
+    "@tailwindcss/postcss7-compat": "^2.0.3",
+    "autoprefixer": "^9",
+    "axios": "^0.21.1",
+    "core-js": "^3.8.3",
+    "nuxt": "^2.14.12",
+    "nuxt-typed-vuex": "^0.1.22",
+    "postcss": "^7",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
+    "typed-vuex": "^0.1.22"
+  },
+  "devDependencies": {
+    "@nuxt/types": "^2.14.12",
+    "@nuxt/typescript-build": "^2.0.4",
+    "@nuxtjs/eslint-config-typescript": "^5.0.0",
+    "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/tailwindcss": "^3.4.2",
+    "eslint-plugin-nuxt": "^2.0.0",
+    "eslint-plugin-vue": "^7.5.0",
+    "tailwindcss": "^2.0.3"
+  }
+}

@@ -1,0 +1,6 @@
+node_modules/
+packages/**/node_modules
+packages/**/dist
+db
+*.env
+packages/frontend/.nuxt
