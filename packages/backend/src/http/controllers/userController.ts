@@ -4,11 +4,14 @@ import { success } from '../helpers/responseHelper'
 
 const UserController: Controller = async (app, { db }) => {
   app.get('/', async (req, res) =>
-    withUserContext(({ dtoUser }) => res.send(success({ user: dtoUser })), {
-      req,
-      res,
-      deps: { db },
-    })
+    withUserContext(
+      {
+        req,
+        res,
+        deps: { db },
+      },
+      ({ dtoUser }) => res.send(success({ user: dtoUser }))
+    )
   )
 }
 
