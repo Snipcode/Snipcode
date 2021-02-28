@@ -1,4 +1,5 @@
 import path from 'path'
+import fs from 'fs'
 import { hookFastify } from '@fasteerjs/fasteer'
 import { PrismaClient } from '@prisma/client'
 import fastifySecureSession from 'fastify-secure-session'
@@ -15,7 +16,7 @@ const app = hookFastify({
   ],
   port: 4200,
   cors: {
-    origin: 'http://localhost:3000',
+    origin: 'http://pastte.vott.us',
     credentials: true,
   },
   helmet: true,
@@ -28,7 +29,7 @@ app.inject({ db, emitter })
 
 app.fastify.register(fastifySecureSession, {
   cookieName: 'pastte_sess_key',
-  key: path.join(__dirname, '..', '..', '..', 'sess_secret'),
+  key: fs.readFileSync(path.join(__dirname, '..', '..', '..', 'sess_secret')),
   cookie: {
     path: '/',
   },
@@ -39,7 +40,7 @@ app.fastify.register(fastifyWebsocket, {
     maxPayload: 1048576,
   },
 })
-// Close Fastify on stop
+// Close Fastify on e
 ;['SIGINT', 'SIGTERM'].forEach((sig) =>
   process.on(sig, () => app.fastify.close())
 )
