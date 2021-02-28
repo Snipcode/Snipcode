@@ -1,6 +1,5 @@
 import path from 'path'
 import fs from 'fs'
-import https from 'https'
 import { hookFastify } from '@fasteerjs/fasteer'
 import { PrismaClient } from '@prisma/client'
 import fastifySecureSession from 'fastify-secure-session'
@@ -42,14 +41,6 @@ app.fastify.register(fastifySecureSession, {
 
 app.fastify.register(fastifyWebsocket, {
   options: {
-    ...(process.env.NODE_ENV === 'production'
-      ? {
-          server: https.createServer({
-            key: fs.readFileSync(process.env.KEY ?? '../../../key.pem'),
-            cert: fs.readFileSync(process.env.CERT ?? '../../../cert.pem'),
-          }),
-        }
-      : {}),
     maxPayload: 1048576,
   },
 })
