@@ -25,7 +25,7 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
     },
     wsHandler: async (conn, req) => {
       const ctx = await createUserContext({ req, deps: { db } })
-      if (!ctx.success) return conn.socket.send(JSON.stringify(ctx))
+      if (!ctx.success) return socketSend(conn.socket, ctx)
 
       const { user } = ctx
 
@@ -34,7 +34,10 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
        */
 
       const handlePasteCreate = (paste: DBPaste) =>
-        socketSend(conn, event('paste_create', { paste: PasteDto.make(paste) }))
+        socketSend(
+          conn.socket,
+          event('paste_create', { paste: PasteDto.make(paste) })
+        )
 
       emitter.on(`pasteCreate__${user.id}`, handlePasteCreate)
 
@@ -50,7 +53,7 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
 
       actionEmitter.on('fetch_pastes', async () =>
         socketSend(
-          conn,
+          conn.socket,
           event('fetch_pastes', {
             pastes: await db.paste.findMany({
               where: {
@@ -63,7 +66,7 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
 
       actionEmitter.on('create_paste', async (msg: ReceivedMessage) => {
         const data: Paste.Create['Body']['data'] = msg.data
-        if (!ajv.validate(Paste.create, { body: { data } })) return
+        if (!ajv.validate(Paste.create.body, { data })) return
 
         const paste = await db.paste.create({
           data: {
@@ -73,7 +76,7 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
           },
         })
 
-        socketSend(conn, event('save_paste', { message: 'success' }))
+        socketSend(conn.socket, event('save_paste', { message: 'success' }))
 
         emitter.emit(`pasteCreate__${user.id}`, paste)
       })
