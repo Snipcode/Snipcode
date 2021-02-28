@@ -1,6 +1,6 @@
-import { $axios } from '../axios'
 import { Error, Success } from '@pastte/backend/src/http/helpers/responseHelper'
 import { UserDto } from '@pastte/backend/src/http/dto/db/userDto'
+import { $axios } from '../axios'
 
 interface MeData {
   user: UserDto
