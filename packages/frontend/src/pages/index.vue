@@ -3,15 +3,16 @@
     <form class="pt-4 pl-2 border-2 border-purple-400 rounded-2xl">
       <div class="pr-2">
         <textarea
-          type="text"
           v-model="state.newPaste"
+          type="text"
           class="w-full outline-none resize-none"
           placeholder="Enter your paste..."
         />
       </div>
-      <div class="cursor-pointer flex justify-end" @click.prevent="createPaste">
+      <div class="cursor-pointer flex justify-end">
         <div
           class="px-4 py-2 border-l-2 border-t-2 border-purple-400 rounded-tl-2xl rounded-br-2xl text-right hover:bg-gray-100"
+          @click.prevent="createPaste"
         >
           Pastte
         </div>
@@ -32,9 +33,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from '@nuxtjs/composition-api'
+import { defineComponent, reactive } from '@nuxtjs/composition-api'
 import { PasteDto } from '@pastte/backend/src/http/dto/db/pasteDto'
+import socketSend from '@pastte/backend/src/ws/helpers/socketSend'
 import { baseUrl } from '../api/axios'
+import { createEventEmitter } from '../api/ws/createEventEmitter'
 
 export default defineComponent({
   middleware: 'requiredAuth',
@@ -44,43 +47,26 @@ export default defineComponent({
       newPaste: '',
     })
 
-    // const ws = new WebSocket(`wss://${baseUrl(true)}/paste/websocket`)
-
     const socket = new WebSocket(`ws://${baseUrl(true)}/paste/websocket`)
 
-    const createPaste = () => {
-      console.log({ state })
-      socket.send(
-        JSON.stringify({
-          action: 'create_paste',
-          data: { content: state.newPaste },
-        })
-      )
-    }
+    const createPaste = () =>
+      socketSend(socket, {
+        action: 'create_paste',
+        data: { content: state.newPaste },
+      })
 
-    // Connection opened
-    socket.addEventListener('open', function (event) {
-      socket.send(JSON.stringify({ action: 'fetch_pastes' }))
+    socket.addEventListener('open', () => {
+      socketSend(socket, { action: 'fetch_pastes' })
     })
 
-    // Listen for messages
-    socket.addEventListener('message', function (event) {
-      const data = JSON.parse(event.data)
-      console.log('[server] ', data)
+    const emitter = createEventEmitter(socket)
 
-      switch (data.evt) {
-        case 'fetch_pastes': {
-          state.pastes = data.data.pastes
-          console.log(state.pastes)
-        }
-        case 'paste_create': {
-          state.pastes.push(data.data.paste)
-        }
-        default:
-          break
-      }
+    emitter.on('fetch_pastes', (msg) => {
+      state.pastes = msg.data.pastes
+    })
 
-      // console.log('Message from server ', event.data)
+    emitter.on('paste_create', (msg) => {
+      state.pastes.push(msg.data.paste)
     })
 
     return {
