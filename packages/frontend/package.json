@@ -11,7 +11,7 @@
     "dev": "nuxt-ts",
     "build": "nuxt-ts build",
     "start": "nuxt-ts start",
-    "generate": "nuxt-ts generate"
+    "generate": "yarn prisma generate && nuxt-ts generate"
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.0.1",
