@@ -1,5 +1,6 @@
 import path from 'path'
 import fs from 'fs'
+import https from 'https'
 import { hookFastify } from '@fasteerjs/fasteer'
 import { PrismaClient } from '@prisma/client'
 import fastifySecureSession from 'fastify-secure-session'
@@ -13,6 +14,7 @@ const emitter = new EventEmitter()
 const app = hookFastify({
   controllers: [
     path.join(__dirname, 'http', 'controllers', '*Controller.{ts,js}'),
+    path.join(__dirname, 'ws', 'controllers', '*Controller.{ts,js}'),
   ],
   port: 4200,
   cors: {
@@ -37,6 +39,14 @@ app.fastify.register(fastifySecureSession, {
 
 app.fastify.register(fastifyWebsocket, {
   options: {
+    ...(process.env.NODE_ENV === 'production'
+      ? {
+          server: https.createServer({
+            key: fs.readFileSync(process.env.KEY ?? '../../../key.pem'),
+            cert: fs.readFileSync(process.env.CERT ?? '../../../cert.pem'),
+          }),
+        }
+      : {}),
     maxPayload: 1048576,
   },
 })

@@ -15,6 +15,7 @@
     "@fasteerjs/fasteer": "^3.0.1",
     "@prisma/client": "^2.17.0",
     "@types/bcryptjs": "^2.4.2",
+    "ajv": "^7.1.1",
     "bcryptjs": "^2.4.3",
     "eventemitter3": "^4.0.7",
     "fastify-secure-session": "^2.3.1",

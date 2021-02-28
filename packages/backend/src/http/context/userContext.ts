@@ -1,44 +1,39 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { Injected } from '../../types'
 import { UserDto, UserWithPastes } from '../dto/db/userDto'
-import { error, ErrorKind } from '../helpers/responseHelper'
-
+import { BaseError, Error, error, ErrorKind } from '../helpers/responseHelper'
 interface UseUserContext {
   req: FastifyRequest
-  res: FastifyReply
+  res?: FastifyReply
   deps: {
     db: Injected['db']
   }
 }
 
 interface UserContext {
+  success: true
   user: UserWithPastes
   dtoUser: UserDto
 }
 
 /**
- * Fetches the data for the UserContext and passes them to the callback
- * passed in the first function.
+ * Creates the User Context and returns it,
+ * if an error occurs it returns and Error according to the response-spec.
  *
- * If an error occurs while fetching (eg. missing token, etc..),
- * the callback does not get executed and an error response gets sent.
- *
- * @param {(userCtx: UserContext) => Promise<unknown>} fn The callback
- * @param {UseUserContext} deps The required dependencies for UserContext
+ * @param {Omit<UseUserContext, 'res'>} _
+ * @returns {UserContext | Error<BaseError>}
  */
-const withUserContext = async (
-  fn: (userCtx: UserContext) => Promise<unknown> | unknown,
-  { req, res, deps: { db } }: UseUserContext
-) => {
+const createUserContext = async ({
+  req,
+  deps: { db },
+}: Omit<UseUserContext, 'res'>): Promise<UserContext | Error<BaseError>> => {
   const userId = req.session.get('userId')
 
   if (!userId)
-    return res.send(
-      error({
-        kind: ErrorKind.UNAUTHORIZED,
-        message: 'You are not logged in.',
-      })
-    )
+    return error({
+      kind: ErrorKind.UNAUTHORIZED,
+      message: 'You are not logged in.',
+    })
 
   /**
    * Query the user by the ID in the session.
@@ -52,19 +47,42 @@ const withUserContext = async (
     },
   })
   if (!user)
-    return res.send(
-      error({
-        kind: ErrorKind.UNAUTHORIZED,
-        message: 'This user is no longer active.',
-      })
-    )
+    return error({
+      kind: ErrorKind.UNAUTHORIZED,
+      message: 'You are not logged in.',
+    })
 
   const context: UserContext = {
+    success: true,
     user,
     dtoUser: UserDto.make(user),
+  }
+
+  return context
+}
+
+/**
+ * Creates the User Context and passes it to the callback
+ * passed in the first function.
+ *
+ * If an error occurs while fetching (eg. missing token, etc..),
+ * the callback does not get executed and an error response gets sent.
+ *
+ * @param {(userCtx: UserContext) => Promise<unknown>} fn The callback
+ * @param {UseUserContext} deps The required dependencies for UserContext
+ */
+const withUserContext = async (
+  { req, res, deps: { db } }: UseUserContext,
+  fn: (userCtx: UserContext) => Promise<unknown> | unknown,
+  errFn?: () => unknown
+) => {
+  const context = await createUserContext({ req, deps: { db } })
+  if (!context.success) {
+    if (res) return res.send(context)
+    return errFn?.()
   }
 
   return fn(context)
 }
 
-export { UseUserContext, UserContext, withUserContext }
+export { UseUserContext, UserContext, withUserContext, createUserContext }
