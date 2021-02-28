@@ -11,6 +11,7 @@ export const state = () => ({
 })
 
 export type UserState = ReturnType<typeof state>
+// eslint-disable-next-line no-use-before-define
 export type UserGetters = typeof getters
 
 export const UserMutations = {

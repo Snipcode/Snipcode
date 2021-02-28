@@ -47,7 +47,7 @@ export default defineComponent({
       newPaste: '',
     })
 
-    const socket = new WebSocket(`ws://${baseUrl(true)}/paste/websocket`)
+    const socket = new WebSocket(`${baseUrl(true)}/paste/websocket`)
 
     const createPaste = () =>
       socketSend(socket, {

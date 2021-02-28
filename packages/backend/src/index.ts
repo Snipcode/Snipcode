@@ -20,7 +20,7 @@ const app = hookFastify({
   cors: {
     origin:
       process.env.NODE_ENV === 'production'
-        ? 'http://pastte.vott.us'
+        ? 'https://pastte.vott.us'
         : 'http://localhost:3000',
     credentials: true,
   },

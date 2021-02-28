@@ -2,19 +2,19 @@ import axios from 'axios'
 
 const BASE_ENDPOINTS: Record<string, string> = {
   development: 'http://localhost:4200/api',
-  production: 'http://94.112.2.236/api',
+  production: 'https://pastte.vott.us/api',
 }
 
-const RAW_BASE_ENDPOINTS: Record<string, string> = {
-  development: 'localhost:4200/api',
-  production: '94.112.2.236/api',
+const WS_BASE_ENDPOINTS: Record<string, string> = {
+  development: 'ws://localhost:4200/api',
+  production: 'wss://pastte.vott.us/api',
 }
 
 /// TODO: dont use ip
 
-const baseUrl = (raw = false) =>
-  raw
-    ? RAW_BASE_ENDPOINTS[env] ?? RAW_BASE_ENDPOINTS.production
+const baseUrl = (ws = false) =>
+  ws
+    ? WS_BASE_ENDPOINTS[env] ?? WS_BASE_ENDPOINTS.production
     : BASE_ENDPOINTS[env] ?? BASE_ENDPOINTS.production
 
 const env = process.env.NODE_ENV ?? 'production'

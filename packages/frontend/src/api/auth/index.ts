@@ -1,7 +1,6 @@
-import { $axios } from '../axios'
 import { Auth } from '@pastte/backend/src/http/schemas'
 import { Error, Success } from '@pastte/backend/src/http/helpers/responseHelper'
-
+import { $axios } from '../axios'
 interface SuccessMessage {
   message: 'success'
 }
