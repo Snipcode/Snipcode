@@ -20,7 +20,7 @@
     "@tailwindcss/postcss7-compat": "^2.0.3",
     "autoprefixer": "^9",
     "axios": "^0.21.1",
-    "core-js": "^3.8.3",
+    "core-js": "^3.9.1",
     "eventemitter3": "^4.0.7",
     "nuxt": "^2.14.12",
     "nuxt-typed-vuex": "^0.1.22",
