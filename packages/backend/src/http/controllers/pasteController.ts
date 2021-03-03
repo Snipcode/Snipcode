@@ -94,7 +94,7 @@ const PasteController: Controller = async (app, { db, emitter }) => {
             })
           )
 
-        db.paste.delete({
+        await db.paste.delete({
           where: {
             id: req.params.id,
           },

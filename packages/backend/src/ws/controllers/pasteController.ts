@@ -56,6 +56,11 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
           conn.socket,
           event('fetch_pastes', {
             pastes: await db.paste.findMany({
+              orderBy: [
+                {
+                  createdAt: 'desc',
+                },
+              ],
               where: {
                 userId: user.id,
               },
