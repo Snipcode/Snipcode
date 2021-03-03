@@ -1,6 +1,7 @@
 node_modules/
 packages/**/node_modules
 packages/**/dist
-db
+/db
 *.env
 packages/frontend/.nuxt
+sess_secret
