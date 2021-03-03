@@ -11,7 +11,7 @@
     "dev": "nuxt-ts",
     "build": "nuxt-ts build",
     "start": "nuxt-ts start",
-    "generate": "nuxt-ts generate"
+    "generate": "yarn prisma generate && nuxt-ts generate"
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.0.1",
@@ -20,10 +20,11 @@
     "@tailwindcss/postcss7-compat": "^2.0.3",
     "autoprefixer": "^9",
     "axios": "^0.21.1",
-    "core-js": "^3.8.3",
+    "core-js": "^3.9.1",
+    "eventemitter3": "^4.0.7",
     "nuxt": "^2.14.12",
     "nuxt-typed-vuex": "^0.1.22",
-    "postcss": "^7",
+    "postcss": "^8",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "typed-vuex": "^0.1.22"
   },
@@ -33,8 +34,9 @@
     "@nuxtjs/eslint-config-typescript": "^5.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/tailwindcss": "^3.4.2",
+    "@pastte/backend": "1.0.0",
     "eslint-plugin-nuxt": "^2.0.0",
-    "eslint-plugin-vue": "^7.5.0",
+    "eslint-plugin-vue": "^7.7.0",
     "tailwindcss": "^2.0.3"
   }
 }

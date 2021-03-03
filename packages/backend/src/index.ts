@@ -13,10 +13,15 @@ const emitter = new EventEmitter()
 const app = hookFastify({
   controllers: [
     path.join(__dirname, 'http', 'controllers', '*Controller.{ts,js}'),
+    path.join(__dirname, 'ws', 'controllers', '*Controller.{ts,js}'),
   ],
   port: 4200,
+  host: '0.0.0.0',
   cors: {
-    origin: 'http://pastte.vott.us',
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? 'https://pastte.vott.us'
+        : 'http://localhost:3000',
     credentials: true,
   },
   helmet: true,

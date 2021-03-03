@@ -7,5 +7,9 @@ export interface Injected {
   db: PrismaClient
   emitter: EventEmitter
 }
+export interface ReceivedMessage {
+  action: string
+  [key: string]: any
+}
 
 export type Controller = Fasteer.FCtrl<FastifyInstance, {}, Injected>
