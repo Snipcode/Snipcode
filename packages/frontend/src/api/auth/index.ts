@@ -1,9 +1,6 @@
 import { Auth } from '@pastte/backend/src/http/schemas'
 import { Error, Success } from '@pastte/backend/src/http/helpers/responseHelper'
-import { $axios } from '../axios'
-interface SuccessMessage {
-  message: 'success'
-}
+import { $axios, SuccessMessage } from '../axios'
 
 const login = (data: Auth.AuthSchema['Body']['data']) =>
   $axios.request<Success<SuccessMessage> | Error<any>>({
@@ -23,4 +20,10 @@ const register = (data: Auth.AuthSchema['Body']['data']) =>
     },
   })
 
-export { login, register }
+const logout = () =>
+  $axios.request<Success<SuccessMessage>>({
+    url: '/auth/logout',
+    method: 'GET',
+  })
+
+export { login, register, logout }
