@@ -1,40 +1,39 @@
 <template>
-  <div
-    class="w-full h-full bg-gray-900 min-w-screen min-h-screen flex items-center justify-center"
-  >
+  <div class="w-full h-full bg-black min-w-screen min-h-screen flex">
     <div
-      class="flex justify-center p-7 bg-white shadow-xl rounded-3xl md:min-w-96 m-2"
+      class="flex p-2 bg-transparent border-2 shadow-xl w-full m-2 border-console"
     >
       <div>
-        <div class="text-center">
-          <h1 class="text-3xl font-bold text-black">Pastte.it</h1>
-          <h2 class="text-xl font-sm text-gray-900">
+        <div class="text-left">
+          <h1 class="text-xs tracking-tightest text-console font-mono">
+            Pastte.it v2.0
+          </h1>
+          <h2 class="text-xs tracking-tightest text-console font-mono">
             Paste-and-save quickly and easily!
           </h2>
+          <footer class="text-xs tracking-tightest text-console font-mono">
+            2021 &copy; Pastte.it &ndash; Made by
+            <a
+              href="https://github.com/VottusCode"
+              target="_blank"
+              rel="noreferrer noopener"
+              class="font-medium border-b border-console"
+              >VottusCode</a
+            >
+            &ndash;
+            <a
+              href="https://github.com/VottusCode/Pastte"
+              target="_blank"
+              rel="noreferrer noopener"
+              class="font-medium border-b border-console"
+              >Source</a
+            >
+          </footer>
         </div>
 
         <div class="my-6">
           <Nuxt />
         </div>
-
-        <footer class="text-gray-500">
-          2021 &copy; Pastte.it &ndash; Made by
-          <a
-            href="https://github.com/VottusCode"
-            target="_blank"
-            rel="noreferrer noopener"
-            class="font-medium border-b border-gray-500 text-gray-600"
-            >VottusCode</a
-          >
-          &ndash;
-          <a
-            href="https://github.com/VottusCode/Pastte"
-            target="_blank"
-            rel="noreferrer noopener"
-            class="font-medium border-b border-gray-500 text-gray-600"
-            >Source</a
-          >
-        </footer>
       </div>
     </div>
   </div>
