@@ -36,7 +36,7 @@
     "@nuxtjs/tailwindcss": "^3.4.2",
     "@pastte/backend": "1.0.0",
     "eslint-plugin-nuxt": "^2.0.0",
-    "eslint-plugin-vue": "^7.5.0",
+    "eslint-plugin-vue": "^7.7.0",
     "tailwindcss": "^2.0.3"
   }
 }
