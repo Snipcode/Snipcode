@@ -24,7 +24,7 @@
     "eventemitter3": "^4.0.7",
     "nuxt": "^2.14.12",
     "nuxt-typed-vuex": "^0.1.22",
-    "postcss": "^8",
+    "postcss": "^7",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "typed-vuex": "^0.1.22"
   },
