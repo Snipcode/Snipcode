@@ -39,11 +39,19 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
           event('paste_create', { paste: PasteDto.make(paste) })
         )
 
-      emitter.on(`pasteCreate__${user.id}`, handlePasteCreate)
+      const handlePasteDelete = (paste: DBPaste) =>
+        socketSend(
+          conn.socket,
+          event('paste_delete', { paste: PasteDto.make(paste) })
+        )
 
-      conn.socket.on('close', () =>
+      emitter.on(`pasteCreate__${user.id}`, handlePasteCreate)
+      emitter.on(`pasteDelete__${user.id}`, handlePasteDelete)
+
+      conn.socket.on('close', () => {
         emitter.off(`pasteCreate__${user.id}`, handlePasteCreate)
-      )
+        emitter.off(`pasteDelete__${user.id}`, handlePasteDelete)
+      })
 
       /**
        * Websocket Actions
@@ -84,6 +92,45 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
         socketSend(conn.socket, event('save_paste', { message: 'success' }))
 
         emitter.emit(`pasteCreate__${user.id}`, paste)
+      })
+
+      actionEmitter.on('delete_paste', async (msg: ReceivedMessage) => {
+        const data: Paste.ById['Params'] = msg.data
+        if (!ajv.validate(Paste.byId.params, data)) return
+
+        const paste = await db.paste.findUnique({
+          where: {
+            id: data.id,
+          },
+        })
+
+        if (!paste)
+          return socketSend(
+            conn.socket,
+            error({
+              kind: ErrorKind.USER_INPUT,
+              message: 'Paste not found',
+            })
+          )
+
+        if (paste.userId !== user.id)
+          return socketSend(
+            conn.socket,
+            error({
+              kind: ErrorKind.FORBIDDEN,
+              message: 'This is not your paste',
+            })
+          )
+
+        await db.paste.delete({
+          where: {
+            id: data.id,
+          },
+        })
+
+        emitter.emit(`pasteDelete__${user.id}`, paste)
+
+        socketSend(conn.socket, event('delete_paste', { message: 'success' }))
       })
     },
   })

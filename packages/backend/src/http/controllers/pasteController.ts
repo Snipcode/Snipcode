@@ -100,6 +100,8 @@ const PasteController: Controller = async (app, { db, emitter }) => {
           },
         })
 
+        emitter.emit(`pasteDelete__${user.id}`, paste)
+
         res.send(
           success({
             message: 'success',

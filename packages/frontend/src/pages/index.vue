@@ -95,9 +95,10 @@
 import { defineComponent, reactive, useContext } from '@nuxtjs/composition-api'
 import { PasteDto } from '@pastte/backend/src/http/dto/db/pasteDto'
 import socketSend from '@pastte/backend/src/ws/helpers/socketSend'
-import { create as newPaste, remove as removePaste } from '../api/paste'
+import { create as newPaste, remove as deletePaste } from '../api/paste'
 import { baseUrl } from '../api/axios'
 import { createEventEmitter } from '../api/ws/createEventEmitter'
+import { Paste } from '@pastte/backend/src/http/schemas'
 
 export default defineComponent({
   middleware: 'requiredAuth',
@@ -143,6 +144,20 @@ export default defineComponent({
       } catch (_) {}
     }
 
+    const removePaste = async (data: Paste.ById['Params']) => {
+      try {
+        if (socket) {
+          socketSend(socket, {
+            action: 'delete_paste',
+            data,
+          })
+        } else {
+          const res = await deletePaste({ id: data.id })
+          if (!res.data.success) throw new Error('Failed to delete paste.')
+        }
+      } catch (_) {}
+    }
+
     // Ctrl+V event
     window.addEventListener('paste', async () => {
       console.log('[client] paste event triggered')
@@ -167,6 +182,9 @@ export default defineComponent({
       })
       emitter.on('paste_create', (msg) => {
         state.pastes = [msg.data.paste, ...state.pastes]
+      })
+      emitter.on('paste_delete', (msg) => {
+        state.pastes = state.pastes.filter((el) => el.id !== msg.data.paste.id)
       })
     }
 
