@@ -4,7 +4,7 @@ import { Error, Success } from '@pastte/backend/src/http/helpers/responseHelper'
 import { $axios, SuccessMessage } from '../axios'
 
 const create = (data: Paste.Create['Body']['data']) =>
-  $axios.request<Success<SuccessMessage> | Error<any>>({
+  $axios.request<Success<{ paste: PasteDto }> | Error<any>>({
     url: '/paste',
     method: 'PUT',
     data: {
@@ -19,7 +19,7 @@ const get = ({ id }: Paste.ById['Params']) =>
   })
 
 const remove = ({ id }: Paste.ById['Params']) =>
-  $axios.request<Success<SuccessMessage> | Error<any>>({
+  $axios.request<Success<{ paste: PasteDto }> | Error<any>>({
     url: `/paste/${id}`,
     method: 'DELETE',
   })

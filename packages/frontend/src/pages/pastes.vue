@@ -18,11 +18,17 @@
           </span>
           <span class="text-xs text-gray-400">
             {{ new Date(paste.createdAt).toLocaleString() }} &ndash;
-            <span class="text-gray-200 border-b border-gray-200 cursor-pointer">
+            <span
+              class="text-gray-200 border-b border-gray-200 cursor-pointer"
+              @click.prevent="() => removePaste({ id: paste.id })"
+            >
               Delete
             </span>
           </span>
         </nuxt-link>
+        <div v-if="state.pastes.length < 1" class="text-white font-mono">
+          You have no pastes yet.
+        </div>
       </div>
     </div>
   </div>
@@ -58,14 +64,14 @@ export default defineComponent({
     const removePaste = async (data: Paste.ById['Params']) => {
       try {
         socketSend(socket, {
-          action: 'delete_paste',
+          action: 'paste_delete',
           data,
         })
       } catch (_) {}
     }
 
     socket.addEventListener('open', () => {
-      socketSend(socket!, { action: 'fetch_pastes' })
+      socketSend(socket!, { action: 'paste_fetch' })
     })
 
     emitter.on('fetch_pastes', (msg) => {
