@@ -4,10 +4,10 @@ import {
   getterTree,
   mutationTree,
 } from 'nuxt-typed-vuex'
-import createWebSocket, { CreateWebSocket } from '~/api/ws/createWebSocket'
+import { CreateWebSocket } from '~/api/ws/createWebSocket'
 
 export const state = () => ({
-  socket: createWebSocket(),
+  socket: null as CreateWebSocket | null,
 })
 
 export type SocketState = ReturnType<typeof state>
@@ -30,7 +30,7 @@ export const mutations = mutationTree(state, {
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    setUser: ({ commit }: any, val: CreateWebSocket) =>
+    setSocket: ({ commit }: any, val: CreateWebSocket) =>
       commit(SocketMutations.SET_WS, val),
   }
 )
