@@ -8,13 +8,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "nuxt-ts",
-    "build": "nuxt-ts build",
-    "start": "nuxt-ts start",
-    "generate": "yarn prisma generate && nuxt-ts generate"
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "yarn prisma generate && nuxt generate"
   },
   "dependencies": {
-    "@nuxt/typescript-runtime": "^2.0.1",
     "@nuxtjs/composition-api": "^0.20.2",
     "@tailwindcss/postcss7-compat": "^2.0.3",
     "autoprefixer": "^9",
