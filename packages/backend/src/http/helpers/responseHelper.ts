@@ -8,7 +8,7 @@
 
 interface Success<TData extends any = any> {
   success: true
-  data?: TData
+  data: TData
 }
 
 interface BaseError {
@@ -21,7 +21,7 @@ interface Error<TError extends BaseError = BaseError> {
   error: TError
 }
 
-const success = <TData extends any = any>(data?: TData): Success<TData> => ({
+const success = <TData extends any = any>(data: TData): Success<TData> => ({
   success: true,
   data,
 })
