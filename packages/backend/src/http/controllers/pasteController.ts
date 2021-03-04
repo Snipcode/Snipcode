@@ -54,11 +54,11 @@ const PasteController: Controller = async (app, { db, emitter }) => {
         },
       })
 
-      emitter.emit(`pasteCreate__${user.id}`, paste)
+      emitter.emit(`paste_create__${user.id}`, paste)
 
       res.send(
         success({
-          paste,
+          paste: PasteDto.make(paste),
         })
       )
     })
@@ -100,11 +100,11 @@ const PasteController: Controller = async (app, { db, emitter }) => {
           },
         })
 
-        emitter.emit(`pasteDelete__${user.id}`, paste)
+        emitter.emit(`paste_delete__${user.id}`, paste)
 
         res.send(
           success({
-            message: 'success',
+            paste: PasteDto.make(paste),
           })
         )
       }

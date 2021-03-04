@@ -45,12 +45,12 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
           event('paste_delete', { paste: PasteDto.make(paste) })
         )
 
-      emitter.on(`pasteCreate__${user.id}`, handlePasteCreate)
-      emitter.on(`pasteDelete__${user.id}`, handlePasteDelete)
+      emitter.on(`paste_create__${user.id}`, handlePasteCreate)
+      emitter.on(`paste_delete__${user.id}`, handlePasteDelete)
 
       conn.socket.on('close', () => {
-        emitter.off(`pasteCreate__${user.id}`, handlePasteCreate)
-        emitter.off(`pasteDelete__${user.id}`, handlePasteDelete)
+        emitter.off(`paste_create__${user.id}`, handlePasteCreate)
+        emitter.off(`paste_delete__${user.id}`, handlePasteDelete)
       })
 
       /**
@@ -59,10 +59,10 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
 
       const actionEmitter = createActionEmitter(conn)
 
-      actionEmitter.on('fetch_pastes', async () =>
+      actionEmitter.on('paste_fetch', async () =>
         socketSend(
           conn.socket,
-          event('fetch_pastes', {
+          event('paste_fetch', {
             pastes: await db.paste.findMany({
               orderBy: [
                 {
@@ -89,12 +89,20 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
           },
         })
 
-        socketSend(conn.socket, event('save_paste', { message: 'success' }))
+        socketSend(
+          conn.socket,
+          event('action_paste_save', {
+            message: 'success',
+            data: {
+              paste: PasteDto.make(paste),
+            },
+          })
+        )
 
-        emitter.emit(`pasteCreate__${user.id}`, paste)
+        emitter.emit(`paste_create__${user.id}`, paste)
       })
 
-      actionEmitter.on('delete_paste', async (msg: ReceivedMessage) => {
+      actionEmitter.on('paste_delete', async (msg: ReceivedMessage) => {
         const data: Paste.ById['Params'] = msg.data
         if (!ajv.validate(Paste.byId.params, data)) return
 
@@ -128,9 +136,17 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
           },
         })
 
-        emitter.emit(`pasteDelete__${user.id}`, paste)
+        emitter.emit(`paste_delete__${user.id}`, paste)
 
-        socketSend(conn.socket, event('delete_paste', { message: 'success' }))
+        socketSend(
+          conn.socket,
+          event('action_paste_delete', {
+            message: 'success',
+            data: {
+              paste: PasteDto.make(paste),
+            },
+          })
+        )
       })
     },
   })
