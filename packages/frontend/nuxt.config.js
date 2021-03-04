@@ -5,6 +5,9 @@ export default {
     htmlAttrs: {
       lang: 'en',
     },
+    bodyAttrs: {
+      class: 'overflow-hidden',
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -31,7 +34,7 @@ export default {
   css: ['~/assets/tailwind.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ['~/plugins/highlight'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
