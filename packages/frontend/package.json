@@ -14,7 +14,7 @@
     "generate": "yarn prisma generate && nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/composition-api": "^0.20.2",
+    "@nuxtjs/composition-api": "^0.21.0",
     "@tailwindcss/postcss7-compat": "^2.0.3",
     "@types/prismjs": "^1.16.3",
     "autoprefixer": "^9",
