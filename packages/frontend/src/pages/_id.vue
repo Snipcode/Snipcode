@@ -1,24 +1,33 @@
 <template>
-  <div v-if="state.paste" class="text-console text-xs font-mono">
-    {{ state.paste.content }}
+  <div>
+    <Header />
+    <highlightjs
+      v-if="state.paste"
+      :code="state.paste.content"
+      autodetect
+      class="px-2 py-4"
+    />
+    <!-- <div v-if="state.paste" class="text-console text-xs font-mono">
+      {{ state.paste.content }}
 
-    <div class="mt-6 flex text-console font-mono gap-x-2 text-xs">
-      >
-      <div class="flex gap-x-4">
-        <nuxt-link
-          class="border-b mx-1 text-console font-mono border-console text-right hover:font-bold cursor-pointer uppercase"
-          to="/"
+      <div class="mt-6 flex text-console font-mono gap-x-2 text-xs">
         >
-          Go Back
-        </nuxt-link>
-        <div
-          @click.prevent="deletePaste"
-          class="border-b mx-1 text-console font-mono border-console text-right hover:font-bold cursor-pointer uppercase"
-        >
-          Delete Paste
+        <div class="flex gap-x-4">
+          <nuxt-link
+            class="border-b mx-1 text-console font-mono border-console text-right hover:font-bold cursor-pointer uppercase"
+            to="/"
+          >
+            Go Back
+          </nuxt-link>
+          <div
+            @click.prevent="deletePaste"
+            class="border-b mx-1 text-console font-mono border-console text-right hover:font-bold cursor-pointer uppercase"
+          >
+            Delete Paste
+          </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -26,8 +35,12 @@
 import { defineComponent, reactive, useRouter } from '@nuxtjs/composition-api'
 import { PasteDto } from '@pastte/backend/src/http/dto/db/pasteDto'
 import { get, remove } from '../api/paste'
+import WithArrow from '../components/elements/WithArrow.vue'
+import Header from '../components/layout/Header.vue'
 
 export default defineComponent({
+  components: { Header, WithArrow },
+  middleware: 'requiredAuth',
   setup() {
     const state = reactive({
       paste: null as PasteDto | null,
