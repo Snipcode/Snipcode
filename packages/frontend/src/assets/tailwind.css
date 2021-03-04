@@ -1,8 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.hover\:arrow:hover:before {
-  content: '>';
-  @apply mr-1;
-}
