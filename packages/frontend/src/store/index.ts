@@ -6,6 +6,7 @@ import {
 } from 'typed-vuex'
 
 import * as user from './user'
+import * as socket from './socket'
 
 export const state = () => ({})
 
@@ -26,5 +27,6 @@ export const accessorType = getAccessorType({
   actions,
   modules: {
     user,
+    socket,
   },
 })

@@ -43,7 +43,13 @@ const createUserContext = async ({
       id: userId,
     },
     include: {
-      pastes: true,
+      pastes: {
+        orderBy: [
+          {
+            createdAt: 'desc',
+          },
+        ],
+      },
     },
   })
   if (!user)

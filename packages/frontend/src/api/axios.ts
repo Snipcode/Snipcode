@@ -10,6 +10,10 @@ const WS_BASE_ENDPOINTS: Record<string, string> = {
   production: 'wss://pastte-api.vott.us/api',
 }
 
+interface SuccessMessage {
+  message: 'success'
+}
+
 /// TODO: dont use ip
 
 const baseUrl = (ws = false) =>
@@ -24,4 +28,4 @@ const $axios = axios.create({
   withCredentials: true,
 })
 
-export { BASE_ENDPOINTS, env, $axios, baseUrl }
+export { BASE_ENDPOINTS, env, $axios, baseUrl, SuccessMessage }

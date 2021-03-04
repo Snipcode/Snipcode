@@ -39,11 +39,19 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
           event('paste_create', { paste: PasteDto.make(paste) })
         )
 
-      emitter.on(`pasteCreate__${user.id}`, handlePasteCreate)
+      const handlePasteDelete = (paste: DBPaste) =>
+        socketSend(
+          conn.socket,
+          event('paste_delete', { paste: PasteDto.make(paste) })
+        )
 
-      conn.socket.on('close', () =>
-        emitter.off(`pasteCreate__${user.id}`, handlePasteCreate)
-      )
+      emitter.on(`paste_create__${user.id}`, handlePasteCreate)
+      emitter.on(`paste_delete__${user.id}`, handlePasteDelete)
+
+      conn.socket.on('close', () => {
+        emitter.off(`paste_create__${user.id}`, handlePasteCreate)
+        emitter.off(`paste_delete__${user.id}`, handlePasteDelete)
+      })
 
       /**
        * Websocket Actions
@@ -51,11 +59,16 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
 
       const actionEmitter = createActionEmitter(conn)
 
-      actionEmitter.on('fetch_pastes', async () =>
+      actionEmitter.on('paste_fetch', async () =>
         socketSend(
           conn.socket,
-          event('fetch_pastes', {
+          event('paste_fetch', {
             pastes: await db.paste.findMany({
+              orderBy: [
+                {
+                  createdAt: 'desc',
+                },
+              ],
               where: {
                 userId: user.id,
               },
@@ -76,9 +89,64 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
           },
         })
 
-        socketSend(conn.socket, event('save_paste', { message: 'success' }))
+        socketSend(
+          conn.socket,
+          event('action_paste_save', {
+            message: 'success',
+            data: {
+              paste: PasteDto.make(paste),
+            },
+          })
+        )
 
-        emitter.emit(`pasteCreate__${user.id}`, paste)
+        emitter.emit(`paste_create__${user.id}`, paste)
+      })
+
+      actionEmitter.on('paste_delete', async (msg: ReceivedMessage) => {
+        const data: Paste.ById['Params'] = msg.data
+        if (!ajv.validate(Paste.byId.params, data)) return
+
+        const paste = await db.paste.findUnique({
+          where: {
+            id: data.id,
+          },
+        })
+
+        if (!paste)
+          return socketSend(
+            conn.socket,
+            error({
+              kind: ErrorKind.USER_INPUT,
+              message: 'Paste not found',
+            })
+          )
+
+        if (paste.userId !== user.id)
+          return socketSend(
+            conn.socket,
+            error({
+              kind: ErrorKind.FORBIDDEN,
+              message: 'This is not your paste',
+            })
+          )
+
+        await db.paste.delete({
+          where: {
+            id: data.id,
+          },
+        })
+
+        emitter.emit(`paste_delete__${user.id}`, paste)
+
+        socketSend(
+          conn.socket,
+          event('action_paste_delete', {
+            message: 'success',
+            data: {
+              paste: PasteDto.make(paste),
+            },
+          })
+        )
       })
     },
   })
