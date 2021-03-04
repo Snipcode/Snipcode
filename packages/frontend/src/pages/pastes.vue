@@ -58,6 +58,9 @@ export default defineComponent({
     // Loads pastes from User Store
     state.pastes = $accessor.user.user ? $accessor.user.user.pastes ?? [] : []
 
+    if (!$accessor.socket.socket)
+      throw new Error('WebSockets are not supported.')
+
     // Creates the WebSocket connection
     const [socket, emitter] = $accessor.socket.socket
 
