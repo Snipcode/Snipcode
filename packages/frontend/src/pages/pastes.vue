@@ -59,7 +59,7 @@ export default defineComponent({
     state.pastes = $accessor.user.user ? $accessor.user.user.pastes ?? [] : []
 
     // Creates the WebSocket connection
-    const [socket, emitter] = createWebSocket()
+    const [socket, emitter] = $accessor.socket.socket
 
     const removePaste = async (data: Paste.ById['Params']) => {
       try {
