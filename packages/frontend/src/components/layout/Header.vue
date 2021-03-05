@@ -14,9 +14,8 @@
           target="_blank"
           rel="noreferrer noopener"
           class="font-medium border-b border-gray-700"
+          >VottusCode</a
         >
-          VottusCode
-        </a>
         &ndash;
         <a
           href="https://github.com/VottusCode/Pastte"

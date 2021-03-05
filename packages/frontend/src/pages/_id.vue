@@ -7,11 +7,21 @@
       v-if="state.paste"
       :code="state.paste.content"
       autodetect
-      class="px-2 py-4"
+      class="px-2 py-4 highlight"
     />
     <div class="text-white font-mono px-4 py-6" v-else>Loading...</div>
   </div>
 </template>
+
+<style lang="scss">
+pre.highlight {
+  height: 74vh;
+
+  & > code.hljs {
+    height: 74vh;
+  }
+}
+</style>
 
 <script lang="ts">
 import { defineComponent, reactive, useRouter } from '@nuxtjs/composition-api'
