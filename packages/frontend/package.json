@@ -28,6 +28,7 @@
     "nuxt-typed-vuex": "^0.1.22",
     "postcss": "^7",
     "prismjs": "^1.23.0",
+    "sass": "^1.32.8",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "typed-vuex": "^0.1.22"
   },

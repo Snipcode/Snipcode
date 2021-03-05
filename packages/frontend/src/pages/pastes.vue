@@ -4,7 +4,10 @@
     <div class="px-5 py-6">
       <h1 class="font-mono text-white text-2xl">Your Pastes</h1>
 
-      <div class="mt-6 flex flex-col gap-y-4">
+      <div
+        class="mt-6 flex flex-col gap-y-4 pr-5 overflow-y-scroll"
+        style="height: 74vh"
+      >
         <nuxt-link
           v-for="(paste, i) in state.pastes"
           :key="i"
