@@ -18,18 +18,30 @@
               placeholder="Username"
               tabindex="0"
               required
+              @input="v.username.$touch"
               v-model.trim="form.username"
             />
+            <span
+              v-if="v.username.$error"
+              class="text-red-500 text-sm font-mono md:ml-2"
+              >You need to enter the username.</span
+            >
           </with-arrow>
           <with-arrow class="mb-4">
             <Input
               type="password"
               autocomplete="password"
               placeholder="Password"
-              tabindex="1"
+              tabindex="0"
               required
+              @input="v.password.$touch"
               v-model.trim="form.password"
             />
+            <span
+              v-if="v.password.$error"
+              class="text-red-500 text-sm font-mono md:ml-2"
+              >You need to enter the password.</span
+            >
           </with-arrow>
           <div>
             <Button type="submit">Login</Button>
@@ -48,6 +60,8 @@ import WithArrow from '../components/elements/WithArrow.vue'
 import Header from '../components/layout/Header.vue'
 import Input from '../components/form/Input.vue'
 import Error from '../components/elements/Error.vue'
+import useVuelidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 
 export default defineComponent({
   components: { Header, WithArrow, Button, Input, Error },
@@ -61,7 +75,22 @@ export default defineComponent({
 
     const router = useRouter()
 
+    const v = useVuelidate(
+      {
+        username: {
+          required,
+        },
+        password: {
+          required,
+        },
+      },
+      form
+    )
+
     const submit = async () => {
+      v.value.$touch()
+      if (v.value.$error) return
+
       try {
         const { data } = await login(form)
 
@@ -78,6 +107,7 @@ export default defineComponent({
     return {
       submit,
       form,
+      v,
     }
   },
 })
