@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useRouter } from '@nuxtjs/composition-api'
+import { defineComponent, useContext, useRouter } from '@nuxtjs/composition-api'
 import Link from '../elements/Link.vue'
 import { logout as apiLogout } from '../../api/auth'
 
@@ -84,8 +84,11 @@ export default defineComponent({
   setup() {
     const router = useRouter()
 
+    const { $accessor } = useContext()
+
     const logout = async () => {
       await apiLogout()
+      $accessor.user.setUser(null)
       router.push('/login')
     }
 
