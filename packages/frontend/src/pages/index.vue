@@ -23,6 +23,8 @@ import Header from '../components/layout/Header.vue'
 import Button from '../components/elements/Button.vue'
 import WithArrow from '../components/elements/WithArrow.vue'
 import { create as apiCreatePaste } from '../api/paste'
+import useVuelidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 
 export default defineComponent({
   middleware: 'requiredAuth',
@@ -35,10 +37,22 @@ export default defineComponent({
 
     const router = useRouter()
 
+    const v = useVuelidate(
+      {
+        newPaste: {
+          required,
+        },
+      },
+      state
+    )
+
     // Creates a paste
     const createPaste = async () => {
       if (state.loading) return
       state.loading = true
+
+      v.value.$touch()
+      if (v.value.$error) return
 
       try {
         const { data } = await apiCreatePaste({ content: state.newPaste })

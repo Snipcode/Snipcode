@@ -2,21 +2,27 @@ import { Auth } from '@pastte/backend/src/http/schemas'
 import { Error, Success } from '@pastte/backend/src/http/helpers/responseHelper'
 import { $axios, SuccessMessage } from '../axios'
 
-const login = (data: Auth.AuthSchema['Body']['data']) =>
+const login = ({ username, password }: Auth.AuthSchema['Body']['data']) =>
   $axios.request<Success<SuccessMessage> | Error<any>>({
     url: '/auth/login',
     method: 'POST',
     data: {
-      data,
+      data: {
+        username,
+        password,
+      },
     },
   })
 
-const register = (data: Auth.AuthSchema['Body']['data']) =>
+const register = ({ username, password }: Auth.AuthSchema['Body']['data']) =>
   $axios.request<Success<SuccessMessage> | Error<any>>({
     url: '/auth/register',
     method: 'PUT',
     data: {
-      data,
+      data: {
+        username,
+        password,
+      },
     },
   })
 

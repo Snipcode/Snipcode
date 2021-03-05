@@ -9,9 +9,13 @@ const authSchema = {
         properties: {
           username: {
             type: 'string',
+            transform: ['trim'],
+            minLength: 1,
           },
           password: {
             type: 'string',
+            transform: ['trim'],
+            minLength: 1,
           },
         },
       },
