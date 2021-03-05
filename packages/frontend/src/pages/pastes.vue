@@ -39,7 +39,7 @@ import { defineComponent, reactive, useContext } from '@nuxtjs/composition-api'
 import { PasteDto } from '@pastte/backend/src/http/dto/db/pasteDto'
 import { Paste } from '@pastte/backend/src/http/schemas'
 import socketSend from '@pastte/backend/src/ws/helpers/socketSend'
-import createWebSocket from '../api/ws/createWebSocket'
+import { CreateWebSocket } from '../api/ws/createWebSocket'
 import Header from '../components/layout/Header.vue'
 
 export default defineComponent({
@@ -48,9 +48,6 @@ export default defineComponent({
   setup() {
     const state = reactive({
       pastes: [] as PasteDto[],
-      newPaste: '',
-      showPastes: true,
-      socket: null as any,
     })
 
     const { $accessor } = useContext()
@@ -61,8 +58,8 @@ export default defineComponent({
     if (!$accessor.socket.socket)
       throw new Error('WebSockets are not supported.')
 
-    // Creates the WebSocket connection
-    const [socket, emitter] = $accessor.socket.socket
+    // WebSocket connection in store
+    const [socket, emitter]: CreateWebSocket = $accessor.socket.socket
 
     const removePaste = async (data: Paste.ById['Params']) => {
       try {

@@ -9,6 +9,7 @@ const AuthController: Controller = async (app, { db }) => {
     '/login',
     { schema: Auth.authSchema },
     async (req, res) => {
+      console.log(req.body.data)
       const user = await db.user.findUnique({
         where: {
           username: req.body.data.username,

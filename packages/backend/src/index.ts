@@ -5,6 +5,7 @@ import { PrismaClient } from '@prisma/client'
 import fastifySecureSession from 'fastify-secure-session'
 import fastifyWebsocket from 'fastify-websocket'
 import EventEmitter from 'eventemitter3'
+import { error, ErrorKind } from './http/helpers/responseHelper'
 
 const db = new PrismaClient()
 
@@ -28,6 +29,23 @@ const app = hookFastify({
   logRequests: true,
   development: process.env.NODE_ENV === 'development',
   globalPrefix: '/api',
+})
+
+app.fastify.setErrorHandler((e, _, res) => {
+  if (e.validation)
+    return res.send(
+      error({
+        kind: ErrorKind.USER_INPUT,
+        message: 'Validation Error',
+      })
+    )
+
+  res.send(
+    error({
+      kind: ErrorKind.INTERNAL,
+      message: 'Internal Server Error',
+    })
+  )
 })
 
 app.inject({ db, emitter })
