@@ -30,6 +30,7 @@ pre.highlight {
 
 <script lang="ts">
 import {
+  computed,
   defineComponent,
   reactive,
   useContext,
@@ -92,7 +93,7 @@ export default defineComponent({
     return {
       state,
       deletePaste,
-      user: $accessor.user.user,
+      user: computed(() => $accessor.user.user),
     }
   },
 })
