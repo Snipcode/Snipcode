@@ -9,7 +9,6 @@ const AuthController: Controller = async (app, { db }) => {
     '/login',
     { schema: Auth.authSchema },
     async (req, res) => {
-      console.log(req.body.data)
       const user = await db.user.findUnique({
         where: {
           username: req.body.data.username,
@@ -56,10 +55,37 @@ const AuthController: Controller = async (app, { db }) => {
           })
         )
 
+      if (data.code) {
+        const code = await db.invite.findUnique({
+          where: {
+            id: data.code,
+          },
+        })
+
+        if (!code)
+          return res.send(
+            error({ kind: 'user_input', message: 'Invalid invite code' })
+          )
+
+        if (code.takenById)
+          return res.send(
+            error({
+              kind: ErrorKind.USER_INPUT,
+              message: 'This code is already taken',
+            })
+          )
+      }
+
       await db.user.create({
         data: {
           username: data.username,
           password: hashSync(data.password),
+          ...(data.code
+            ? {
+                invite: { connect: { id: data.code } },
+                invites: { create: Array(10).fill({}) },
+              }
+            : {}),
         },
       })
 

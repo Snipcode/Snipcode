@@ -14,7 +14,11 @@ const login = ({ username, password }: Auth.AuthSchema['Body']['data']) =>
     },
   })
 
-const register = ({ username, password }: Auth.AuthSchema['Body']['data']) =>
+const register = ({
+  username,
+  password,
+  code,
+}: Auth.AuthSchema['Body']['data']) =>
   $axios.request<Success<SuccessMessage> | Error<any>>({
     url: '/auth/register',
     method: 'PUT',
@@ -22,6 +26,7 @@ const register = ({ username, password }: Auth.AuthSchema['Body']['data']) =>
       data: {
         username,
         password,
+        ...(code && code.trim().length > 1 ? { code } : {}),
       },
     },
   })

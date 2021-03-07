@@ -1,18 +1,21 @@
 import { Controller } from '../../types'
-import { withUserContext } from '../context/userContext'
+import {
+  withOptionalUserContext,
+  withUserContext,
+} from '../context/userContext'
 import { PasteDto } from '../dto/db/pasteDto'
 import { error, ErrorKind, success } from '../helpers/responseHelper'
 import { Paste } from '../schemas'
 
 const PasteController: Controller = async (app, { db, emitter }) => {
   app.get<Paste.ById>('/:id', { schema: Paste.byId }, async (req, res) =>
-    withUserContext(
+    withOptionalUserContext(
       {
         req,
         res,
         deps: { db },
       },
-      async ({ user }) => {
+      async (ctx) => {
         const paste = await db.paste.findUnique({
           where: {
             id: req.params.id,
@@ -27,7 +30,7 @@ const PasteController: Controller = async (app, { db, emitter }) => {
             })
           )
 
-        if (paste.userId !== user.id)
+        if (!paste.public && (!ctx || paste.userId !== ctx.user.id))
           return res.send(
             error({
               kind: ErrorKind.FORBIDDEN,
@@ -46,11 +49,20 @@ const PasteController: Controller = async (app, { db, emitter }) => {
 
   app.put<Paste.Create>('/', { schema: Paste.create }, async (req, res) =>
     withUserContext({ req, res, deps: { db } }, async ({ user }) => {
+      if (req.body.data.public && !user.invite)
+        return res.send(
+          error({
+            kind: ErrorKind.FORBIDDEN,
+            message: 'You are not authorized to make public pastes.',
+          })
+        )
+
       const paste = await db.paste.create({
         data: {
           content: req.body.data.content,
           createdAt: new Date(),
           userId: user.id,
+          public: req.body.data.public,
         },
       })
 

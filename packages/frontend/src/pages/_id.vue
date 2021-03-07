@@ -1,8 +1,13 @@
 <template>
   <div>
     <Header>
-      <Button @click.prevent="deletePaste">Delete Paste</Button>
+      <Button
+        @click.prevent="deletePaste"
+        v-if="state.paste && user && user.id === state.paste.userId"
+        >Delete Paste</Button
+      >
     </Header>
+
     <highlightjs
       v-if="state.paste"
       :code="state.paste.content"
@@ -24,8 +29,15 @@ pre.highlight {
 </style>
 
 <script lang="ts">
-import { defineComponent, reactive, useRouter } from '@nuxtjs/composition-api'
+import {
+  computed,
+  defineComponent,
+  reactive,
+  useContext,
+  useRouter,
+} from '@nuxtjs/composition-api'
 import { PasteDto } from '@pastte/backend/src/http/dto/db/pasteDto'
+import { ErrorKind } from '@pastte/backend/src/http/helpers/responseHelper'
 import { get, remove } from '../api/paste'
 import Button from '../components/elements/Button.vue'
 import WithArrow from '../components/elements/WithArrow.vue'
@@ -33,7 +45,6 @@ import Header from '../components/layout/Header.vue'
 
 export default defineComponent({
   components: { Header, WithArrow, Button },
-  middleware: 'requiredAuth',
   setup() {
     const state = reactive({
       paste: null as PasteDto | null,
@@ -41,14 +52,19 @@ export default defineComponent({
 
     const router = useRouter()
 
+    const { $accessor } = useContext()
+
     const loadPaste = async () => {
       try {
         const { data } = await get({
           id: router.currentRoute.params.id,
         })
 
-        if (!data.success)
+        if (!data.success) {
+          if (data.error.kind === ErrorKind.FORBIDDEN)
+            return router.push('/login')
           throw new Error(`${data.error.kind}: ${data.error.message}`)
+        }
 
         state.paste = data.data.paste
       } catch (_) {
@@ -77,6 +93,7 @@ export default defineComponent({
     return {
       state,
       deletePaste,
+      user: computed(() => $accessor.user.user),
     }
   },
 })
