@@ -25,7 +25,13 @@ const UserController: Controller = async (app, { db }) => {
             data: {
               type: 'object',
               required: ['code'],
-              properties: { code: { type: 'string' } },
+              properties: {
+                code: {
+                  type: 'string',
+                  transform: ['trim'],
+                  minLength: 1,
+                },
+              },
             },
           },
         },
@@ -70,6 +76,7 @@ const UserController: Controller = async (app, { db }) => {
                 id: code.id,
               },
             },
+            invites: { create: Array(10).fill({}) },
           },
         })
 
