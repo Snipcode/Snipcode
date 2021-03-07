@@ -72,6 +72,7 @@ import Input from '../components/form/Input.vue'
 import Error from '../components/elements/Error.vue'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
+import { parseInviteCodeFromRoute } from '../api/user'
 
 export default defineComponent({
   components: { Header, WithArrow, Button, Input, Error },
@@ -82,11 +83,7 @@ export default defineComponent({
     const form = reactive({
       username: '',
       password: '',
-      code: router.currentRoute.query.invite
-        ? typeof router.currentRoute.query.invite === 'string'
-          ? router.currentRoute.query.invite
-          : ''
-        : '',
+      code: parseInviteCodeFromRoute(router.currentRoute),
       error: null as string | null,
     })
 
