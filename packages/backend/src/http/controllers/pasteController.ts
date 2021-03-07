@@ -46,7 +46,7 @@ const PasteController: Controller = async (app, { db, emitter }) => {
 
   app.put<Paste.Create>('/', { schema: Paste.create }, async (req, res) =>
     withUserContext({ req, res, deps: { db } }, async ({ user }) => {
-      if (req.body.data.public && !user.invited)
+      if (req.body.data.public && !user.invite)
         return res.send(
           error({
             kind: ErrorKind.FORBIDDEN,

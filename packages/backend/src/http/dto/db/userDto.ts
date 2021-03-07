@@ -1,9 +1,14 @@
-import { Paste, User } from '@prisma/client'
+import { Invite, Paste, User } from '@prisma/client'
 
-export type UserWithPastes = User & { pastes?: Paste[] }
+export type UserWithPastes = User & { pastes?: Paste[] | null }
+
+export type FullUser = UserWithPastes & {
+  invites?: Invite[] | null
+  invite?: Invite | null
+}
 
 export class UserDto {
-  constructor(_user: UserWithPastes) {
+  constructor(_user: FullUser) {
     this.username = _user.username
     this.pastes = _user.pastes
   }
@@ -14,7 +19,7 @@ export class UserDto {
    * @param {User} user User
    * @returns {UserDto} Array of User DTO objects
    */
-  public static make(user: User): UserDto {
+  public static make(user: FullUser): UserDto {
     return new this(user)
   }
 
@@ -36,5 +41,5 @@ export class UserDto {
   /**
    * User's pastes
    */
-  public pastes?: Paste[]
+  public pastes?: Paste[] | null
 }

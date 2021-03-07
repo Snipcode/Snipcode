@@ -81,7 +81,7 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
         const data: Paste.Create['Body']['data'] = msg.data
         if (!ajv.validate(Paste.create.body, { data })) return
 
-        if (data.public && !user.invited)
+        if (data.public && !user.invite)
           return socketSend(
             conn.socket,
             error({
