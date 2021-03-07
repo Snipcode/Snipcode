@@ -9,8 +9,11 @@ export type FullUser = UserWithPastes & {
 
 export class UserDto {
   constructor(_user: FullUser) {
+    this.id = _user.id
     this.username = _user.username
     this.pastes = _user.pastes
+    this.invited = Boolean(_user.invite)
+    this.invites = _user.invites ? _user.invites.map((el) => el.id) : []
   }
 
   /**
@@ -36,10 +39,25 @@ export class UserDto {
   /**
    * User's username
    */
+  public id: string
+
+  /**
+   * User's username
+   */
   public username: string
 
   /**
    * User's pastes
    */
   public pastes?: Paste[] | null
+
+  /**
+   * Is the user invited?
+   */
+  public invited: boolean
+
+  /**
+   * User's invite codes
+   */
+  public invites?: string[] | null
 }
