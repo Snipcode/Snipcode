@@ -49,7 +49,6 @@
               autocomplete="invite-code"
               placeholder="Invite Code"
               tabindex="0"
-              required
               v-model.trim="form.code"
             />
             <span class="text-gray-500 text-xs font-mono">(optional)</span>
