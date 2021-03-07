@@ -38,7 +38,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, useContext } from '@nuxtjs/composition-api'
+import {
+  computed,
+  defineComponent,
+  reactive,
+  useContext,
+} from '@nuxtjs/composition-api'
 import { PasteDto } from '@pastte/backend/src/http/dto/db/pasteDto'
 import { Paste } from '@pastte/backend/src/http/schemas'
 import socketSend from '@pastte/backend/src/ws/helpers/socketSend'
@@ -55,8 +60,10 @@ export default defineComponent({
 
     const { $accessor } = useContext()
 
+    const user = computed(() => $accessor.user.user)
+
     // Loads pastes from User Store
-    state.pastes = $accessor.user.user ? $accessor.user.user.pastes ?? [] : []
+    state.pastes = user.value ? user.value.pastes ?? [] : []
 
     if (!$accessor.socket.socket)
       throw new Error('WebSockets are not supported.')
