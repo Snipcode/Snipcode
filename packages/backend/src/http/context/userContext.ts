@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { Injected } from '../../types'
-import { UserDto, UserWithPastes } from '../dto/db/userDto'
+import { FullUser, UserDto } from '../dto/db/userDto'
 import { BaseError, Error, error, ErrorKind } from '../helpers/responseHelper'
 interface UseUserContext {
   req: FastifyRequest
@@ -12,7 +12,7 @@ interface UseUserContext {
 
 interface UserContext {
   success: true
-  user: UserWithPastes
+  user: FullUser
   dtoUser: UserDto
 }
 
@@ -50,6 +50,8 @@ const createUserContext = async ({
           },
         ],
       },
+      invites: true,
+      invite: true,
     },
   })
   if (!user)
