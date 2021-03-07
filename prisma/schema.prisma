@@ -12,6 +12,7 @@ model User {
   username String  @unique
   password String
   pastes   Paste[]
+  invited  Boolean @default(false)
 }
 
 model Paste {
@@ -20,4 +21,5 @@ model Paste {
   content   String
   user      User     @relation(fields: [userId], references: [id])
   userId    String
+  public    Boolean  @default(false)
 }
