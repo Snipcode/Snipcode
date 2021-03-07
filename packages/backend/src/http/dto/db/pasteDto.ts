@@ -9,6 +9,7 @@ export class PasteDto {
     this.createdAt = _paste.createdAt
     this.user = _paste.user
     this.userId = _paste.userId
+    this.public = _paste.public
   }
 
   /**
@@ -57,4 +58,9 @@ export class PasteDto {
    * Paste Author
    */
   public user?: User
+
+  /**
+   * Is the Paste public?
+   */
+  public public?: boolean
 }
