@@ -43,6 +43,17 @@
               >You need to enter the password.</span
             >
           </with-arrow>
+          <with-arrow class="mb-4">
+            <Input
+              type="text"
+              autocomplete="invite-code"
+              placeholder="Invite Code"
+              tabindex="0"
+              required
+              v-model.trim="form.code"
+            />
+            <span class="text-gray-500 text-xs font-mono">(optional)</span>
+          </with-arrow>
           <div>
             <Button type="submit">Register</Button>
           </div>
@@ -67,13 +78,19 @@ export default defineComponent({
   components: { Header, WithArrow, Button, Input, Error },
   middleware: 'requiredUnauth',
   setup() {
+    const router = useRouter()
+
     const form = reactive({
       username: '',
       password: '',
+      code: router.currentRoute.query.invite
+        ? typeof router.currentRoute.query.invite === 'string'
+          ? router.currentRoute.query.invite
+          : ''
+        : '',
       error: null as string | null,
     })
 
-    const router = useRouter()
     const v = useVuelidate(
       {
         username: {
