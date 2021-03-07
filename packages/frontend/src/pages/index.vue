@@ -1,6 +1,14 @@
 <template>
   <div>
     <Header :showHome="false">
+      <invite-only>
+        <div class="flex flex-col justify-center">
+          <label for="public" class="text-xs text-white font-mono"
+            >Public?</label
+          >
+          <input type="checkbox" name="public" v-model="state.public" />
+        </div>
+      </invite-only>
       <Button :disabled="isSaveDisabled()" @click.prevent="createPaste">
         Save
       </Button>
@@ -25,13 +33,15 @@ import WithArrow from '../components/elements/WithArrow.vue'
 import { create as apiCreatePaste } from '../api/paste'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
+import InviteOnly from '../components/logic/InviteOnly.vue'
 
 export default defineComponent({
   middleware: 'requiredAuth',
-  components: { Header, Button, WithArrow },
+  components: { Header, Button, WithArrow, InviteOnly },
   setup() {
     const state = reactive({
       newPaste: '',
+      public: false,
       loading: false,
     })
 
@@ -55,7 +65,10 @@ export default defineComponent({
       if (v.value.$error) return
 
       try {
-        const { data } = await apiCreatePaste({ content: state.newPaste })
+        const { data } = await apiCreatePaste({
+          content: state.newPaste,
+          public: state.public,
+        })
         if (!data.success) throw new Error(data.error.message)
 
         router.push(`/${data.data.paste.id}`)

@@ -77,9 +77,18 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
         )
       )
 
-      actionEmitter.on('create_paste', async (msg: ReceivedMessage) => {
+      actionEmitter.on('paste_create', async (msg: ReceivedMessage) => {
         const data: Paste.Create['Body']['data'] = msg.data
         if (!ajv.validate(Paste.create.body, { data })) return
+
+        if (data.public && !user.invite)
+          return socketSend(
+            conn.socket,
+            error({
+              kind: ErrorKind.FORBIDDEN,
+              message: 'You are not authorized to make public pastes.',
+            })
+          )
 
         const paste = await db.paste.create({
           data: {

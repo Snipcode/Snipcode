@@ -17,6 +17,11 @@ const authSchema = {
             transform: ['trim'],
             minLength: 1,
           },
+          code: {
+            type: 'string',
+            transform: ['trim'],
+            minLength: 1,
+          },
         },
       },
     },
@@ -28,6 +33,7 @@ interface AuthSchema {
     data: {
       username: string
       password: string
+      code?: string
     }
   }
 }
