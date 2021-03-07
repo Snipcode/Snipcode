@@ -3,12 +3,12 @@ import { PasteDto } from '@pastte/backend/src/http/dto/db/pasteDto'
 import { Error, Success } from '@pastte/backend/src/http/helpers/responseHelper'
 import { $axios } from '../axios'
 
-const create = ({ content }: Paste.Create['Body']['data']) =>
+const create = ({ content, public: _public }: Paste.Create['Body']['data']) =>
   $axios.request<Success<{ paste: PasteDto }> | Error<any>>({
     url: '/paste',
     method: 'PUT',
     data: {
-      data: { content },
+      data: { content, public: _public },
     },
   })
 
