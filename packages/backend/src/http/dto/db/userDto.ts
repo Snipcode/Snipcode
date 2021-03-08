@@ -1,11 +1,19 @@
-import { Paste, User } from '@prisma/client'
+import { Invite, Paste, User } from '@prisma/client'
 
-export type UserWithPastes = User & { pastes?: Paste[] }
+export type UserWithPastes = User & { pastes?: Paste[] | null }
+
+export type FullUser = UserWithPastes & {
+  invites?: Invite[] | null
+  invite?: Invite | null
+}
 
 export class UserDto {
-  constructor(_user: UserWithPastes) {
+  constructor(_user: FullUser) {
+    this.id = _user.id
     this.username = _user.username
     this.pastes = _user.pastes
+    this.invited = Boolean(_user.invite)
+    this.invites = _user.invites ? _user.invites.map((el) => el.id) : []
   }
 
   /**
@@ -14,7 +22,7 @@ export class UserDto {
    * @param {User} user User
    * @returns {UserDto} Array of User DTO objects
    */
-  public static make(user: User): UserDto {
+  public static make(user: FullUser): UserDto {
     return new this(user)
   }
 
@@ -31,10 +39,25 @@ export class UserDto {
   /**
    * User's username
    */
+  public id: string
+
+  /**
+   * User's username
+   */
   public username: string
 
   /**
    * User's pastes
    */
-  public pastes?: Paste[]
+  public pastes?: Paste[] | null
+
+  /**
+   * Is the user invited?
+   */
+  public invited: boolean
+
+  /**
+   * User's invite codes
+   */
+  public invites?: string[] | null
 }

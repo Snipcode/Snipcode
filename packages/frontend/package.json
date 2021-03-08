@@ -14,7 +14,7 @@
     "generate": "yarn prisma generate && nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/composition-api": "^0.21.0",
+    "@nuxtjs/composition-api": "^0.22.0",
     "@vuelidate/core": "^2.0.0-alpha.14",
     "@vuelidate/validators": "^2.0.0-alpha.12",
     "axios": "^0.21.1",
@@ -27,8 +27,8 @@
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.12",
-    "@nuxt/typescript-build": "^2.0.4",
-    "@nuxtjs/eslint-config-typescript": "^5.0.0",
+    "@nuxt/typescript-build": "^2.1.0",
+    "@nuxtjs/eslint-config-typescript": "^6.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/tailwindcss": "^3.4.2",
     "@pastte/backend": "2.0.0",

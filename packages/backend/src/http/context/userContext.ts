@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { Injected } from '../../types'
-import { UserDto, UserWithPastes } from '../dto/db/userDto'
+import { FullUser, UserDto } from '../dto/db/userDto'
 import { BaseError, Error, error, ErrorKind } from '../helpers/responseHelper'
 interface UseUserContext {
   req: FastifyRequest
@@ -12,7 +12,7 @@ interface UseUserContext {
 
 interface UserContext {
   success: true
-  user: UserWithPastes
+  user: FullUser
   dtoUser: UserDto
 }
 
@@ -50,6 +50,8 @@ const createUserContext = async ({
           },
         ],
       },
+      invites: true,
+      invite: true,
     },
   })
   if (!user)
@@ -78,17 +80,31 @@ const createUserContext = async ({
  * @param {UseUserContext} deps The required dependencies for UserContext
  */
 const withUserContext = async (
-  { req, res, deps: { db } }: UseUserContext,
+  ctx: UseUserContext,
   fn: (userCtx: UserContext) => Promise<unknown> | unknown,
   errFn?: () => unknown
 ) => {
-  const context = await createUserContext({ req, deps: { db } })
+  const context = await createUserContext(ctx)
   if (!context.success) {
-    if (res) return res.send(context)
+    if (ctx.res) return ctx.res.send(context)
     return errFn?.()
   }
 
   return fn(context)
 }
 
-export { UseUserContext, UserContext, withUserContext, createUserContext }
+const withOptionalUserContext = async (
+  ctx: UseUserContext,
+  fn: (userCtx: UserContext | null) => Promise<unknown> | unknown
+) => {
+  const context = await createUserContext(ctx)
+  return fn(context.success ? context : null)
+}
+
+export {
+  UseUserContext,
+  UserContext,
+  withUserContext,
+  withOptionalUserContext,
+  createUserContext,
+}

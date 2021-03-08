@@ -43,6 +43,16 @@
               >You need to enter the password.</span
             >
           </with-arrow>
+          <with-arrow class="mb-4">
+            <Input
+              type="text"
+              autocomplete="invite-code"
+              placeholder="Invite Code"
+              tabindex="0"
+              v-model.trim="form.code"
+            />
+            <span class="text-gray-500 text-xs font-mono">(optional)</span>
+          </with-arrow>
           <div>
             <Button type="submit">Register</Button>
           </div>
@@ -62,18 +72,21 @@ import Input from '../components/form/Input.vue'
 import Error from '../components/elements/Error.vue'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
+import { parseInviteCodeFromRoute } from '../api/user'
 
 export default defineComponent({
   components: { Header, WithArrow, Button, Input, Error },
   middleware: 'requiredUnauth',
   setup() {
+    const router = useRouter()
+
     const form = reactive({
       username: '',
       password: '',
+      code: parseInviteCodeFromRoute(router.currentRoute),
       error: null as string | null,
     })
 
-    const router = useRouter()
     const v = useVuelidate(
       {
         username: {
