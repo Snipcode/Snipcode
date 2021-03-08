@@ -28,6 +28,10 @@ const create = {
           content: {
             type: 'string',
           },
+          public: {
+            type: 'boolean',
+            default: false,
+          },
         },
       },
     },
@@ -38,6 +42,7 @@ interface Create {
   Body: {
     data: {
       content: string
+      public: boolean
     }
   }
 }
