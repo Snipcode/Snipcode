@@ -14,24 +14,31 @@
     "generate": "yarn prisma generate && nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/composition-api": "^0.22.0",
+    "@nuxtjs/composition-api": "^0.22.1",
+    "@tailwindcss/postcss7-compat": "^2.0.3",
+    "@types/prismjs": "^1.16.3",
     "@vuelidate/core": "^2.0.0-alpha.14",
     "@vuelidate/validators": "^2.0.0-alpha.12",
     "axios": "^0.21.1",
     "core-js": "^3.9.1",
     "eventemitter3": "^4.0.7",
     "highlight.js": "^10.6.0",
-    "nuxt": "^2.14.12",
+    "nuxt": "^2.15.3",
     "nuxt-typed-vuex": "^0.1.22",
     "typed-vuex": "^0.1.22"
   },
   "devDependencies": {
-    "@nuxt/types": "^2.14.12",
+    "@nuxt/types": "^2.15.3",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/eslint-config-typescript": "^6.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
+<<<<<<< HEAD
     "@nuxtjs/tailwindcss": "^3.4.2",
     "@pastte/backend": "2.0.0",
+=======
+    "@nuxtjs/tailwindcss": "^3.4.3",
+    "@pastte/backend": "1.0.0",
+>>>>>>> bcd8df016c8893df59f21c67be525e290abb68cf
     "@types/highlight.js": "^10.1.0",
     "autoprefixer": "^10.2.5",
     "eslint-plugin-nuxt": "^2.0.0",
