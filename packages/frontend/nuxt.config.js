@@ -47,6 +47,8 @@ export default {
     '@nuxtjs/composition-api',
     // https://typed-vuex.roe.dev/
     'nuxt-typed-vuex',
+    // https://github.com/nuxt/nuxt.js/issues/8087
+    '@nuxt/postcss8',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
