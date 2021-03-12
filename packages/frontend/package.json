@@ -32,13 +32,8 @@
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/eslint-config-typescript": "^6.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
-<<<<<<< HEAD
-    "@nuxtjs/tailwindcss": "^3.4.2",
-    "@pastte/backend": "2.0.0",
-=======
     "@nuxtjs/tailwindcss": "^3.4.3",
-    "@pastte/backend": "1.0.0",
->>>>>>> bcd8df016c8893df59f21c67be525e290abb68cf
+    "@pastte/backend": "2.0.0",
     "@types/highlight.js": "^10.1.0",
     "autoprefixer": "^10.2.5",
     "eslint-plugin-nuxt": "^2.0.0",
