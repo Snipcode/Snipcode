@@ -24,7 +24,7 @@
     "core-js": "^3.9.1",
     "eventemitter3": "^4.0.7",
     "highlight.js": "^10.6.0",
-    "nuxt": "^2.14.12",
+    "nuxt": "^2.15.3",
     "nuxt-typed-vuex": "^0.1.22",
     "postcss": "^7",
     "prismjs": "^1.23.0",
