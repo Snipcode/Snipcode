@@ -48,12 +48,25 @@ export default {
     // https://typed-vuex.roe.dev/
     'nuxt-typed-vuex',
     // https://github.com/nuxt/nuxt.js/issues/8087
-    'nuxt-postcss8',
+    '@nuxt/postcss8',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    postcss: {
+      plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
+        'postcss-preset-env': {
+          stage: 1,
+          features: {
+            'focus-within-pseudo-class': false,
+          },
+        },
+      },
+    },
+  },
 }
