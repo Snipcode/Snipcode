@@ -12,6 +12,7 @@
       <Button :disabled="isSaveDisabled()" @click.prevent="createPaste">
         Save
       </Button>
+      <Link to="/editor/">Editor</Link>
     </Header>
     <with-arrow class="px-5 py-6">
       <textarea
@@ -34,10 +35,11 @@ import { create as apiCreatePaste } from '../api/paste'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import InviteOnly from '../components/logic/InviteOnly.vue'
+import Link from '../components/elements/Link.vue'
 
 export default defineComponent({
   middleware: 'requiredAuth',
-  components: { Header, Button, WithArrow, InviteOnly },
+  components: { Header, Button, WithArrow, InviteOnly, Link },
   setup() {
     const state = reactive({
       newPaste: '',
