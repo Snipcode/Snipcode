@@ -120,20 +120,15 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
       })
 
       actionEmitter.on('paste_edit', async (msg: ReceivedMessage) => {
-        console.log('editor')
         const data: Paste.Edit['Body']['data'] = msg.data
         console.log(msg.data)
         if (!ajv.validate(Paste.edit.body.properties.data, data)) return
-
-        console.log('editor')
 
         const paste = await db.paste.findUnique({
           where: {
             id: data.id,
           },
         })
-
-        console.log('editor')
 
         if (!paste)
           return socketSend(
@@ -144,8 +139,6 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
             })
           )
 
-        console.log('editor')
-
         if (paste.userId !== user.id)
           return socketSend(
             conn.socket,
@@ -154,8 +147,6 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
               message: 'This is not your paste',
             })
           )
-
-        console.log('editor')
 
         const newPaste = await db.paste.update({
           where: {
@@ -166,11 +157,9 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
             public: data.public,
           },
         })
-        console.log('editor')
 
         emitter.emit(`paste_edit__${user.id}`, newPaste)
 
-        console.log('editor')
         socketSend(
           conn.socket,
           event('action_paste_edit', {
