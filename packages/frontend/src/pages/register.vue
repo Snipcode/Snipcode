@@ -63,7 +63,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, useRouter } from '@nuxtjs/composition-api'
+import {
+  defineComponent,
+  reactive,
+  useContext,
+  useRouter,
+} from '@nuxtjs/composition-api'
 import { register } from '../api/auth'
 import Button from '../components/elements/Button.vue'
 import WithArrow from '../components/elements/WithArrow.vue'
@@ -99,6 +104,8 @@ export default defineComponent({
       form
     )
 
+    const { $accessor } = useContext()
+
     const submit = async () => {
       v.value.$touch()
       if (v.value.$error) return
@@ -109,6 +116,11 @@ export default defineComponent({
         if (!data.success)
           return (form.error =
             data.error.message ?? 'An unexpected error has occurred.')
+
+        $accessor.setTimedAlert({
+          value: 'Registered successfully.',
+          time: 1000,
+        })
 
         router.push('/login')
       } catch (_) {

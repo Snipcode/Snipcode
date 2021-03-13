@@ -12,7 +12,7 @@
       <Button :disabled="isSaveDisabled()" @click.prevent="createPaste">
         Save
       </Button>
-      <Link to="/editor">Editor</Link>
+      <Link to="/editor/">Editor</Link>
     </Header>
     <with-arrow class="px-5 py-6">
       <textarea

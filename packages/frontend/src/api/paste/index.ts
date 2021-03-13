@@ -12,6 +12,15 @@ const create = ({ content, public: _public }: Paste.Create['Body']['data']) =>
     },
   })
 
+const edit = ({ id, content, public: _public }: Paste.Edit['Body']['data']) =>
+  $axios.request<Success<{ paste: PasteDto }> | Error<any>>({
+    url: '/paste',
+    method: 'POST',
+    data: {
+      data: { id, content, public: _public },
+    },
+  })
+
 const get = ({ id }: Paste.ById['Params']) =>
   $axios.request<Success<{ paste: PasteDto }> | Error<any>>({
     url: `/paste/${id}`,
@@ -24,4 +33,4 @@ const remove = ({ id }: Paste.ById['Params']) =>
     method: 'DELETE',
   })
 
-export { create, get, remove }
+export { create, get, remove, edit }

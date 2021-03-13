@@ -38,6 +38,23 @@ const create = {
   },
 }
 
+const edit = {
+  body: {
+    ...create.body,
+    properties: {
+      data: {
+        type: 'object',
+        required: ['content', 'id'],
+        properties: {
+          ...create.body.properties.data.properties,
+          id: {
+            type: 'string',
+          },
+        },
+      },
+    },
+  },
+}
 interface Create {
   Body: {
     data: {
@@ -47,4 +64,12 @@ interface Create {
   }
 }
 
-export { byId, ById, create, Create }
+type Edit = Create & {
+  Body: {
+    data: {
+      id: string
+    }
+  }
+}
+
+export { byId, ById, create, Create, edit, Edit }
