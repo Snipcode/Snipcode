@@ -1,3 +1,5 @@
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -68,5 +70,10 @@ export default {
         },
       },
     },
+    plugins: [
+      new MonacoWebpackPlugin({
+        languages: ['typescript', 'javascript', 'css', 'json'],
+      }),
+    ],
   },
 }
