@@ -7,7 +7,6 @@ const configureEditor = async ($monaco: typeof monaco) => {
     noSyntaxValidation: false,
   })
 
-  // compiler options
   monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
     target: monaco.languages.typescript.ScriptTarget.ES2015,
     allowNonTsExtensions: true,

@@ -5,7 +5,9 @@
       class="z-10 absolute bottom-0 right-0 bg-gray-main flex justify-center py-4 px-6"
     >
       <div>
-        <div class="text-white font-mono">Pastte.it Editor (beta)</div>
+        <div class="text-white font-mono">
+          <nuxt-link to="/" class="border-b">Pastte.it</nuxt-link> Editor (beta)
+        </div>
 
         <div class="flex mt-2 justify-center gap-x-2">
           <Button @click.prevent="createPaste">Save</Button>
@@ -49,7 +51,7 @@ import * as monaco from 'monaco-editor'
 import { create as apiCreatePaste } from '../api/paste'
 import Button from '../components/elements/Button.vue'
 import InviteOnly from '../components/logic/InviteOnly.vue'
-import configureThemes from '../editor/configureThemes'
+import { configureEditor, getTheme } from '../editor'
 import { emmetHTML, emmetCSS } from 'emmet-monaco-es'
 
 export default defineComponent({
@@ -88,56 +90,23 @@ export default defineComponent({
 
     onMounted(async () => {
       if (editor.value) {
-        /**
-         * Monaco Editor Settings for JS/TS
-         */
+        // Configure Monacop
+        await configureEditor(monaco)
 
-        monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
-          noSemanticValidation: true,
-          noSyntaxValidation: false,
-        })
-
-        monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
-          target: monaco.languages.typescript.ScriptTarget.ES2015,
-          allowNonTsExtensions: true,
-          allowJs: true,
-        })
-
-        emmetHTML(monaco)
-        emmetCSS(monaco)
-
-        /**
-         * Configure themes
-         */
-
-        await configureThemes(monaco)
-
-        /**
-         * Create Theme Instance
-         */
-
+        // Create the editor instance
         const $m = monaco.editor.create(editor.value, {
           value: state.newPaste,
           language: state.language,
-          theme: 'oceanicNext',
+          theme: getTheme(),
         })
 
-        /**
-         * Sync changes with state
-         */
-
+        // Sync changes with state
         $m.onDidChangeModelContent((_) => (state.newPaste = $m.getValue()))
 
-        /**
-         * Save on Ctrl+S
-         */
-
+        // Save on Ctrl+S
         $m.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KEY_S, createPaste)
 
-        /**
-         * Watch language change
-         */
-
+        // Watch language change
         watch(state, (newVal) => {
           const model = $m.getModel()
           if (model) monaco.editor.setModelLanguage(model, newVal.language)
