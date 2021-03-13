@@ -68,7 +68,7 @@ export default defineComponent({
 
         state.paste = data.data.paste
       } catch (_) {
-        alert('Paste not found.') // make something more fancy
+        $accessor.setTimedAlert({ value: 'Paste not found.', time: 1000 })
         router.push('/')
       }
     }
@@ -84,7 +84,7 @@ export default defineComponent({
 
         router.push('/')
       } catch (_) {
-        alert('An error occurred.') // make something more fancy
+        $accessor.setTimedAlert({ value: 'An error occurred.', time: 1000 })
       }
     }
 

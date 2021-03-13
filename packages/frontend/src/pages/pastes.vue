@@ -77,6 +77,7 @@ export default defineComponent({
           action: 'paste_delete',
           data,
         })
+        $accessor.setTimedAlert({ value: 'Paste deleted.', time: 1000 })
       } catch (_) {}
     }
 

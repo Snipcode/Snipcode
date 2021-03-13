@@ -44,15 +44,20 @@ import {
   onMounted,
   reactive,
   ref,
+  useContext,
   useRouter,
   watch,
 } from '@nuxtjs/composition-api'
 import * as monaco from 'monaco-editor'
-import { create as apiCreatePaste } from '../api/paste'
-import Button from '../components/elements/Button.vue'
-import InviteOnly from '../components/logic/InviteOnly.vue'
-import { configureEditor, getTheme } from '../editor'
+import { create as apiCreatePaste, edit, get } from '../../api/paste'
+import Button from '../../components/elements/Button.vue'
+import InviteOnly from '../../components/logic/InviteOnly.vue'
+import { configureEditor, getTheme } from '../../editor'
 import { emmetHTML, emmetCSS } from 'emmet-monaco-es'
+import { PasteDto } from '@pastte/backend/src/http/dto/db/pasteDto'
+import { CreateWebSocket } from '../../api/ws/createWebSocket'
+import socketSend from '@pastte/backend/src/ws/helpers/socketSend'
+import { event } from '@pastte/backend/src/ws/helpers/responseHelper'
 
 export default defineComponent({
   components: { Button, InviteOnly },
@@ -60,6 +65,7 @@ export default defineComponent({
     const editor = ref<HTMLDivElement | null>(null)
 
     const state = reactive({
+      currentPaste: null as PasteDto | null,
       newPaste: '',
       loading: false,
       public: false,
@@ -69,6 +75,10 @@ export default defineComponent({
 
     const router = useRouter()
 
+    const { $accessor } = useContext()
+
+    const [socket, emitter] = $accessor.socket.socket as CreateWebSocket
+
     const createPaste = async () => {
       if (state.loading) return
       state.loading = true
@@ -76,19 +86,51 @@ export default defineComponent({
       if (!state.newPaste || state.newPaste.trim().length < 1) return
 
       try {
-        const { data } = await apiCreatePaste({
-          content: state.newPaste,
-          public: state.public,
-        })
-        if (!data.success) throw new Error(data.error.message)
+        if (!state.currentPaste) {
+          const { data } = await apiCreatePaste({
+            content: state.newPaste,
+            public: state.public,
+          })
+          if (!data.success) throw new Error(data.error.message)
 
-        router.push(`/${data.data.paste.id}`)
+          $accessor.setTimedAlert({ value: 'Paste created.', time: '1000' })
+          router.push(`/editor/${data.data.paste.id}`)
+        } else {
+          socketSend(socket, {
+            action: 'paste_edit',
+            data: {
+              id: state.currentPaste.id,
+              content: state.newPaste,
+              public: state.public,
+            },
+          })
+
+          emitter.once('action_paste_edit', (msg) => {
+            state.currentPaste = msg.data.data.paste
+            $accessor.setTimedAlert({ value: 'Paste edited.', time: '1000' })
+          })
+        }
       } catch (_) {}
 
       state.loading = false
     }
 
     onMounted(async () => {
+      const pasteId = router.currentRoute.params.pathMatch
+      if (pasteId && pasteId.trim().length > 1) {
+        try {
+          const { data } = await get({ id: pasteId })
+          if (!data.success) throw new Error()
+
+          state.currentPaste = data.data.paste
+          state.newPaste = data.data.paste.content
+          state.public = data.data.paste.public!
+        } catch (_) {
+          alert('Paste not found.')
+          router.push('/editor/')
+        }
+      }
+
       if (editor.value) {
         // Configure Monacop
         await configureEditor(monaco)
