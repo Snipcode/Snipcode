@@ -133,6 +133,11 @@ export default defineComponent({
           return (form.error =
             data.error.message ?? 'An unexpected error has occurred.')
 
+        $accessor.setTimedAlert({
+          value: 'Invite activated successfully.',
+          time: 1000,
+        })
+
         await me({ $accessor })
       } catch (_) {
         form.error = 'An unexpected error has occurred.'
@@ -141,6 +146,7 @@ export default defineComponent({
 
     const copyLink = async (code: string, kind = 'invite') => {
       const link = `${window.location.origin}/${kind}?invite=${code}`
+      $accessor.setTimedAlert({ value: 'Link copied.', time: 1000 })
       try {
         await navigator.clipboard.writeText(link)
       } catch (e) {

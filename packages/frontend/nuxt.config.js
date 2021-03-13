@@ -1,3 +1,5 @@
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -48,7 +50,7 @@ export default {
     // https://typed-vuex.roe.dev/
     'nuxt-typed-vuex',
     // https://github.com/nuxt/nuxt.js/issues/8087
-    '@nuxt/postcss8',
+    // '@nuxt/postcss8',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -68,5 +70,10 @@ export default {
         },
       },
     },
+    plugins: [
+      new MonacoWebpackPlugin({
+        languages: ['typescript', 'javascript', 'css', 'json'],
+      }),
+    ],
   },
 }
