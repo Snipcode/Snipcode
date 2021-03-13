@@ -72,7 +72,7 @@ export default {
     },
     plugins: [
       new MonacoWebpackPlugin({
-        languages: ['typescript', 'javascript', 'css', 'json'],
+        languages: ['typescript', 'javascript', 'css', 'json', 'php'],
       }),
     ],
   },
