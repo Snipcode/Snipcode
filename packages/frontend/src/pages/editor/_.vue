@@ -93,7 +93,7 @@ export default defineComponent({
           })
           if (!data.success) throw new Error(data.error.message)
 
-          $accessor.setTimedAlert({ value: 'Paste created.', time: '1000' })
+          $accessor.setTimedAlert({ value: 'Paste created.', time: 1000 })
           router.push(`/editor/${data.data.paste.id}`)
         } else {
           socketSend(socket, {
@@ -107,7 +107,7 @@ export default defineComponent({
 
           emitter.once('action_paste_edit', (msg) => {
             state.currentPaste = msg.data.data.paste
-            $accessor.setTimedAlert({ value: 'Paste edited.', time: '1000' })
+            $accessor.setTimedAlert({ value: 'Paste edited.', time: 1000 })
           })
         }
       } catch (_) {}
