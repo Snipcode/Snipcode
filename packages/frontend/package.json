@@ -36,7 +36,7 @@
     "@nuxtjs/eslint-module": "^3.0.2",
     "@pastte/backend": "2.0.0",
     "@tailwindcss/postcss7-compat": "^2.0.3",
-    "autoprefixer": "^9",
+    "autoprefixer": "^10",
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.7.0",
     "postcss": "^7",
