@@ -29,4 +29,4 @@ packages/**/node_modules
 packages/**/dist
 packages/frontend/.nuxt
 sess_secret
-
+db/*.db
