@@ -1,0 +1,12 @@
+---
+development:
+  dialect: "sqlite3"
+  database: /home/vottusuwu/Desktop/pasteit_pasteit_development.sqlite
+
+test:
+  dialect: "sqlite3"
+  database: /home/vottusuwu/Desktop/pasteit_pasteit_test.sqlite
+
+production:
+  dialect: "sqlite3"
+  database: /home/vottusuwu/Desktop/pasteit_pasteit_production.sqlite
