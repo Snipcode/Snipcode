@@ -3,7 +3,7 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Pastte.it',
+    title: 'Snipcode',
     htmlAttrs: {
       lang: 'en',
     },

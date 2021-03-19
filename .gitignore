@@ -5,3 +5,4 @@ packages/**/dist
 *.env
 packages/frontend/.nuxt
 sess_secret
+.idea

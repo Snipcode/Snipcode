@@ -1,4 +1,4 @@
-import { Event } from '@pastte/backend/src/ws/helpers/responseHelper'
+import { Event } from '@snipcode/backend/src/ws/helpers/responseHelper'
 import EventEmitter from 'eventemitter3'
 
 const createEventEmitter = (socket: WebSocket) => {
