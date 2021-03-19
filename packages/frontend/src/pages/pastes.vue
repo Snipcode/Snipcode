@@ -44,9 +44,9 @@ import {
   reactive,
   useContext,
 } from '@nuxtjs/composition-api'
-import { PasteDto } from '@pastte/backend/src/http/dto/db/pasteDto'
-import { Paste } from '@pastte/backend/src/http/schemas'
-import socketSend from '@pastte/backend/src/ws/helpers/socketSend'
+import { PasteDto } from '@snipcode/backend/src/http/dto/db/pasteDto'
+import { Paste } from '@snipcode/backend/src/http/schemas'
+import socketSend from '@snipcode/backend/src/ws/helpers/socketSend'
 import { CreateWebSocket } from '../api/ws/createWebSocket'
 import Header from '../components/layout/Header.vue'
 
