@@ -1,9 +1,9 @@
 {
-  "name": "@pastte/backend",
+  "name": "@snipcode/backend",
   "version": "2.0.0",
-  "description": "Backend of the Pastte.it website",
+  "description": "Backend of the Snipcode website",
   "main": "dist/index.js",
-  "repository": "git@github.com:VottusCode/pastte",
+  "repository": "git@github.com:snipcode/snipcode",
   "author": "VottusCode",
   "license": "MIT",
   "private": true,

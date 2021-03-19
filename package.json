@@ -1,5 +1,5 @@
 {
-  "name": "@pastte/app",
+  "name": "@snipcode/app",
   "version": "2.0.0",
   "license": "MIT",
   "private": true,
@@ -8,8 +8,8 @@
   ],
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
-    "backend": "yarn workspace @pastte/backend",
-    "frontend": "yarn workspace @pastte/frontend",
+    "backend": "yarn workspace @snipcode/backend",
+    "frontend": "yarn workspace @snipcode/frontend",
     "db": "yarn prisma"
   },
   "devDependencies": {

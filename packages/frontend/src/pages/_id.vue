@@ -36,8 +36,8 @@ import {
   useContext,
   useRouter,
 } from '@nuxtjs/composition-api'
-import { PasteDto } from '@pastte/backend/src/http/dto/db/pasteDto'
-import { ErrorKind } from '@pastte/backend/src/http/helpers/responseHelper'
+import { PasteDto } from '@snipcode/backend/src/http/dto/db/pasteDto'
+import { ErrorKind } from '@snipcode/backend/src/http/helpers/responseHelper'
 import { get, remove } from '../api/paste'
 import Button from '../components/elements/Button.vue'
 import WithArrow from '../components/elements/WithArrow.vue'

@@ -1,5 +1,5 @@
-import { Auth } from '@pastte/backend/src/http/schemas'
-import { Error, Success } from '@pastte/backend/src/http/helpers/responseHelper'
+import { Auth } from '@snipcode/backend/src/http/schemas'
+import { Error, Success } from '@snipcode/backend/src/http/helpers/responseHelper'
 import { $axios, SuccessMessage } from '../axios'
 
 const login = ({ username, password }: Auth.AuthSchema['Body']['data']) =>
