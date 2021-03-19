@@ -6,7 +6,7 @@
     >
       <div>
         <div class="text-white font-mono">
-          <nuxt-link to="/" class="border-b">Pastte.it</nuxt-link> Editor (beta)
+          <nuxt-link to="/" class="border-b">Snipcode</nuxt-link> Editor (beta)
         </div>
 
         <div class="flex mt-2 justify-center gap-x-2">
@@ -54,9 +54,9 @@ import { create as apiCreatePaste, edit, get } from '../../api/paste'
 import Button from '../../components/elements/Button.vue'
 import InviteOnly from '../../components/logic/InviteOnly.vue'
 import { configureEditor, getTheme } from '../../editor'
-import { PasteDto } from '@pastte/backend/src/http/dto/db/pasteDto'
+import { PasteDto } from '@snipcode/backend/src/http/dto/db/pasteDto'
 import { CreateWebSocket } from '../../api/ws/createWebSocket'
-import socketSend from '@pastte/backend/src/ws/helpers/socketSend'
+import socketSend from '@snipcode/backend/src/ws/helpers/socketSend'
 
 export default defineComponent({
   middleware: 'requiredAuth',

@@ -3,12 +3,12 @@
     class="block md:flex text-left border-b border-gray-700 px-4 py-3 justify-between items-center"
   >
     <div class="mb-4 md:mb-0 text-center md:text-left">
-      <h1 class="tracking-tightest text-gray-100 font-mono">Pastte.it v2.0</h1>
+      <h1 class="tracking-tightest text-gray-100 font-mono">Snipcode v2.0</h1>
       <h2 class="tracking-tightest text-gray-100 font-mono">
         Paste-and-save quickly and easily!
       </h2>
       <footer class="tracking-tightest text-gray-100 font-mono">
-        2021 &copy; Pastte.it &ndash; Made by
+        2021 &copy; Snipcode &ndash; Made by
         <a
           href="https://github.com/VottusCode"
           target="_blank"
@@ -18,7 +18,7 @@
         >
         &ndash;
         <a
-          href="https://github.com/VottusCode/Pastte"
+          href="https://github.com/Snipcode"
           target="_blank"
           rel="noreferrer noopener"
           class="font-medium border-b border-gray-700"

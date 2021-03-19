@@ -51,7 +51,7 @@ app.fastify.setErrorHandler((e, _, res) => {
 app.inject({ db, emitter })
 
 app.fastify.register(fastifySecureSession, {
-  cookieName: 'pastte_sess_key',
+  cookieName: 'snipcode_sess_key',
   key: fs.readFileSync(path.join(__dirname, '..', '..', '..', 'sess_secret')),
   cookie: {
     path: '/',
