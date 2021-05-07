@@ -1,0 +1,21 @@
+# Contributing to Snipcode
+
+## Code of Conduct
+
+The code of conduct can be found in [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Please make sure to read it first.
+
+## Commit Messages
+
+Snipcode is using conventional commits standard. Please use it. Read more [here](https://www.conventionalcommits.org/en/v1.0.0/).
+
+## PRs
+
+1. Fork the repo
+2. Create a patch branch
+
+   - Do not push straight to the master branch
+
+3. Once your code is added & tested, create a PR
+
+   - Make sure to properly describe what this PR improves/fixes/adds.
+   - Please make sure to link appropriate issue(s) this PR fixes. If there's none, create it.
