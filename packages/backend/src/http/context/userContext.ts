@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
+import { FullUser, UserDto } from '@snipcode/core/src/dto/userDto'
 import { Injected } from '../../types'
-import { FullUser, UserDto } from '../dto/db/userDto'
 import { BaseError, Error, error, ErrorKind } from '../helpers/responseHelper'
 interface UseUserContext {
   req: FastifyRequest

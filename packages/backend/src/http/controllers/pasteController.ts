@@ -3,7 +3,7 @@ import {
   withOptionalUserContext,
   withUserContext,
 } from '../context/userContext'
-import { PasteDto } from '../dto/db/pasteDto'
+import { PasteDto } from '../../../../core/src/dto/pasteDto'
 import { error, ErrorKind, success } from '../helpers/responseHelper'
 import { Paste } from '../schemas'
 
