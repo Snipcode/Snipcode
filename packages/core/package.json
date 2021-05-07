@@ -1,6 +1,6 @@
 {
   "name": "@snipcode/core",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Core Snipcode package handling all data interaction.",
   "main": "dist/index.js",
   "repository": "git@github.com:snipcode/snipcode",
@@ -12,7 +12,6 @@
     "start": "NODE_ENV=production node ."
   },
   "dependencies": {
-    "@fasteerjs/fasteer": "^3.0.1",
     "@prisma/client": "^2.19.0",
     "bcryptjs": "^2.4.3",
     "prisma": "^2.19.0"
