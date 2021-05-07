@@ -1,0 +1,24 @@
+{
+  "name": "@snipcode/core",
+  "version": "2.0.0",
+  "description": "Core Snipcode package handling all data interaction.",
+  "main": "dist/index.js",
+  "repository": "git@github.com:snipcode/snipcode",
+  "author": "VottusCode",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "NODE_ENV=development tsnd src/index.ts --respawn",
+    "start": "NODE_ENV=production node ."
+  },
+  "dependencies": {
+    "@fasteerjs/fasteer": "^3.0.1",
+    "@prisma/client": "^2.19.0",
+    "bcryptjs": "^2.4.3",
+    "prisma": "^2.19.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/node": "^14.14.35"
+  }
+}
