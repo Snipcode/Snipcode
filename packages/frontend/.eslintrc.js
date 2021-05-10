@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['../../.eslintrc.js', 'prettier/vue', 'plugin:nuxt/recommended'],
+  extends: ['../../.eslintrc.js'],
   env: {
     browser: true,
     node: true,

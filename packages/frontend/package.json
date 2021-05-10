@@ -39,7 +39,6 @@
     "@tailwindcss/postcss7-compat": "^2.1.2",
     "autoprefixer": "^10.2.5",
     "eslint-plugin-nuxt": "^2.0.0",
-    "eslint-plugin-vue": "^7.9.0",
     "postcss": "^8.2.14",
     "sass": "^1.32.12",
     "tailwindcss": "^2.1.2"
