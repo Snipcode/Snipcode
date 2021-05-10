@@ -1,51 +1,31 @@
 import { User, PrismaClient, Prisma } from '@prisma/client'
 import { UserDto } from '../dto/userDto'
-
-interface UserFetchOneResult {
-  user: User
-  userDto: UserDto
-}
-
-interface UserFetchManyResult {
-  users: User[]
-  userDtos: UserDto[]
-}
-
-interface UserSaveResult {
-  user: User
-  userDto: UserDto
-}
-
-interface UserUpdateResult {
-  oldUser: User
-  oldUserDto: UserDto
-  user: User
-  userDto: UserDto
-}
-
-interface UserDeleteResult {
-  user: User
-  userDto: UserDto
-}
+import {
+  FetchOneResult,
+  FetchManyResult,
+  SaveResult,
+  UpdateResult,
+  DeleteResult,
+} from '.'
 
 /**
  * Fetch a user.
  *
  * @param {Prisma.UserWhereInput} where Query filters
  * @param {PrismaClient} prisma PrismaClient instance
- * @returns {UserFetchOneResult | null} Fetch Result
+ * @returns {FetchOneResult<User, UserDto> | null} Fetch Result
  */
 const fetchOne = async (
   where: Prisma.UserWhereInput,
   prisma: PrismaClient
-): Promise<UserFetchOneResult | null> => {
+): Promise<FetchOneResult<User, UserDto> | null> => {
   const user = await prisma.user.findFirst({ where })
 
   if (!user) return null
 
   return {
-    user,
-    userDto: UserDto.make(user),
+    entity: user,
+    entityDto: UserDto.make(user),
   }
 }
 
@@ -54,17 +34,17 @@ const fetchOne = async (
  *
  * @param {Prisma.UserWhereInput} where Query filters
  * @param {PrismaClient} prisma PrismaClient instance
- * @returns {UserFetchManyResult} Fetch Result
+ * @returns {FetchManyResult<User, UserDto>} Fetch Result
  */
 const fetchMany = async (
   where: Prisma.UserWhereInput,
   prisma: PrismaClient
-): Promise<UserFetchManyResult> => {
+): Promise<FetchManyResult<User, UserDto>> => {
   const users = await prisma.user.findMany({ where })
 
   return {
-    users,
-    userDtos: UserDto.makeMany(users),
+    entities: users,
+    entityDtos: UserDto.makeMany(users),
   }
 }
 
@@ -73,19 +53,19 @@ const fetchMany = async (
  *
  * @param {Prisma.UserWhereUniqueInput} where Query filters
  * @param {PrismaClient} prisma PrismaClient instance
- * @returns {UserFetchOneResult | null} Fetch Result
+ * @returns {FetchOneResult<User, UserDto> | null} Fetch Result
  */
 const fetchUnique = async (
   where: Prisma.UserWhereUniqueInput,
   prisma: PrismaClient
-): Promise<UserFetchOneResult | null> => {
+): Promise<FetchOneResult<User, UserDto> | null> => {
   const user = await prisma.user.findUnique({ where })
 
   if (!user) return null
 
   return {
-    user,
-    userDto: UserDto.make(user),
+    entity: user,
+    entityDto: UserDto.make(user),
   }
 }
 
@@ -94,29 +74,29 @@ const fetchUnique = async (
  *
  * @param {User['id']} id User's id
  * @param {PrismaClient} prisma PrismaClient instance
- * @returns {UserFetchOneResult | null} Fetch Result
+ * @returns {FetchOneResult<User, UserDto> | null} Fetch Result
  */
 const fetchById = async (
   id: User['id'],
   prisma: PrismaClient
-): Promise<UserFetchOneResult | null> => fetchUnique({ id }, prisma)
+): Promise<FetchOneResult<User, UserDto> | null> => fetchUnique({ id }, prisma)
 
 /**
  * Save a user.
  *
  * @param {Prisma.UserCreateInput} data User data
  * @param {PrismaClient} prisma PrismaClient Instance
- * @returns {UserSaveResult} Save Result
+ * @returns {SaveResult<User, UserDto>} Save Result
  */
 const save = async (
   data: Prisma.UserCreateInput,
   prisma: PrismaClient
-): Promise<UserSaveResult | null> => {
+): Promise<SaveResult<User, UserDto> | null> => {
   const newUser = await prisma.user.create({ data })
 
   return {
-    user: newUser,
-    userDto: UserDto.make(newUser),
+    entity: newUser,
+    entityDto: UserDto.make(newUser),
   }
 }
 
@@ -126,15 +106,15 @@ const save = async (
  * @param {User | User['id']} user User id or an existing User instance
  * @param {Prisma.UserUpdateInput} data Update Data
  * @param {PrismaClient} prisma PrismaClient Instance
- * @returns {UserUpdateResult | null} Update Result
+ * @returns {UpdateResult<User, UserDto> | null} Update Result
  */
 const update = async (
   user: User | User['id'],
   data: Prisma.UserUpdateInput,
   prisma: PrismaClient
-): Promise<UserUpdateResult | null> => {
+): Promise<UpdateResult<User, UserDto> | null> => {
   const oldUser =
-    typeof user === 'object' ? user : (await fetchById(user, prisma))?.user
+    typeof user === 'object' ? user : (await fetchById(user, prisma))?.entity
 
   if (!oldUser) return null
 
@@ -146,10 +126,10 @@ const update = async (
   })
 
   return {
-    oldUser,
-    oldUserDto: UserDto.make(oldUser),
-    user: newUser,
-    userDto: UserDto.make(newUser),
+    oldEntity: oldUser,
+    oldEntityDto: UserDto.make(oldUser),
+    entity: newUser,
+    entityDto: UserDto.make(newUser),
   }
 }
 
@@ -158,12 +138,12 @@ const update = async (
  *
  * @param {User | User['id']} user User id or a User instance.
  * @param {PrismaClient} prisma PrismaClient instance
- * @returns {UserDeleteResult | null} Delete Result
+ * @returns {DeleteResult<User, UserDto> | null} Delete Result
  */
 const _delete = async (
   user: User | User['id'],
   prisma: PrismaClient
-): Promise<UserDeleteResult | null> => {
+): Promise<DeleteResult<User, UserDto> | null> => {
   const oldUser = await prisma.user.delete({
     where: {
       id: typeof user === 'object' ? user.id : user,
@@ -173,8 +153,8 @@ const _delete = async (
   if (!oldUser) return null
 
   return {
-    user: oldUser,
-    userDto: UserDto.make(oldUser),
+    entity: oldUser,
+    entityDto: UserDto.make(oldUser),
   }
 }
 
@@ -186,9 +166,4 @@ export {
   save,
   update,
   _delete as delete,
-  UserFetchOneResult,
-  UserFetchManyResult,
-  UserSaveResult,
-  UserUpdateResult,
-  UserDeleteResult,
 }

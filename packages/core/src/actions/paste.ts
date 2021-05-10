@@ -1,51 +1,31 @@
 import { Paste, PrismaClient, Prisma } from '@prisma/client'
 import { PasteDto } from '../dto/pasteDto'
-
-interface PasteFetchOneResult {
-  paste: Paste
-  pasteDto: PasteDto
-}
-
-interface PasteFetchManyResult {
-  pastes: Paste[]
-  pasteDtos: PasteDto[]
-}
-
-interface PasteSaveResult {
-  paste: Paste
-  pasteDto: PasteDto
-}
-
-interface PasteUpdateResult {
-  oldPaste: Paste
-  oldPasteDto: PasteDto
-  paste: Paste
-  pasteDto: PasteDto
-}
-
-interface PasteDeleteResult {
-  paste: Paste
-  pasteDto: PasteDto
-}
+import {
+  DeleteResult,
+  FetchManyResult,
+  FetchOneResult,
+  SaveResult,
+  UpdateResult,
+} from '.'
 
 /**
  * Fetch a paste.
  *
  * @param {Prisma.PasteWhereInput} where Query filters
  * @param {PrismaClient} prisma PrismaClient instance
- * @returns {PasteFetchOneResult | null} Fetch Result
+ * @returns {FetchOneResult<Paste, PasteDto>} Fetch Result
  */
 const fetchOne = async (
   where: Prisma.PasteWhereInput,
   prisma: PrismaClient
-): Promise<PasteFetchOneResult | null> => {
+): Promise<FetchOneResult<Paste, PasteDto>> => {
   const paste = await prisma.paste.findFirst({ where })
 
   if (!paste) return null
 
   return {
-    paste,
-    pasteDto: PasteDto.make(paste),
+    entity: paste,
+    entityDto: PasteDto.make(paste),
   }
 }
 
@@ -54,17 +34,17 @@ const fetchOne = async (
  *
  * @param {Prisma.PasteWhereInput} where Query filters
  * @param {PrismaClient} prisma PrismaClient instance
- * @returns {PasteFetchManyResult} Fetch Result
+ * @returns {FetchManyResult<Paste, PasteDto>} Fetch Result
  */
 const fetchMany = async (
   where: Prisma.PasteWhereInput,
   prisma: PrismaClient
-): Promise<PasteFetchManyResult> => {
+): Promise<FetchManyResult<Paste, PasteDto>> => {
   const pastes = await prisma.paste.findMany({ where })
 
   return {
-    pastes,
-    pasteDtos: PasteDto.makeMany(pastes),
+    entities: pastes,
+    entityDtos: PasteDto.makeMany(pastes),
   }
 }
 
@@ -73,19 +53,19 @@ const fetchMany = async (
  *
  * @param {Prisma.PasteWhereUniqueInput} where Query filters
  * @param {PrismaClient} prisma PrismaClient instance
- * @returns {PasteFetchOneResult | null} Fetch Result
+ * @returns {FetchOneResult<Paste, PasteDto} Fetch Result
  */
 const fetchUnique = async (
   where: Prisma.PasteWhereUniqueInput,
   prisma: PrismaClient
-): Promise<PasteFetchOneResult | null> => {
+): Promise<FetchOneResult<Paste, PasteDto>> => {
   const paste = await prisma.paste.findUnique({ where })
 
   if (!paste) return null
 
   return {
-    paste,
-    pasteDto: PasteDto.make(paste),
+    entity: paste,
+    entityDto: PasteDto.make(paste),
   }
 }
 
@@ -94,29 +74,29 @@ const fetchUnique = async (
  *
  * @param {Paste['id']} id Paste's id
  * @param {PrismaClient} prisma PrismaClient instance
- * @returns {PasteFetchOneResult | null} Fetch Result
+ * @returns {FetchOneResult<Paste, PasteDto>} Fetch Result
  */
 const fetchById = async (
   id: Paste['id'],
   prisma: PrismaClient
-): Promise<PasteFetchOneResult | null> => fetchUnique({ id }, prisma)
+): Promise<FetchOneResult<Paste, PasteDto>> => fetchUnique({ id }, prisma)
 
 /**
  * Save a paste.
  *
  * @param {Prisma.PasteCreateInput} data Paste data
  * @param {PrismaClient} prisma PrismaClient Instance
- * @returns {PasteSaveResult} Save Result
+ * @returns {SaveResult<Paste, PasteDto>} Save Result
  */
 const save = async (
   data: Prisma.PasteCreateInput,
   prisma: PrismaClient
-): Promise<PasteSaveResult | null> => {
+): Promise<SaveResult<Paste, PasteDto>> => {
   const newPaste = await prisma.paste.create({ data })
 
   return {
-    paste: newPaste,
-    pasteDto: PasteDto.make(newPaste),
+    entity: newPaste,
+    entityDto: PasteDto.make(newPaste),
   }
 }
 
@@ -126,15 +106,15 @@ const save = async (
  * @param {Paste | Paste['id']} paste Paste id or an existing Paste instance
  * @param {Prisma.PasteUpdateInput} data Update Data
  * @param {PrismaClient} prisma PrismaClient Instance
- * @returns {PasteUpdateResult | null} Update Result
+ * @returns {UpdateResult<Paste, PasteDto>} Update Result
  */
 const update = async (
   paste: Paste | Paste['id'],
   data: Prisma.PasteUpdateInput,
   prisma: PrismaClient
-): Promise<PasteUpdateResult | null> => {
+): Promise<UpdateResult<Paste, PasteDto>> => {
   const oldPaste =
-    typeof paste === 'object' ? paste : (await fetchById(paste, prisma))?.paste
+    typeof paste === 'object' ? paste : (await fetchById(paste, prisma))?.entity
 
   if (!oldPaste) return null
 
@@ -146,10 +126,10 @@ const update = async (
   })
 
   return {
-    oldPaste,
-    oldPasteDto: PasteDto.make(oldPaste),
-    paste: newPaste,
-    pasteDto: PasteDto.make(newPaste),
+    oldEntity: oldPaste,
+    oldEntityDto: PasteDto.make(oldPaste),
+    entity: newPaste,
+    entityDto: PasteDto.make(newPaste),
   }
 }
 
@@ -158,12 +138,12 @@ const update = async (
  *
  * @param {Paste | Paste['id']} paste Paste id or a Paste instance.
  * @param {PrismaClient} prisma PrismaClient instance
- * @returns {PasteDeleteResult | null} Delete Result
+ * @returns {DeleteResult<Paste, PasteDto>} Delete Result
  */
 const _delete = async (
   paste: Paste | Paste['id'],
   prisma: PrismaClient
-): Promise<PasteDeleteResult | null> => {
+): Promise<DeleteResult<Paste, PasteDto>> => {
   const oldPaste = await prisma.paste.delete({
     where: {
       id: typeof paste === 'object' ? paste.id : paste,
@@ -173,8 +153,8 @@ const _delete = async (
   if (!oldPaste) return null
 
   return {
-    paste: oldPaste,
-    pasteDto: PasteDto.make(oldPaste),
+    entity: oldPaste,
+    entityDto: PasteDto.make(oldPaste),
   }
 }
 
@@ -186,9 +166,4 @@ export {
   save,
   update,
   _delete as delete,
-  PasteFetchOneResult,
-  PasteFetchManyResult,
-  PasteSaveResult,
-  PasteUpdateResult,
-  PasteDeleteResult,
 }
