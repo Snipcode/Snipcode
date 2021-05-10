@@ -14,34 +14,34 @@
     "generate": "yarn prisma generate && nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/composition-api": "^0.22.1",
-    "@vuelidate/core": "^2.0.0-alpha.14",
-    "@vuelidate/validators": "^2.0.0-alpha.12",
+    "@nuxtjs/composition-api": "^0.23.4",
+    "@vuelidate/core": "^2.0.0-alpha.16",
+    "@vuelidate/validators": "^2.0.0-alpha.13",
     "axios": "^0.21.1",
-    "core-js": "^3.9.1",
+    "core-js": "^3.12.1",
     "emmet-monaco-es": "^4.6.2",
     "eventemitter3": "^4.0.7",
-    "highlight.js": "^10.6.0",
+    "highlight.js": "^10.7.2",
     "is-svg": "^4.3.1",
     "monaco-editor": "^0.23.0",
     "monaco-editor-webpack-plugin": "^3.0.1",
-    "nuxt": "^2.15.3",
-    "nuxt-typed-vuex": "^0.1.22",
-    "tailwindcss": "^2.0.4",
-    "typed-vuex": "^0.1.22"
+    "nuxt": "^2.15.5",
+    "nuxt-typed-vuex": "^0.2.0",
+    "tailwindcss": "^2.1.2",
+    "typed-vuex": "^0.2.0"
   },
   "devDependencies": {
-    "@nuxt/types": "^2.15.3",
+    "@nuxt/types": "^2.15.5",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/eslint-config-typescript": "^6.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
     "@snipcode/backend": "3.0.0",
-    "@tailwindcss/postcss7-compat": "^2.0.4",
-    "autoprefixer": "^9",
+    "@tailwindcss/postcss7-compat": "^2.1.2",
+    "autoprefixer": "^10.2.5",
     "eslint-plugin-nuxt": "^2.0.0",
-    "eslint-plugin-vue": "^7.7.0",
-    "postcss": "^7",
-    "sass": "^1.32.8",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
+    "eslint-plugin-vue": "^7.9.0",
+    "postcss": "^8.2.14",
+    "sass": "^1.32.12",
+    "tailwindcss": "^2.1.2"
   }
 }

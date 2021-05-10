@@ -12,12 +12,12 @@
     "start": "NODE_ENV=production node ."
   },
   "dependencies": {
-    "@prisma/client": "^2.19.0",
+    "@prisma/client": "^2.22.1",
     "bcryptjs": "^2.4.3",
-    "prisma": "^2.19.0"
+    "prisma": "^2.22.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
-    "@types/node": "^14.14.35"
+    "@types/node": "^15.0.2"
   }
 }
