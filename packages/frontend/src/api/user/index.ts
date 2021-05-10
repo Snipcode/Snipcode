@@ -1,5 +1,8 @@
-import { Error, Success } from '@snipcode/backend/src/http/helpers/responseHelper'
-import { UserDto } from '@snipcode/backend/src/http/dto/db/userDto'
+import {
+  Error,
+  Success,
+} from '@snipcode/backend/src/http/helpers/responseHelper'
+import { UserDto } from '@snipcode/core/src/dto/userDto'
 import { $axios } from '../axios'
 import { Route } from 'vue-router'
 import { User } from '@snipcode/backend/src/http/schemas'

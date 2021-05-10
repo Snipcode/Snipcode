@@ -1,9 +1,9 @@
+import { PasteDto } from '@snipcode/core/src/dto/pasteDto'
 import { Controller } from '../../types'
 import {
   withOptionalUserContext,
   withUserContext,
 } from '../context/userContext'
-import { PasteDto } from '../../../../core/src/dto/pasteDto'
 import { error, ErrorKind, success } from '../helpers/responseHelper'
 import { Paste } from '../schemas'
 

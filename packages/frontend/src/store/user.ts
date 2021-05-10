@@ -4,7 +4,7 @@ import {
   getterTree,
   mutationTree,
 } from 'nuxt-typed-vuex'
-import { UserDto } from '@snipcode/backend/src/http/dto/db/userDto'
+import { UserDto } from '@snipcode/core/src/dto/userDto'
 
 export const state = () => ({
   user: null as UserDto | null,

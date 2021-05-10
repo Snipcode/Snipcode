@@ -8,3 +8,5 @@ node_modules
 .idea
 /db
 *.env
+yarn-error.log
+sess_secret

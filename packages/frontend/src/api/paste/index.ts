@@ -1,6 +1,9 @@
 import { Paste } from '@snipcode/backend/src/http/schemas'
-import { PasteDto } from '@snipcode/backend/src/http/dto/db/pasteDto'
-import { Error, Success } from '@snipcode/backend/src/http/helpers/responseHelper'
+import { PasteDto } from '@snipcode/core/src/dto/pasteDto'
+import {
+  Error,
+  Success,
+} from '@snipcode/backend/src/http/helpers/responseHelper'
 import { $axios } from '../axios'
 
 const create = ({ content, public: _public }: Paste.Create['Body']['data']) =>

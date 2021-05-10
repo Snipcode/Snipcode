@@ -1,6 +1,6 @@
 {
   "name": "@snipcode/frontend",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Frontend of the Snipcode website",
   "main": "dist/index.js",
   "repository": "git@github.com:snipcode/snipcode",
@@ -35,7 +35,7 @@
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/eslint-config-typescript": "^6.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
-    "@snipcode/backend": "2.0.0",
+    "@snipcode/backend": "3.0.0",
     "@tailwindcss/postcss7-compat": "^2.0.4",
     "autoprefixer": "^9",
     "eslint-plugin-nuxt": "^2.0.0",

@@ -1,6 +1,6 @@
 {
   "name": "@snipcode/backend",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Backend of the Snipcode website",
   "main": "dist/index.js",
   "repository": "git@github.com:snipcode/snipcode",
@@ -20,7 +20,8 @@
     "eventemitter3": "^4.0.7",
     "fastify-secure-session": "^2.3.1",
     "fastify-websocket": "^3.1.0",
-    "prisma": "^2.19.0"
+    "prisma": "^2.19.0",
+    "@snipcode/core": "3.0.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
