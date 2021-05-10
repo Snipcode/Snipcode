@@ -6,7 +6,7 @@ The code of conduct can be found in [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Pl
 
 ## Commit Messages
 
-Snipcode is using conventional commits standard. Please use it. Read more [here](https://www.conventionalcommits.org/en/v1.0.0/).
+Snipcode is using the conventional commits standard, use it. Read more [here](https://www.conventionalcommits.org/en/v1.0.0/).
 
 ## PRs
 
@@ -18,7 +18,7 @@ Snipcode is using conventional commits standard. Please use it. Read more [here]
 3. Once your code is added & tested, create a PR
 
    - Make sure to properly describe what this PR improves/fixes/adds.
-   - Please make sure to link appropriate issue(s) this PR fixes. If there's none, create one.
+   - Link appropriate issue(s) this PR fixes. If there's none, create it.
 
 ## Rebase
 
