@@ -13,14 +13,8 @@ module.exports = {
       '2xl': '1536px',
     },
     colors: {
+      ...colors,
       transparent: 'transparent',
-      current: 'currentColor',
-      black: colors.black,
-      gray: { ...colors.coolGray, main: '#282c34' },
-      green: colors.emerald,
-      console: '#4af626',
-      white: colors.white,
-      red: colors.red,
     },
     spacing: {
       px: '1px',

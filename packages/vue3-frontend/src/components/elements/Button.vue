@@ -3,12 +3,13 @@
     class="
       rounded-full
       bg-transparent
-      text-gray-400
+      text-purple-400
       hover:text-white
-      placeholder-gray-500
-      border border-gray-800
-      focus:border-gray-700
-      hover:border-gray-700
+      placeholder-purple-500
+      border border-purple-700
+      focus:border-purple-600
+      focus:text-white
+      hover:border-purple-600
       focus:shadow-2xl
       hover
       py-2
