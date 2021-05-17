@@ -24,7 +24,7 @@
     "highlight.js": "^10.7.2",
     "is-svg": "^4.3.1",
     "monaco-editor": "^0.23.0",
-    "monaco-editor-webpack-plugin": "^3.0.1",
+    "monaco-editor-webpack-plugin": "^3.1.0",
     "nuxt": "^2.15.5",
     "nuxt-typed-vuex": "^0.2.0",
     "tailwindcss": "^2.1.2",
