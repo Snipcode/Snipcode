@@ -16,7 +16,7 @@
     "@prisma/client": "^2.22.1",
     "@snipcode/core": "3.0.0",
     "@types/bcryptjs": "^2.4.2",
-    "ajv": "^8.3.0",
+    "ajv": "^8.4.0",
     "bcryptjs": "^2.4.3",
     "eventemitter3": "^4.0.7",
     "fastify-secure-session": "^2.3.1",
