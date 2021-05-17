@@ -5,6 +5,15 @@ const store = reactive({
   alerts: [] as Alert[],
   user: null,
   pageTitle: '',
+  title: '',
+  options: {
+    name: 'Snipcode',
+    auth: {
+      allowRegister: true,
+      requiredAuthToPaste: true,
+      requiredAuthToPastePublic: true,
+    },
+  },
 })
 
 const storePlugin = {

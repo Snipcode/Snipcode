@@ -1,5 +1,6 @@
 <template>
-  <button
+  <component
+    :is="is"
     class="
       rounded-full
       bg-transparent
@@ -20,7 +21,21 @@
       outline-none
       focus:outline-none
     "
+    active-class="border-purple-600 text-white"
   >
     <slot />
-  </button>
+  </component>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  props: {
+    is: {
+      type: String,
+      default: 'button',
+    },
+  },
+})
+</script>

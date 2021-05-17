@@ -1,5 +1,5 @@
 <template>
-  <form class="w-full" @submit.prevent="login">
+  <form class="w-full" @submit.prevent="register">
     <div class="pb-4">
       <div class="py-2">
         <text-input placeholder="Username" />
@@ -9,15 +9,10 @@
       </div>
     </div>
     <div class="flex items-center">
-      <Button type="submit">Login</Button>
-      <span
-        class="text-purple-400 ml-4"
-        v-if="store.options.auth.allowRegister"
-      >
+      <Button type="submit">Register</Button>
+      <span class="text-purple-400 ml-4">
         or
-        <inline-link is="router-link" to="/auth/register">
-          register
-        </inline-link>
+        <inline-link is="router-link" to="/auth/login"> login </inline-link>
       </span>
     </div>
   </form>
@@ -37,16 +32,16 @@ export default defineComponent({
       loading: false,
     })
 
-    setTitle('Login')
+    setTitle('Register')
 
-    const login = async () => {
-      console.log('login')
+    const register = async () => {
+      console.log('register')
     }
 
     return {
       state,
       store,
-      login,
+      register,
     }
   },
 })
