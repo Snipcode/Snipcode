@@ -14,7 +14,7 @@
   "dependencies": {
     "@prisma/client": "^2.22.1",
     "bcryptjs": "^2.4.3",
-    "prisma": "^2.22.1"
+    "prisma": "^2.23.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
