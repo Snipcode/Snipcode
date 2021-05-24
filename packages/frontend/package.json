@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@nuxtjs/composition-api": "^0.23.4",
-    "@vuelidate/core": "^2.0.0-alpha.16",
+    "@vuelidate/core": "^2.0.0-alpha.18",
     "@vuelidate/validators": "^2.0.0-alpha.13",
     "axios": "^0.21.1",
     "core-js": "^3.12.1",
