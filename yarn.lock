@@ -2245,10 +2245,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@^15.0.2":
-  version "15.0.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-15.0.2.tgz#51e9c0920d1b45936ea04341aa3e2e58d339fb67"
-  integrity sha512-p68+a+KoxpoB47015IeYZYRrdqMUcpbK8re/zpFB8Ld46LHC1lPEbp3EXgkEhAYEcPvjJF6ZO+869SQ0aH1dcA==
+"@types/node@*", "@types/node@^15.12.4":
+  version "15.12.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-15.12.4.tgz#e1cf817d70a1e118e81922c4ff6683ce9d422e26"
+  integrity sha512-zrNj1+yqYF4WskCMOHwN+w9iuD12+dGm0rQ35HLl9/Ouuq52cEtd0CH9qMgrdNmi5ejC1/V7vKEXYubB+65DkA==
 
 "@types/node@12.20.12":
   version "12.20.12"
@@ -8225,10 +8225,10 @@ monaco-editor-webpack-plugin@^3.1.0:
   dependencies:
     loader-utils "^2.0.0"
 
-monaco-editor@^0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.23.0.tgz#24844ba5640c7adb3a2a3ff3b520cf2d7170a6f0"
-  integrity sha512-q+CP5zMR/aFiMTE9QlIavGyGicKnG2v/H8qVvybLzeFsARM8f6G9fL0sMST2tyVYCwDKkGamZUI6647A0jR/Lg==
+monaco-editor@^0.25.2:
+  version "0.25.2"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.25.2.tgz#119e2b15bbd968a1a99c03cac9c329316d7c37e9"
+  integrity sha512-5iylzSJevCnzJn9UVsW8yOZ3yHjmAs4TfvH3zsbftKiFKmHG0xirGN6DK9Kk04VSWxYCZZAIafYJoNJJMAU1KA==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
