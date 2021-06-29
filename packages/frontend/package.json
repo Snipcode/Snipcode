@@ -40,7 +40,7 @@
     "autoprefixer": "^10.2.5",
     "eslint-plugin-nuxt": "^2.0.0",
     "postcss": "^8.2.14",
-    "sass": "^1.32.13",
+    "sass": "^1.35.1",
     "tailwindcss": "^2.2.4"
   }
 }
