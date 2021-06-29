@@ -14,7 +14,7 @@
     "generate": "yarn prisma generate && nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/composition-api": "^0.23.4",
+    "@nuxtjs/composition-api": "^0.24.5",
     "@vuelidate/core": "^2.0.0-alpha.19",
     "@vuelidate/validators": "^2.0.0-alpha.17",
     "axios": "^0.21.1",
@@ -27,7 +27,7 @@
     "monaco-editor-webpack-plugin": "^3.1.0",
     "nuxt": "^2.15.7",
     "nuxt-typed-vuex": "^0.2.0",
-    "tailwindcss": "^2.1.2",
+    "tailwindcss": "^2.2.4",
     "typed-vuex": "^0.2.0"
   },
   "devDependencies": {
@@ -41,6 +41,6 @@
     "eslint-plugin-nuxt": "^2.0.0",
     "postcss": "^8.2.14",
     "sass": "^1.32.13",
-    "tailwindcss": "^2.1.2"
+    "tailwindcss": "^2.2.4"
   }
 }
