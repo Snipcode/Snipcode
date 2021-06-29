@@ -1652,10 +1652,10 @@
     rc9 "^1.2.0"
     std-env "^2.2.1"
 
-"@nuxt/types@^2.15.6":
-  version "2.15.6"
-  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-2.15.6.tgz#8be28b21a3157b90047834721db97325e4766dcb"
-  integrity sha512-3edRQDAMcpHN4cRWR9vB1ugyegJ+w8UV1vHSxV48/LK9qsgBE8P7wKSK6BvHLqHpnMoB0PxrUXizprpLluwpHA==
+"@nuxt/types@^2.15.7":
+  version "2.15.7"
+  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-2.15.7.tgz#b5275e183ba8c046d3a97e57198c4103109b889e"
+  integrity sha512-jqExebL4Dh5Rn88xVP1/o/a4gxpF7Z1O/kbVjEzEbbvt2E8J0lLc3wsaRYpbqt+S3S9YfvD8FKR85TzkqYtgqw==
   dependencies:
     "@types/autoprefixer" "9.7.2"
     "@types/babel__core" "7.1.14"
@@ -8321,7 +8321,7 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-modern-normalize@^1.0.0, modern-normalize@^1.1.0:
+modern-normalize@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/modern-normalize/-/modern-normalize-1.1.0.tgz#da8e80140d9221426bd4f725c6e11283d34f90b7"
   integrity sha512-2lMlY1Yc1+CUy0gw4H95uNN7vjbpoED7NNRSBHE25nWfLBdmMzFCsPshlzbxHz+gYMcBEUN8V4pU16prcdPSgA==
