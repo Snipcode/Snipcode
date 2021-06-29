@@ -81,6 +81,13 @@ APP_KEY=<leave blank for now>
 DATABASE_URL=<database url, or `file:../db/prod.db for SQLite`>
 ```
 
+### Generate a secret key
+
+To generate a secret key, simply run: 
+```shell
+$ ./node_modules/.bin/secure-session-gen-key > sess_secret
+```
+
 ### Build Snipcode
 
 Snipcode is written in TypeScript and needs to be transpiled to JavaScript so Node.js can run it. Additionally, the frontend is built with Vue.js and needs to be compiled as well.
