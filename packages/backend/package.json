@@ -12,7 +12,7 @@
     "start": "NODE_ENV=production node ."
   },
   "dependencies": {
-    "@fasteerjs/fasteer": "^3.0.1",
+    "@fasteerjs/fasteer": "^3.1.4",
     "@prisma/client": "^2.25.0",
     "@snipcode/core": "3.0.0",
     "@types/bcryptjs": "^2.4.2",
