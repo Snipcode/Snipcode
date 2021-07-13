@@ -14,7 +14,7 @@
     "generate": "yarn prisma generate && nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/composition-api": "^0.24.5",
+    "@nuxtjs/composition-api": "^0.24.7",
     "@vuelidate/core": "^2.0.0-alpha.19",
     "@vuelidate/validators": "^2.0.0-alpha.17",
     "axios": "^0.21.1",
