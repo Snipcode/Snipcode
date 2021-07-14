@@ -21,7 +21,7 @@
     "eventemitter3": "^4.0.7",
     "fastify-secure-session": "^2.3.1",
     "fastify-websocket": "^3.2.0",
-    "prisma": "^2.25.0"
+    "prisma": "^2.27.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
