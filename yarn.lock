@@ -2787,10 +2787,10 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.1.3.tgz#3f6f5e7226d8d2d965ef39780ae3f89dc906b5fc"
   integrity sha512-uGBX4bZVFvgranxzpH3q1gGmICUjEUnNrMIBFeZRw8hBfCPhT+VnuY8+mG2l/yEyY73J9e6d36CtbFUqDXa12w==
 
-"@vuelidate/core@^2.0.0-alpha.19":
-  version "2.0.0-alpha.19"
-  resolved "https://registry.yarnpkg.com/@vuelidate/core/-/core-2.0.0-alpha.19.tgz#d0482ed6d55269084ce42bfcdc7b9892f1f17b6e"
-  integrity sha512-P5vGGWzoFmdHSXXVrC009abPs3XS/25w2xsH45evPO3Od9gvjwXdEzTGehmb/MLBfk4BJ5GkD6NKfjmnFHd5sw==
+"@vuelidate/core@^2.0.0-alpha.22":
+  version "2.0.0-alpha.22"
+  resolved "https://registry.yarnpkg.com/@vuelidate/core/-/core-2.0.0-alpha.22.tgz#e15190415f095c7d32f078b6a341d9cd2153e570"
+  integrity sha512-HqRWY2c5pW6kxHNCupYyQn1+frjiFjEN6qgP0AwByvSu/JdKHDWlWqC2gJoxPiT3Oy23ulge43jVzHT3UO1r4A==
   dependencies:
     vue-demi "^0.9.1"
 
