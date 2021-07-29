@@ -2794,10 +2794,10 @@
   dependencies:
     vue-demi "^0.9.1"
 
-"@vuelidate/validators@^2.0.0-alpha.17":
-  version "2.0.0-alpha.17"
-  resolved "https://registry.yarnpkg.com/@vuelidate/validators/-/validators-2.0.0-alpha.17.tgz#e7ce84e020f41f98e58bdc73ad1a647d2d7f5deb"
-  integrity sha512-Sl+T/ejjjS4Z+dOU6pBEGyPjuITg/jQB+sU/oAzZt0ugW7Ar/fckHrbcR4YVPbANQ0/YgftaZ7+WkxUv5YrhPA==
+"@vuelidate/validators@^2.0.0-alpha.19":
+  version "2.0.0-alpha.19"
+  resolved "https://registry.yarnpkg.com/@vuelidate/validators/-/validators-2.0.0-alpha.19.tgz#fa396b95a1c7fdd31f22a69d232a1c3db134ec8c"
+  integrity sha512-5TQxi1Wa6jFPYZ4UIUI8RKR2nqN/yujPxRjUMh5vCOhVXoqXPMfoYdfs5DBtfABhmjj7LTtXrZ78WVMQkL9tNw==
   dependencies:
     vue-demi "^0.9.1"
 
