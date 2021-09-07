@@ -27,7 +27,7 @@
     "monaco-editor-webpack-plugin": "^4.0.0",
     "nuxt": "^2.15.7",
     "nuxt-typed-vuex": "^0.2.0",
-    "tailwindcss": "^2.2.4",
+    "tailwindcss": "^2.2.10",
     "typed-vuex": "^0.2.0"
   },
   "devDependencies": {
@@ -41,6 +41,6 @@
     "eslint-plugin-nuxt": "^2.0.0",
     "postcss": "^8.2.14",
     "sass": "^1.35.1",
-    "tailwindcss": "^2.2.4"
+    "tailwindcss": "^2.2.10"
   }
 }
