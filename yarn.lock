@@ -5134,10 +5134,10 @@ elliptic@^6.5.3:
     minimalistic-assert "^1.0.1"
     minimalistic-crypto-utils "^1.0.1"
 
-emmet-monaco-es@^4.6.2:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/emmet-monaco-es/-/emmet-monaco-es-4.6.2.tgz#f5d706942f1e25fb779d3825924553b23ff374d7"
-  integrity sha512-K27XGsfCgJWc0AkgE8gp4aIlNCxdiFblzZEKlMYdmfUZsdKXkX5ghIfDCkYyXYM4zhAtqnz4vHDg8TF81h0fPw==
+emmet-monaco-es@^4.7.4:
+  version "4.7.4"
+  resolved "https://registry.yarnpkg.com/emmet-monaco-es/-/emmet-monaco-es-4.7.4.tgz#20262fd989e5230a110e679145a50b838ebc1e7e"
+  integrity sha512-W5Cq2oeqq1pgTCDcQF3p304T27vWnmWWU85WfLr3x7uoXfWkQxNQqO6cXHdzInrQeMYhs/JxAwycrkRRzJL7ng==
   dependencies:
     "@emmetio/abbreviation" "^0.7.0"
     "@emmetio/css-abbreviation" "^0.4.0"

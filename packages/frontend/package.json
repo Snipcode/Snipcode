@@ -19,7 +19,7 @@
     "@vuelidate/validators": "^2.0.0-alpha.17",
     "axios": "^0.21.1",
     "core-js": "^3.16.2",
-    "emmet-monaco-es": "^4.6.2",
+    "emmet-monaco-es": "^4.7.4",
     "eventemitter3": "^4.0.7",
     "highlight.js": "^11.0.1",
     "is-svg": "^4.3.1",
