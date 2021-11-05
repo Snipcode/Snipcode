@@ -23,7 +23,7 @@
     "eventemitter3": "^4.0.7",
     "highlight.js": "^11.0.1",
     "is-svg": "^4.3.1",
-    "monaco-editor": "^0.25.2",
+    "monaco-editor": "^0.30.0",
     "monaco-editor-webpack-plugin": "^4.0.0",
     "nuxt": "^2.15.7",
     "nuxt-typed-vuex": "^0.2.0",
