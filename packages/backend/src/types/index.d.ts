@@ -1,15 +1,9 @@
-import { Fasteer } from '@fasteerjs/fasteer'
-import { PrismaClient } from '@prisma/client'
-import EventEmitter from 'eventemitter3'
-import { FastifyInstance } from 'fastify'
-
-export interface Injected {
-  db: PrismaClient
-  emitter: EventEmitter
-}
-export interface ReceivedMessage {
-  action: string
-  [key: string]: any
+export type Only<T, U> = {
+  [P in keyof T]: T[P]
+} & {
+  [P in keyof U]?: never
 }
 
-export type Controller = Fasteer.FCtrl<FastifyInstance, {}, Injected>
+export type Either<T, U> = Only<T, U> | Only<U, T>
+
+export type IdResolvable<TId extends number | string = string> = TId | { id: TId }

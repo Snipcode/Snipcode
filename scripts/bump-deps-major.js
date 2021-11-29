@@ -3,21 +3,20 @@ const path = require('path')
 const glob = require('glob').sync
 
 const bumpDeps = async (depsList, dev = false, workspace) => {
-  for (const dependency in depsList) {
-    await new Promise((resolve, reject) => {
-      const _workspace = workspace ? `workspace ${workspace}` : '-W'
-      const _devFlag = dev ? '-D ' : ''
+  if (!depsList || typeof depsList !== "object") return;
 
-      const cmd = `yarn ${_workspace} add ${_devFlag}${dependency}`
-      console.log(`$$ ${cmd}`)
+  const depsString = Object.keys(depsList).join(" ")
 
-      const e = exec(cmd)
-      if (!e.stdout) return reject(new Error("There's no stdout."))
+  await new Promise((resolve, reject) => {
+    const cmd = ["yarn", workspace ? `workspace ${workspace}` : "-W", "add", ...(dev ? ['-D'] : []), depsString].join(" ")
+    console.log(`$$ ${cmd}`)
 
-      e.stdout.pipe(process.stdout)
-      e.stdout.on('end', resolve)
-    })
-  }
+    const e = exec(cmd)
+    if (!e.stdout) return reject(new Error("There's no stdout."))
+
+    e.stdout.pipe(process.stdout)
+    e.stdout.on('end', resolve)
+  })
 }
 
 ;(async () => {

@@ -12,12 +12,15 @@
     "start": "NODE_ENV=production node ."
   },
   "dependencies": {
+    "@fasteerjs/exceptions": "^1.0.2",
     "@fasteerjs/fasteer": "^3.1.4",
     "@prisma/client": "^2.29.1",
     "@snipcode/core": "3.0.0",
     "@types/bcryptjs": "^2.4.2",
     "ajv": "^8.6.0",
     "bcryptjs": "^2.4.3",
+    "chalk": "^5.0.0",
+    "contairy": "^1.0.0-1",
     "eventemitter3": "^4.0.7",
     "fastify-secure-session": "^2.3.1",
     "fastify-websocket": "^3.2.0",
@@ -25,7 +28,9 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
-    "@types/node": "^15.12.5",
-    "@types/ws": "^7.4.5"
+    "@types/chalk": "^2.2.0",
+    "@types/node": "^16.11.10",
+    "@types/ws": "^8.2.0",
+    "dotenv": "^10.0.0"
   }
 }
