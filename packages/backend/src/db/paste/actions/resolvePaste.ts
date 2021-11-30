@@ -1,15 +1,16 @@
 import { Paste, Prisma, User } from '@prisma/client'
 import { db } from '../../../container'
-import { PasteResolveException } from '../../../exceptions/http/actions/PasteResolveException'
+import { PasteResolveException } from '../../../exceptions/db/actions/PasteResolveException'
 import { IdResolvable } from '../../../types'
 import { logException } from '../../../utils/logger'
 import { resolveId } from '../../utils'
 
 export const resolvePaste = async (
-  where: Prisma.PasteWhereInput
+  where: Prisma.PasteWhereInput,
+  { where: _, ...opts }: Prisma.PasteFindFirstArgs = {}
 ): Promise<Paste> => {
   try {
-    const paste = await db().paste.findFirst({ where })
+    const paste = await db().paste.findFirst({ where, ...opts })
 
     if (!paste) throw new PasteResolveException()
 
@@ -24,16 +25,24 @@ export const resolvePaste = async (
   }
 }
 
-export const resolvePasteById = async (id: IdResolvable) =>
-  resolvePaste({ id: resolveId(id) })
+export const resolvePasteById = async (
+  id: IdResolvable,
+  { where: _, ...opts }: Prisma.PasteFindFirstArgs = {}
+) => resolvePaste({ id: resolveId(id) }, opts)
 
-export const resolvePastes = async (where: Prisma.PasteWhereInput) => {
+export const resolvePastes = async (
+  where: Prisma.PasteWhereInput,
+  { where: _, ...opts }: Prisma.PasteFindManyArgs = {}
+) => {
   try {
-    return db().paste.findMany({ where })
+    return db().paste.findMany({ where, ...opts })
   } catch (e) {
     logException(e)
     throw e
   }
 }
 
-export const resolvePastesByUser = async (user: IdResolvable<User["id"]>) => resolvePastes({ userId: resolveId(user) })
+export const resolvePastesByUser = async (
+  user: IdResolvable<User['id']>,
+  { where: _, ...opts }: Prisma.PasteFindManyArgs = {}
+) => resolvePastes({ userId: resolveId(user) }, opts)

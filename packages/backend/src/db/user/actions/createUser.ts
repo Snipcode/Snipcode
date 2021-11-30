@@ -1,5 +1,5 @@
 import { db } from '../../../container'
-import { UserCreateException } from '../../../exceptions/http/actions/UserCreateException'
+import { UserCreateException } from '../../../exceptions/db/actions/UserCreateException'
 import { hashPassword } from '../../../security/password'
 import { logException } from '../../../utils/logger'
 import { resolveUserByUsername } from './resolveUser'
@@ -17,7 +17,7 @@ export const createUser = async ({ username, rawPassword }: UserCreateOpts) => {
     return await db().user.create({
       data: {
         username,
-        password: hashPassword(rawPassword),
+        password: await hashPassword(rawPassword),
       },
     })
   } catch (e) {

@@ -12,8 +12,6 @@ model User {
   username String   @unique
   password String
   pastes   Paste[]
-  invites  Invite[]
-  invite   Invite?  @relation("TakenBy")
 }
 
 model Paste {
@@ -23,12 +21,4 @@ model Paste {
   user      User     @relation(fields: [userId], references: [id])
   userId    String
   public    Boolean  @default(false)
-}
-
-model Invite {
-  id        String  @id @default(uuid())
-  from      User?   @relation(fields: [fromId], references: [id])
-  fromId    String?
-  takenBy   User?   @relation("TakenBy", fields: [takenById], references: [id])
-  takenById String?
 }

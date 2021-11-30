@@ -1,13 +1,13 @@
 import s from "fluent-json-schema"
 
-export interface UserCreateRequest {
+export interface CommonUserRequest {
   Body: {
     username: string
     password: string
   }
 }
 
-export const userCreateSchema = s
+export const commonUserSchema = s
   .object()
   .prop(
     'body',

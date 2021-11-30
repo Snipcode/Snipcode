@@ -10,7 +10,7 @@ export enum PasswordAlgorithms {
  * @param {string} rawPassword The raw password
  * @returns {string} The hashed password
  */
-export const hashPassword = (rawPassword: string): string => {
+export const hashPassword = async (rawPassword: string): Promise<string> => {
   // TODO: implement
   return rawPassword
 }
@@ -22,7 +22,7 @@ export const hashPassword = (rawPassword: string): string => {
  * @param {string} password The raw password to verify
  * @returns {boolean} Is the password correct?
  */
-export const verifyPassword = (hash: string, password: string): boolean => {
+export const verifyPassword = async (hash: string, password: string): Promise<boolean> => {
   // TODO: implement
   return false
 }

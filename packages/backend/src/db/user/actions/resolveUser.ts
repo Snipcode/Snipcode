@@ -1,15 +1,16 @@
 import { Prisma, User } from '@prisma/client'
 import { db } from '../../../container'
-import { UserResolveException } from '../../../exceptions/http/actions/UserResolveException'
+import { UserResolveException } from '../../../exceptions/db/actions/UserResolveException'
 import { IdResolvable } from '../../../types'
 import { logException } from '../../../utils/logger'
 import { resolveId } from '../../utils'
 
 export const resolveUser = async (
-  where: Prisma.UserWhereInput
+  where: Prisma.UserWhereInput,
+  { where: _, ...opts }: Prisma.UserFindFirstArgs = {}
 ): Promise<User> => {
   try {
-    const user = await db().user.findFirst({ where })
+    const user = await db().user.findFirst({ where, ...opts })
 
     if (!user) throw new UserResolveException()
 
@@ -25,10 +26,12 @@ export const resolveUser = async (
 }
 
 export const resolveUserByUsername = async (
-  username: string | { username: string }
+  username: string | { username: string },
+  { where: _, ...opts }: Prisma.UserFindFirstArgs = {}
 ): Promise<User> =>
-  resolveUser(typeof username === 'object' ? username : { username })
+  resolveUser(typeof username === 'object' ? username : { username }, opts)
 
 export const resolveUserById = async (
-  id: IdResolvable<User["id"]>
-): Promise<User> => resolveUser({ id: resolveId(id) })
+  id: IdResolvable<User['id']>,
+  { where: _, ...opts }: Prisma.UserFindFirstArgs = {}
+): Promise<User> => resolveUser({ id: resolveId(id) }, opts)
