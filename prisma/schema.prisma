@@ -11,14 +11,16 @@ model User {
   id       String   @id @default(uuid())
   username String   @unique
   password String
-  pastes   Paste[]
+  pastes   Paste[]  @relation("OwnPastes")
+  sharedPastes Paste[] @relation("SharedPastes")
 }
 
 model Paste {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   content   String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation("OwnPastes", fields: [userId], references: [id])
   userId    String
   public    Boolean  @default(false)
+  shareAccessWith User[] @relation("SharedPastes")
 }

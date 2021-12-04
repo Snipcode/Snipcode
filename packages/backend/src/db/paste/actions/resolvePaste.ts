@@ -1,3 +1,4 @@
+import { Exception } from '@fasteerjs/exceptions'
 import { Paste, Prisma, User } from '@prisma/client'
 import { db } from '../../../container'
 import { PasteResolveException } from '../../../exceptions/db/actions/PasteResolveException'
@@ -7,10 +8,24 @@ import { resolveId } from '../../utils'
 
 export const resolvePaste = async (
   where: Prisma.PasteWhereInput,
-  { where: _, ...opts }: Prisma.PasteFindFirstArgs = {}
-): Promise<Paste> => {
+  opts: Omit<Prisma.PasteFindFirstArgs, 'where'> = {}
+) => {
+  if (opts.include.shareAccessWith)
+    throw new Exception('Cannot override opts.include.shareAccessWith')
+
   try {
-    const paste = await db().paste.findFirst({ where, ...opts })
+    const paste = await db().paste.findFirst({
+      where,
+      ...opts,
+      include: {
+        ...(opts.include ?? {}),
+        shareAccessWith: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    })
 
     if (!paste) throw new PasteResolveException()
 

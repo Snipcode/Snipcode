@@ -7,7 +7,7 @@ import { resolveId } from '../../utils'
 
 export const resolveUser = async (
   where: Prisma.UserWhereInput,
-  { where: _, ...opts }: Prisma.UserFindFirstArgs = {}
+  opts: Omit<Prisma.UserFindFirstArgs, "where"> = {}
 ): Promise<User> => {
   try {
     const user = await db().user.findFirst({ where, ...opts })
@@ -27,11 +27,11 @@ export const resolveUser = async (
 
 export const resolveUserByUsername = async (
   username: string | { username: string },
-  { where: _, ...opts }: Prisma.UserFindFirstArgs = {}
+  opts: Omit<Prisma.UserFindFirstArgs, "where"> = {}
 ): Promise<User> =>
   resolveUser(typeof username === 'object' ? username : { username }, opts)
 
 export const resolveUserById = async (
   id: IdResolvable<User['id']>,
-  { where: _, ...opts }: Prisma.UserFindFirstArgs = {}
+  opts: Omit<Prisma.UserFindFirstArgs, "where"> = {}
 ): Promise<User> => resolveUser({ id: resolveId(id) }, opts)

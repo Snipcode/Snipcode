@@ -1,9 +1,7 @@
-import { UnauthorizedException } from '@fasteerjs/exceptions'
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { UserDto, UserWithPastes } from '../../db/user'
-import { resolveUser, resolveUserById } from '../../db/user/actions/resolveUser'
+import { db } from '../../container'
+import { UserWithPastes as FullUser, UserDto } from '../../db/user'
 import { BaseError, ErrorPartial, error, ErrorKind } from '../../utils/response'
-
 interface UseUserContext {
   req: FastifyRequest
   res?: FastifyReply
@@ -11,7 +9,7 @@ interface UseUserContext {
 
 interface UserContext {
   success: true
-  user: UserWithPastes
+  user: FullUser
   dtoUser: UserDto
 }
 
@@ -30,15 +28,35 @@ const createUserContext = async ({
   const userId = req.session.get('userId')
 
   if (!userId)
-    throw new UnauthorizedException()
+    return error({
+      kind: ErrorKind.UNAUTHORIZED,
+      message: 'You are not logged in.',
+    })
 
   /**
    * Query the user by the ID in the session.
    */
-  const user = await resolveUserById(userId)
-
+  const user = await db().user.findUnique({
+    where: {
+      id: userId,
+    },
+    include: {
+      pastes: {
+        orderBy: [
+          {
+            createdAt: 'desc',
+          },
+        ],
+      },
+      invites: true,
+      invite: true,
+    },
+  })
   if (!user)
-    throw new UnauthorizedException()
+    return error({
+      kind: ErrorKind.UNAUTHORIZED,
+      message: 'You are not logged in.',
+    })
 
   const context: UserContext = {
     success: true,
@@ -60,18 +78,31 @@ const createUserContext = async ({
  * @param {UseUserContext} deps The required dependencies for UserContext
  */
 const withUserContext = async (
-  { req, res }: UseUserContext,
+  ctx: UseUserContext,
   fn: (userCtx: UserContext) => Promise<unknown> | unknown,
   errFn?: () => unknown
 ) => {
-  const context = await createUserContext({ req })
-
+  const context = await createUserContext(ctx)
   if (!context.success) {
-    if (res) return res.send(context)
+    if (ctx.res) return ctx.res.send(context)
     return errFn?.()
   }
 
   return fn(context)
 }
 
-export { UseUserContext, UserContext, withUserContext, createUserContext }
+const withOptionalUserContext = async (
+  ctx: UseUserContext,
+  fn: (userCtx: UserContext | null) => Promise<unknown> | unknown
+) => {
+  const context = await createUserContext(ctx)
+  return fn(context.success ? context : null)
+}
+
+export {
+  UseUserContext,
+  UserContext,
+  withUserContext,
+  withOptionalUserContext,
+  createUserContext,
+}

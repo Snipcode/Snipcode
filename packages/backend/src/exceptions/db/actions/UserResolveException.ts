@@ -5,7 +5,7 @@ export class UserResolveException extends NotFoundException {
   public static NAME = 'UserResolveException'
 
   constructor(message?: string | null) {
-    super(message ?? 'Unknown user')
+    super(message ?? 'This user does not exist')
     this.name = UserResolveException.NAME
   }
 

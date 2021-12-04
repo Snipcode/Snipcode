@@ -5,7 +5,7 @@ export class PasteResolveException extends NotFoundException {
   public static NAME = 'PasteResolveException'
 
   constructor(message?: string | null) {
-    super(message ?? 'Unknown user')
+    super(message ?? 'This paste does not exist')
     this.name = PasteResolveException.NAME
   }
 

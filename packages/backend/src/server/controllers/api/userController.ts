@@ -8,7 +8,7 @@ import { UserLoginException } from '../../../exceptions/http/UserLoginException'
 import { UserDto } from '../../../db/user'
 import { withUserContext } from '../../context/userContext'
 
-const UserController: Controller = (app, {}) => {
+const UserController: Controller = (app) => {
   app.put<CommonUserRequest>(
     '/register',
     { schema: commonUserSchema.valueOf() },

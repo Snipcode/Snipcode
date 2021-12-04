@@ -21,9 +21,9 @@ interface ErrorPartial<TError extends BaseError = BaseError> {
   error: TError
 }
 
-const success = <TData extends any = any>(
-  data: TData
-): SuccessPartial<TData> => ({
+const success = (
+  data: object = { message: 'ok' }
+): SuccessPartial<typeof data> => ({
   success: true,
   data,
 })
