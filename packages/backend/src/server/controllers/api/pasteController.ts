@@ -1,5 +1,4 @@
 import { UnauthorizedException } from '@fasteerjs/exceptions'
-import { db } from '../../../container'
 import { deletePaste } from '../../../db/paste/actions/deletePaste'
 import { resolvePasteById } from '../../../db/paste/actions/resolvePaste'
 import {
