@@ -6,7 +6,8 @@ build
 dist
 node_modules
 .idea
-/db
+*.db
+*.db-journal
 *.env
 yarn-error.log
 sess_secret

@@ -23,3 +23,17 @@ export const deletePaste = async (
     throw e
   }
 }
+
+export const deletePastes = async (
+  where: Prisma.PasteWhereInput,
+  opts: Omit<Prisma.PasteDeleteManyArgs, "where"> = {}
+): Promise<number> => {
+  try {
+    const paste = await db().paste.deleteMany({ where, ...opts })
+
+    return paste.count
+  } catch (e) {
+    logException(e, `Failed to delete pastes by "${JSON.stringify(where)}"`)
+    throw new PasteDeleteException()
+  }
+}
