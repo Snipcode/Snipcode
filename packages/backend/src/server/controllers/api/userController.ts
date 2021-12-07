@@ -1,5 +1,5 @@
 import { UserInputException } from '@fasteerjs/exceptions'
-import { deletePaste } from '../../../db/paste/actions/deletePaste'
+import { deletePastes } from '../../../db/paste/actions/deletePaste'
 import { deleteUser } from '../../../db/user/actions/deleteUser'
 import { updateUser } from '../../../db/user/actions/updateUser'
 import { verifyPassword } from '../../../security/password'
@@ -39,12 +39,13 @@ const UserController: Controller = (app) => {
       })
   )
 
-  app.post("/clearPastes",     (req, res) =>
-  withUserContext({ req, res }, async ({ user }) => {
-    await deletePaste()
+  app.post('/clearPastes', (req, res) =>
+    withUserContext({ req, res }, async ({ user }) => {
+      await deletePastes({ userId: user.id })
 
-    res.send(success())
-  }))
+      res.send(success())
+    })
+  )
 
   app.delete('/delete', (req, res) =>
     withUserContext({ req, res }, async ({ user }) => {
