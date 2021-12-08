@@ -278,19 +278,19 @@
   resolved "https://registry.yarnpkg.com/@fasteerjs/exceptions/-/exceptions-1.0.2.tgz#bd973f85c21e850952619977d7a75d3e970d8fbe"
   integrity sha512-oo+c+iCbBtUBKyf907i68W+IupiOhCstoak7LeVWld5dQRR6TNvYuedkjSeOdnQd+mu4IikYe057WxbJzOpS/Q==
 
-"@fasteerjs/fasteer@^3.1.4":
-  version "3.1.6"
-  resolved "https://registry.yarnpkg.com/@fasteerjs/fasteer/-/fasteer-3.1.6.tgz#385d66741ffc7154a87162526a073b7c5870b16b"
-  integrity sha512-TXbMYWxGHWsu4a944LZuUGldJnXp2TBJlltZ4PU83iEvjYex/AmFdPnNQVz5uVVQ91+u/P1+L+U1rXBWA6H1ew==
+"@fasteerjs/fasteer@^3.1.7":
+  version "3.1.7"
+  resolved "https://registry.yarnpkg.com/@fasteerjs/fasteer/-/fasteer-3.1.7.tgz#40e3dea1d18fc0578ab201eb723a9d5b3e2f5449"
+  integrity sha512-i7gkgQg7orevLzhFLRG5QW6tnku/0LWZzw6rcEp/jjSAAD1R7MAywNrXkihHrpdhSwkjIfyiwsI8v9JXdyRUnA==
   dependencies:
-    chalk "^4.1.2"
+    chalk "^5.0.0"
     eventemitter3 "^4.0.7"
-    fastify "^3.20.1"
+    fastify "^3.24.1"
     fastify-cors "^6.0.2"
     fastify-helmet "^5.3.2"
-    glob "^7.1.7"
+    glob "^7.2.0"
     helmet "^4.6.0"
-    husky "^7.0.1"
+    husky "^7.0.4"
     pinst "^2.1.6"
     winston "^3.3.3"
 
@@ -588,7 +588,7 @@ chalk@^2.0.0:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chalk@^4.0.0, chalk@^4.1.2:
+chalk@^4.0.0:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
   integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
@@ -1188,10 +1188,10 @@ fastify-websocket@^3.2.0:
     fastify-plugin "^3.0.0"
     ws "^7.5.4"
 
-fastify@^3.20.1:
-  version "3.24.0"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.24.0.tgz#38b64e6a2f459dacda4a8342306b0882de534b58"
-  integrity sha512-fmRyrI25rzLGHDQ1FME02NsbP658mVa0EaSqfYUFwx2UOF+4/GcyNrsdWILSDOEiUbOsRYCD3sRCE9v7mvRLRQ==
+fastify@^3.24.1:
+  version "3.24.1"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.24.1.tgz#979d34e096f40b7a90e90733efbbdae81623034e"
+  integrity sha512-ZL0V6u37d65tAY8lMwVMFtFvnEeJcG80QBNSdChqCm4i4x+is/38OU14gzJuRXhpenTL+pTJzNcu5Kn1ouzM3Q==
   dependencies:
     "@fastify/ajv-compiler" "^1.0.0"
     abstract-logging "^2.0.0"
@@ -1358,7 +1358,7 @@ glob-parent@^6.0.1:
   dependencies:
     is-glob "^4.0.3"
 
-glob@^7.1.3, glob@^7.1.4, glob@^7.1.7:
+glob@^7.1.3, glob@^7.1.4, glob@^7.2.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.2.0.tgz#d15535af7732e02e948f4c41628bd910293f6023"
   integrity sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==
@@ -1449,7 +1449,7 @@ human-signals@^2.1.0:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
   integrity sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
 
-husky@^7.0.1, husky@^7.0.4:
+husky@^7.0.4:
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/husky/-/husky-7.0.4.tgz#242048245dc49c8fb1bf0cc7cfb98dd722531535"
   integrity sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==
