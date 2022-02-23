@@ -25,7 +25,7 @@
     "fastify-static": "^4.5.0",
     "fastify-websocket": "^3.2.0",
     "fluent-json-schema": "^3.0.1",
-    "prisma": "^2.29.1"
+    "prisma": "^3.10.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
