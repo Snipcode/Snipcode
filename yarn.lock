@@ -1180,13 +1180,21 @@ fastify-warning@^0.2.0:
   resolved "https://registry.yarnpkg.com/fastify-warning/-/fastify-warning-0.2.0.tgz#e717776026a4493dc9a2befa44db6d17f618008f"
   integrity sha512-s1EQguBw/9qtc1p/WTY4eq9WMRIACkj+HTcOIK1in4MV5aFaQC9ZCIt0dJ7pr5bIf4lPpHvAtP2ywpTNgs7hqw==
 
-fastify-websocket@^3.2.0:
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/fastify-websocket/-/fastify-websocket-3.2.2.tgz#3ce1a3c0736ce89dd64e3a170d7250e0f8e008fa"
-  integrity sha512-imwyoYpZTmbcB1uGe4Yy/iaIuJgl76z+h4u8VdZTEG1PEgo22x8fQs9CnkKjx9DRbW2DpcIbezvZLDZtZjWObg==
+"fastify-websocket-deprecated@npm:fastify-websocket@4.2.2":
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/fastify-websocket/-/fastify-websocket-4.2.2.tgz#7fba0edee66d1d056ee900a4e58c8b5fd6af5ef0"
+  integrity sha512-Cx4CZwercvoPq4fc6f09VAoa3wqp9qOQUDHp8wMkCHau4zw7wGa+C3Oi2QNUvhvNqw6N4mH8WWYLEnGXUlnumg==
   dependencies:
     fastify-plugin "^3.0.0"
-    ws "^7.5.4"
+    ws "^8.0.0"
+
+fastify-websocket@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/fastify-websocket/-/fastify-websocket-4.3.0.tgz#0eec382f4677886f62ae40d695f4f1f122d26dbf"
+  integrity sha512-PLoXjlKHaWOEIJ7tHStM2i8aL4kdYVB8d1Umf7TdpQ93kG7OopO7eV4IAyO545kRiE8pyL1AbjlJeZ7irDA1aA==
+  dependencies:
+    fastify-websocket-deprecated "npm:fastify-websocket@4.2.2"
+    process-warning "^1.0.0"
 
 fastify@^3.20.1:
   version "3.24.0"
@@ -2080,6 +2088,11 @@ process-nextick-args@~2.0.0:
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
   integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
 
+process-warning@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/process-warning/-/process-warning-1.0.0.tgz#980a0b25dc38cd6034181be4b7726d89066b4616"
+  integrity sha512-du4wfLyj4yCZq1VupnVSZmRsPJsNuxoDQFdCFHLaYiEbFBD7QE0a+I4D7hOxrVnh78QE/YipFAj9lXHiXocV+Q==
+
 progress@^2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
@@ -2751,10 +2764,10 @@ wrappy@1:
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
 
-ws@^7.5.4:
-  version "7.5.6"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.6.tgz#e59fc509fb15ddfb65487ee9765c5a51dec5fe7b"
-  integrity sha512-6GLgCqo2cy2A2rjCNFlxQS6ZljG/coZfZXclldI8FB/1G3CCI36Zd8xy2HrFVACi8tfk5XrgLQEk+P0Tnz9UcA==
+ws@^8.0.0:
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.5.0.tgz#bfb4be96600757fe5382de12c670dab984a1ed4f"
+  integrity sha512-BWX0SWVgLPzYwF8lTzEy1egjhS4S4OEAHfsO8o65WOVsrnSRGaSiUaa9e0ggGlkMTtBlmOpEXiie9RUcBO86qg==
 
 y18n@^5.0.5:
   version "5.0.8"
