@@ -1,10 +1,27 @@
-import {useServices} from "contairy"
-import { SnipcodeContainer } from "./types/http"
+import { PrismaClient } from "@prisma/client";
+import { FastifyInstance } from "fastify";
+import { Container, setContainer } from "contairy";
+import { $globals, Globals } from "./data/Globals";
+import { $server } from "./server";
+import { $db } from "./db";
+import { $env } from "./data/Env";
 
-export const services = () => useServices<SnipcodeContainer>()
+export interface ServiceContainer {
+    db: PrismaClient;
+    server: FastifyInstance;
+    globals: Globals;
+    [key: string]: unknown;
+}
 
-export const service = <T extends keyof SnipcodeContainer>(service: T): SnipcodeContainer[T] => services()[service]
+export const $container = new Container<ServiceContainer>({
+    db: $db,
+    server: $server,
+    globals: $globals,
+    env: $env
+})
 
-export const db = () => service("db")
+setContainer($container);
 
-export const log = () => service("logger")
+export const services = (): ServiceContainer => <ServiceContainer>$container._services;
+
+export const $s = (name: keyof ServiceContainer): ServiceContainer[typeof name] => services()[name];

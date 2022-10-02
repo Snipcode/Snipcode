@@ -1,7 +1,9 @@
+import { User } from '@prisma/client'
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { db } from '../../container'
-import { UserWithPastes as FullUser, UserDto } from '../../db/user'
-import { BaseError, ErrorPartial, error, ErrorKind } from '../../utils/response'
+import { $s } from '../../container'
+import { $db } from '../../db'
+import { BaseError, error, ErrorKind, ErrorPartial } from '../utils/response'
+
 interface UseUserContext {
   req: FastifyRequest
   res?: FastifyReply
@@ -9,8 +11,7 @@ interface UseUserContext {
 
 interface UserContext {
   success: true
-  user: FullUser
-  dtoUser: UserDto
+  user: User
 }
 
 /**
@@ -36,20 +37,9 @@ const createUserContext = async ({
   /**
    * Query the user by the ID in the session.
    */
-  const user = await db().user.findUnique({
+  const user = await $db.user.findUnique({
     where: {
       id: userId,
-    },
-    include: {
-      pastes: {
-        orderBy: [
-          {
-            createdAt: 'desc',
-          },
-        ],
-      },
-      invites: true,
-      invite: true,
     },
   })
   if (!user)
@@ -61,7 +51,6 @@ const createUserContext = async ({
   const context: UserContext = {
     success: true,
     user,
-    dtoUser: UserDto.make(user),
   }
 
   return context
