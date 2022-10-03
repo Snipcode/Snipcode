@@ -1,13 +1,10 @@
 import { SocketStream } from '@fastify/websocket'
 import { FastifyRequest } from 'fastify'
-import { $s } from '../../container'
-import { GlobalsDto } from '../../data/dto/GlobalsDto'
-import { $emitter } from '../../data/Emitter'
 import { $globals } from '../../data/Globals'
-import { UserChannel, UserChannelEmits } from '../../data/UserChannel'
+import { UserChannelEmits } from '../../data/UserChannel'
 import { createUserContext } from '../context/userContext'
 import { controller } from '../plugins/controllers'
-import { $ws, socketSend, websocket } from '../websocket'
+import { $ws, socketSend } from '../websocket'
 
 export default controller(async (server) => {
   $ws('/ws', async (conn: SocketStream, req: FastifyRequest) => {
