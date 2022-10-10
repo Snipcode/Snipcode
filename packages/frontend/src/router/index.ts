@@ -29,6 +29,16 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../pages/pastes.vue'),
       },
       {
+        path: '/editor',
+        meta: { requiredAuth: true },
+        component: () => import('../pages/editor/index.vue'),
+      },
+      {
+        path: '/editor/:id',
+        meta: { requiredAuth: true },
+        component: () => import('../pages/editor/index.vue'),
+      },
+      {
         path: '/auth/login',
         meta: { requiredUnauth: true },
         component: () => import('../pages/auth/login.vue'),

@@ -16,7 +16,7 @@
       <div class="flex">
         <div class="flex-1 md:flex md:justify-between">
           <p class="text-sm text-white font-mono">
-            {{ alert }}
+            {{ alert.message }}
           </p>
         </div>
       </div>
