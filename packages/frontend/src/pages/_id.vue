@@ -82,8 +82,8 @@ export default defineComponent({
           throw new Error(`${data.error.kind}: ${data.error.message}`)
 
         router.push('/')
-      } catch (_) {
-        addTimedAlert(new Alert('Unknown error has occurred'), 1000)
+      } catch (e) {
+        addTimedAlert(new Alert((e as any)?.message ?? 'Unknown error has occurred'), 1000)
       }
     }
 
