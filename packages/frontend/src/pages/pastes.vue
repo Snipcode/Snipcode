@@ -50,6 +50,7 @@ import { CreateWebSocket } from '../api/ws/createWebSocket'
 import Header from '../components/layout/Header.vue'
 import {user, socket as sock} from "../store";
 import {addTimedAlert, Alert} from "../store/Alert";
+import {remove} from "../api/paste";
 
 export default defineComponent({
   components: { Header },
@@ -71,10 +72,7 @@ export default defineComponent({
 
     const removePaste = async (data: Paste.ById['Params']) => {
       try {
-        socketSend(socket, {
-          action: 'paste_delete',
-          data,
-        })
+        await remove(data)
         addTimedAlert(new Alert('Paste deleted successfully'), 1000)
       } catch (_) {}
     }

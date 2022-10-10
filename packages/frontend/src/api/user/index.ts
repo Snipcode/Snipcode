@@ -1,7 +1,7 @@
 import { Error, Success } from '@snipcode/backend/src/http/helpers/responseHelper'
 import { UserDto } from '@snipcode/backend/src/http/dto/db/userDto'
 import { $axios } from '../axios'
-import { Route } from 'vue-router'
+import { RouteLocationNormalizedLoaded } from 'vue-router'
 import { User } from '@snipcode/backend/src/http/schemas'
 
 interface MeData {
@@ -25,7 +25,7 @@ const activateInviteCode = ({ code }: User.Invite['Body']['data']) =>
     },
   })
 
-const parseInviteCodeFromRoute = (route: Route) =>
+const parseInviteCodeFromRoute = (route: RouteLocationNormalizedLoaded) =>
   route.query.invite
     ? typeof route.query.invite === 'string'
       ? route.query.invite
