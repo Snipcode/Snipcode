@@ -30,5 +30,5 @@ model Invite {
   from      User?   @relation(fields: [fromId], references: [id])
   fromId    String?
   takenBy   User?   @relation("TakenBy", fields: [takenById], references: [id])
-  takenById String?
+  takenById String? @unique
 }

@@ -1,22 +1,26 @@
-import { Controller } from '../../types'
-import { withUserContext } from '../context/userContext'
-import { error, ErrorKind, success } from '../helpers/responseHelper'
-import { User } from '../schemas'
+import {Controller} from '../../types'
+import {withUserContext} from '../context/userContext'
+import {error, ErrorKind, success} from '../helpers/responseHelper'
+import {User} from '../schemas'
+import {controller} from "../helpers/controllers";
+import {$s} from "../../container";
 
-const UserController: Controller = async (app, { db }) => {
+export default controller(async (app) => {
+  const db = $s("db");
+
   app.get('/', async (req, res) =>
     withUserContext(
       {
         req,
         res,
-        deps: { db },
+        deps: {db},
       },
-      ({ dtoUser }) => res.send(success({ user: dtoUser }))
+      ({dtoUser}) => res.send(success({user: dtoUser}))
     )
   )
 
-  app.post<User.Invite>('/invite', { schema: User.invite }, async (req, res) =>
-    withUserContext({ req, res, deps: { db } }, async ({ user }) => {
+  app.post<User.Invite>('/invite', {schema: User.invite}, async (req, res) =>
+    withUserContext({req, res, deps: {db}}, async ({user}) => {
       if (user.invite)
         return res.send(
           error({
@@ -26,7 +30,7 @@ const UserController: Controller = async (app, { db }) => {
         )
 
       const code = await db.invite.findUnique({
-        where: { id: req.body.data.code },
+        where: {id: req.body.data.code},
       })
       if (!code)
         return res.send(
@@ -54,7 +58,7 @@ const UserController: Controller = async (app, { db }) => {
               id: code.id,
             },
           },
-          invites: { create: Array(10).fill({}) },
+          invites: {create: Array(10).fill({})},
         },
       })
 
@@ -65,8 +69,4 @@ const UserController: Controller = async (app, { db }) => {
       )
     })
   )
-}
-
-export const routePrefix = '/user'
-
-export default UserController
+}, '/api/user')

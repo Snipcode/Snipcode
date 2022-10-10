@@ -1,4 +1,4 @@
-import { SocketStream } from 'fastify-websocket'
+import { SocketStream } from '@fastify/websocket'
 
 const socketSend = (
   socket: { send: SocketStream['socket']['send'] },

@@ -5,13 +5,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext } from '@nuxtjs/composition-api'
+import { defineComponent } from 'vue'
+import {user} from "../../store";
 
 export default defineComponent({
   setup() {
-    const { $accessor } = useContext()
-
-    const user = $accessor.user.user
 
     return {
       user,
