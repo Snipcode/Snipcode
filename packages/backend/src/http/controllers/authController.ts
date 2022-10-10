@@ -1,10 +1,12 @@
 import bcrypt, { hashSync } from 'bcryptjs'
-
-import { Controller } from '../../types'
 import { error, ErrorKind, success } from '../helpers/responseHelper'
 import { Auth } from '../schemas'
+import {controller} from "../helpers/controllers";
+import {$s} from "../../container";
 
-const AuthController: Controller = async (app, { db }) => {
+export default controller(async (app) => {
+  const db = $s("db");
+
   app.post<Auth.AuthSchema>(
     '/login',
     { schema: Auth.authSchema },
@@ -82,9 +84,9 @@ const AuthController: Controller = async (app, { db }) => {
           password: hashSync(data.password),
           ...(data.code
             ? {
-                invite: { connect: { id: data.code } },
-                invites: { create: Array(10).fill({}) },
-              }
+              invite: { connect: { id: data.code } },
+              invites: { create: Array(10).fill({}) },
+            }
             : {}),
         },
       })
@@ -105,8 +107,4 @@ const AuthController: Controller = async (app, { db }) => {
       })
     )
   })
-}
-
-export const routePrefix = '/auth'
-
-export default AuthController
+}, '/api/auth')

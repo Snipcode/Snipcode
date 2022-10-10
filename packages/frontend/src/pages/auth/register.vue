@@ -6,7 +6,7 @@
         {{ form.error }}
       </error>
       <with-arrow class="mb-6">
-        <h1 class="font-mono text-white text-2xl">Login</h1>
+        <h1 class="font-mono text-white text-2xl">Register</h1>
       </with-arrow>
 
       <div class="flex flex-col gap-y-4">
@@ -24,7 +24,7 @@
             <span
               v-if="v.username.$error"
               class="text-red-500 text-sm font-mono md:ml-2"
-              >You need to enter the username.</span
+            >You need to enter the username.</span
             >
           </with-arrow>
           <with-arrow class="mb-4">
@@ -40,11 +40,21 @@
             <span
               v-if="v.password.$error"
               class="text-red-500 text-sm font-mono md:ml-2"
-              >You need to enter the password.</span
+            >You need to enter the password.</span
             >
           </with-arrow>
+          <with-arrow class="mb-4">
+            <Input
+              type="text"
+              autocomplete="invite-code"
+              placeholder="Invite Code"
+              tabindex="0"
+              v-model.trim="form.code"
+            />
+            <span class="text-gray-500 text-xs font-mono">(optional)</span>
+          </with-arrow>
           <div>
-            <Button type="submit">Login</Button>
+            <Button type="submit">Register</Button>
           </div>
         </form>
       </div>
@@ -53,27 +63,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, useRouter } from '@nuxtjs/composition-api'
-import { login } from '../api/auth'
-import Button from '../components/elements/Button.vue'
-import WithArrow from '../components/elements/WithArrow.vue'
-import Header from '../components/layout/Header.vue'
-import Input from '../components/form/Input.vue'
-import Error from '../components/elements/Error.vue'
+import {
+  defineComponent,
+  reactive,
+} from 'vue'
+import { register } from '../../api/auth'
+import Button from '../../components/elements/Button.vue'
+import WithArrow from '../../components/elements/WithArrow.vue'
+import Header from '../../components/layout/Header.vue'
+import Input from '../../components/form/Input.vue'
+import Error from '../../components/elements/Error.vue'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
+import { parseInviteCodeFromRoute } from '../../api/user'
+import {useRouter} from "vue-router";
+import {addTimedAlert, Alert} from "../../store/Alert";
 
 export default defineComponent({
   components: { Header, WithArrow, Button, Input, Error },
   middleware: 'requiredUnauth',
   setup() {
+    const router = useRouter()
+
     const form = reactive({
       username: '',
       password: '',
+      code: parseInviteCodeFromRoute(router.currentRoute.value),
       error: null as string | null,
     })
-
-    const router = useRouter()
 
     const v = useVuelidate(
       {
@@ -92,13 +109,15 @@ export default defineComponent({
       if (v.value.$error) return
 
       try {
-        const { data } = await login(form)
+        const { data } = await register(form)
 
         if (!data.success)
           return (form.error =
             data.error.message ?? 'An unexpected error has occurred.')
 
-        router.push('/')
+        addTimedAlert(new Alert("Registered successfully"), 1000)
+
+        router.push('/login')
       } catch (_) {
         form.error = 'An unexpected error has occurred.'
       }

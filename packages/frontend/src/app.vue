@@ -6,7 +6,7 @@
       class="flex bg-transparent shadow-2xl w-full border-gray-700 bg-gray-main"
     >
       <div class="w-full h-full">
-        <Nuxt />
+        <router-view />
       </div>
     </div>
     <div
@@ -25,14 +25,18 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, useContext } from '@nuxtjs/composition-api'
+import { defineComponent, ref } from 'vue'
+import { alert, socket, user } from './store'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   setup() {
-    const { $accessor } = useContext()
+    const router = useRouter();
+    const loaded = ref(false)
 
     return {
-      alert: computed(() => $accessor.alert),
+      loaded,
+      alert,
     }
   },
 })

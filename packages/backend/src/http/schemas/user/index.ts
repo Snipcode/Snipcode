@@ -17,7 +17,6 @@ const invite = {
         properties: {
           code: {
             type: 'string',
-            transform: ['trim'],
             minLength: 1,
           },
         },

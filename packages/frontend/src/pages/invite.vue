@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header />
+    <Header/>
     <div class="px-5 py-6">
       <error v-if="form.error">
         {{ form.error }}
@@ -27,7 +27,7 @@
             <span
               v-if="v.code.$error"
               class="text-red-500 text-sm font-mono md:ml-2"
-              >You need to enter the invite code.</span
+            >You need to enter the invite code.</span
             >
           </with-arrow>
           <div>
@@ -83,23 +83,22 @@ import {
   computed,
   defineComponent,
   reactive,
-  ref,
-  useContext,
-  useRouter,
-} from '@nuxtjs/composition-api'
+} from 'vue'
 import useVuelidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
-import { parseInviteCodeFromRoute } from '../api/user'
+import {required} from '@vuelidate/validators'
+import {parseInviteCodeFromRoute} from '../api/user'
 import Button from '../components/elements/Button.vue'
 import Error from '../components/elements/Error.vue'
 import WithArrow from '../components/elements/WithArrow.vue'
 import Input from '../components/form/Input.vue'
 import Header from '../components/layout/Header.vue'
-import { activateInviteCode as apiActivateCode } from '../api/user'
-import me from '../middleware/me'
+import {activateInviteCode as apiActivateCode} from '../api/user'
+import {useRouter} from "vue-router";
+import {user} from "../store";
+import {addTimedAlert, Alert} from "../store/Alert";
 
 export default defineComponent({
-  components: { Header, Error, WithArrow, Input, Button },
+  components: {Header, Error, WithArrow, Input, Button},
   middleware: 'requiredAuth',
   setup() {
     const router = useRouter()
@@ -118,27 +117,20 @@ export default defineComponent({
       form
     )
 
-    const { $accessor } = useContext()
-
-    const user = computed(() => $accessor.user.user)
-
     const activateInviteCode = async () => {
       v.value.$touch()
       if (v.value.$error) return
 
       try {
-        const { data } = await apiActivateCode(form)
+        const {data} = await apiActivateCode(form)
 
         if (!data.success)
           return (form.error =
             data.error.message ?? 'An unexpected error has occurred.')
 
-        $accessor.setTimedAlert({
-          value: 'Invite activated successfully.',
-          time: 1000,
-        })
+        addTimedAlert(new Alert('Invite redeemed successfully'), 1000)
 
-        await me({ $accessor })
+        router.push('/')
       } catch (_) {
         form.error = 'An unexpected error has occurred.'
       }
@@ -146,11 +138,11 @@ export default defineComponent({
 
     const copyLink = async (code: string, kind = 'invite') => {
       const link = `${window.location.origin}/${kind}?invite=${code}`
-      $accessor.setTimedAlert({ value: 'Link copied.', time: 1000 })
+      addTimedAlert(new Alert('Link copied'), 1000)
       try {
         await navigator.clipboard.writeText(link)
       } catch (e) {
-        console.log('[client] error while copying link', { e })
+        console.log('[client] error while copying link', {e})
       }
       return link
     }

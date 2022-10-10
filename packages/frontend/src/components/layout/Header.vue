@@ -30,10 +30,10 @@
     <div v-if="authNav" class="flex gap-x-2 justify-center">
       <slot />
       <Link
-        :to="path === '/login' ? '/register' : '/login'"
+        :to="path === '/auth/login' ? '/auth/register' : '/auth/login'"
         class="px-4 py-1 rounded-full border border-gray-700 hover:bg-gray-700 text-white font-mono uppercase transition duration-150 ease-in-out cursor-pointer"
       >
-        {{ path === '/login' ? 'Register' : 'Login' }}
+        {{ path === '/auth/login' ? 'Register' : 'Login' }}
       </Link>
     </div>
     <div class="flex gap-x-2 justify-center" v-else>
@@ -62,9 +62,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext, useRouter } from '@nuxtjs/composition-api'
+import { defineComponent } from 'vue'
 import Link from '../elements/Link.vue'
 import { logout as apiLogout } from '../../api/auth'
+import {user} from "../../store";
+import {useRouter} from "vue-router";
 
 export default defineComponent({
   props: {
@@ -83,17 +85,15 @@ export default defineComponent({
   setup() {
     const router = useRouter()
 
-    const { $accessor } = useContext()
-
     const logout = async () => {
       await apiLogout()
-      $accessor.user.setUser(null)
+      user.value = null;
       router.push('/login')
     }
 
     return {
       logout,
-      path: router.currentRoute.path,
+      path: router.currentRoute.value.path,
     }
   },
 })

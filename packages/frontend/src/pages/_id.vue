@@ -33,15 +33,16 @@ import {
   computed,
   defineComponent,
   reactive,
-  useContext,
-  useRouter,
-} from '@nuxtjs/composition-api'
+} from 'vue'
 import { PasteDto } from '@snipcode/backend/src/http/dto/db/pasteDto'
 import { ErrorKind } from '@snipcode/backend/src/http/helpers/responseHelper'
 import { get, remove } from '../api/paste'
 import Button from '../components/elements/Button.vue'
 import WithArrow from '../components/elements/WithArrow.vue'
 import Header from '../components/layout/Header.vue'
+import {useRouter} from "vue-router";
+import {addTimedAlert, Alert} from "../store/Alert";
+import {user} from "../store";
 
 export default defineComponent({
   components: { Header, WithArrow, Button },
@@ -52,12 +53,10 @@ export default defineComponent({
 
     const router = useRouter()
 
-    const { $accessor } = useContext()
-
     const loadPaste = async () => {
       try {
         const { data } = await get({
-          id: router.currentRoute.params.id,
+          id: router.currentRoute.value.params.id.toString(),
         })
 
         if (!data.success) {
@@ -68,7 +67,7 @@ export default defineComponent({
 
         state.paste = data.data.paste
       } catch (_) {
-        $accessor.setTimedAlert({ value: 'Paste not found.', time: 1000 })
+        addTimedAlert(new Alert('Paste not found'), 1000)
         router.push('/')
       }
     }
@@ -76,7 +75,7 @@ export default defineComponent({
     const deletePaste = async () => {
       try {
         const { data } = await remove({
-          id: router.currentRoute.params.id,
+          id: router.currentRoute.value.params.id.toString(),
         })
 
         if (!data.success)
@@ -84,7 +83,7 @@ export default defineComponent({
 
         router.push('/')
       } catch (_) {
-        $accessor.setTimedAlert({ value: 'An error occurred.', time: 1000 })
+        addTimedAlert(new Alert('Unknown error has occurred'), 1000)
       }
     }
 
@@ -93,7 +92,7 @@ export default defineComponent({
     return {
       state,
       deletePaste,
-      user: computed(() => $accessor.user.user),
+      user,
     }
   },
 })

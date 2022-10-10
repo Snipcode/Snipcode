@@ -1,37 +1,37 @@
 import path from 'path'
 import fs from 'fs'
-import { hookFastify } from '@fasteerjs/fasteer'
+import {createFasteer} from '@fasteerjs/fasteer'
 import { PrismaClient } from '@prisma/client'
-import fastifySecureSession from 'fastify-secure-session'
-import fastifyWebsocket from 'fastify-websocket'
+import fastifySecureSession from '@fastify/secure-session'
+import fastifyWebsocket from '@fastify/websocket'
 import EventEmitter from 'eventemitter3'
 import { error, ErrorKind } from './http/helpers/responseHelper'
+import sodium from 'sodium-native'
+import {controllers} from "./http/helpers/controllers";
+import {registerContainerServices} from "contairy";
 
 const db = new PrismaClient()
 
 const emitter = new EventEmitter()
 
-const app = hookFastify({
-  controllers: [
-    path.join(__dirname, 'http', 'controllers', '*Controller.{ts,js}'),
-    path.join(__dirname, 'ws', 'controllers', '*Controller.{ts,js}'),
-  ],
+const app = createFasteer({
+  controllers: [],
   port: 4200,
   host: '0.0.0.0',
   cors: {
     origin:
       process.env.NODE_ENV === 'production'
         ? 'https://pastte.vott.us'
-        : 'http://localhost:3000',
+        : 'http://localhost:5173',
     credentials: true,
   },
   helmet: true,
-  logRequests: true,
+  logRequests: process.env.NODE_ENV === 'development' ? 'all' : 'file',
   development: process.env.NODE_ENV === 'development',
   globalPrefix: '/api',
 })
-
-app.fastify.setErrorHandler((e, _, res) => {
+// @ts-ignore
+app.fastify.setErrorHandler(async (e, _, res) => {
   if (e.validation)
     return res.send(
       error({
@@ -48,11 +48,32 @@ app.fastify.setErrorHandler((e, _, res) => {
   )
 })
 
+app.fastify.register(controllers, {
+  paths: [
+    'src/http/controllers/*Controller.{ts,js}',
+    'src/ws/controllers/*Controller.{ts,js}'
+  ],
+})
+
+registerContainerServices({
+  db,
+  server: app.fastify,
+  emitter
+})
+
 app.inject({ db, emitter })
+
+const sessionKeyPath = path.join(__dirname, '..', '..', '..', '.session_key')
+
+if (!fs.existsSync(sessionKeyPath)) {
+  const buf = Buffer.allocUnsafe(sodium.crypto_secretbox_KEYBYTES)
+  sodium.randombytes_buf(buf)
+  fs.writeFileSync(sessionKeyPath, buf)
+}
 
 app.fastify.register(fastifySecureSession, {
   cookieName: 'snipcode_sess_key',
-  key: fs.readFileSync(path.join(__dirname, '..', '..', '..', 'sess_secret')),
+  key: fs.readFileSync(sessionKeyPath),
   cookie: {
     path: '/',
   },
@@ -70,7 +91,7 @@ app.fastify.register(fastifyWebsocket, {
 
 const start = async () => {
   const addr = await app.start()
-  app.logger.info(`App started! @ ${addr}`)
+  app.logger.info(`Backend started`)
 }
 
 // This is a wild one.

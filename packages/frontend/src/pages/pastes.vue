@@ -8,7 +8,7 @@
         class="mt-6 flex flex-col gap-y-4 pr-5 overflow-y-scroll"
         style="height: 74vh"
       >
-        <nuxt-link
+        <router-link
           v-for="(paste, i) in state.pastes"
           :key="i"
           :to="`/${paste.id}`"
@@ -28,7 +28,7 @@
               Delete
             </span>
           </span>
-        </nuxt-link>
+        </router-link>
         <div v-if="state.pastes.length < 1" class="text-white font-mono">
           You have no pastes yet.
         </div>
@@ -42,13 +42,14 @@ import {
   computed,
   defineComponent,
   reactive,
-  useContext,
-} from '@nuxtjs/composition-api'
+} from 'vue'
 import { PasteDto } from '@snipcode/backend/src/http/dto/db/pasteDto'
 import { Paste } from '@snipcode/backend/src/http/schemas'
 import socketSend from '@snipcode/backend/src/ws/helpers/socketSend'
 import { CreateWebSocket } from '../api/ws/createWebSocket'
 import Header from '../components/layout/Header.vue'
+import {user, socket as sock} from "../store";
+import {addTimedAlert, Alert} from "../store/Alert";
 
 export default defineComponent({
   components: { Header },
@@ -58,18 +59,15 @@ export default defineComponent({
       pastes: [] as PasteDto[],
     })
 
-    const { $accessor } = useContext()
-
-    const user = computed(() => $accessor.user.user)
-
     // Loads pastes from User Store
     state.pastes = user.value ? user.value.pastes ?? [] : []
 
-    if (!$accessor.socket.socket)
-      throw new Error('WebSockets are not supported.')
+    if (!sock.value) {
+      throw new Error("Websockets are not supported")
+    }
 
     // WebSocket connection in store
-    const [socket, emitter]: CreateWebSocket = $accessor.socket.socket
+    const [socket, emitter]: CreateWebSocket = sock.value;
 
     const removePaste = async (data: Paste.ById['Params']) => {
       try {
@@ -77,7 +75,7 @@ export default defineComponent({
           action: 'paste_delete',
           data,
         })
-        $accessor.setTimedAlert({ value: 'Paste deleted.', time: 1000 })
+        addTimedAlert(new Alert('Paste deleted successfully'), 1000)
       } catch (_) {}
     }
 

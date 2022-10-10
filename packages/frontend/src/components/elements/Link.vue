@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link
+  <router-link
     :to="to"
     :disabled="disabled"
     :class="[
@@ -10,11 +10,11 @@
     class="px-4 py-1 rounded-full border font-mono uppercase transition duration-150 ease-in-out"
   >
     <slot />
-  </nuxt-link>
+  </router-link>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {

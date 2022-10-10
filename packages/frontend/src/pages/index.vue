@@ -6,7 +6,7 @@
           <label for="public" class="text-xs text-white font-mono"
             >Public?</label
           >
-          <input type="checkbox" name="public" v-model="state.public" />
+          <input type="checkbox" id="public" name="public" v-model="state.public" />
         </div>
       </invite-only>
       <Button :disabled="isSaveDisabled()" @click.prevent="createPaste">
@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, useRouter } from '@nuxtjs/composition-api'
+import { defineComponent, reactive } from 'vue'
 import Header from '../components/layout/Header.vue'
 import Button from '../components/elements/Button.vue'
 import WithArrow from '../components/elements/WithArrow.vue'
@@ -36,6 +36,7 @@ import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import InviteOnly from '../components/logic/InviteOnly.vue'
 import Link from '../components/elements/Link.vue'
+import {useRouter} from "vue-router";
 
 export default defineComponent({
   middleware: 'requiredAuth',

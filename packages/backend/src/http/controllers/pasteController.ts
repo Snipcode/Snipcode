@@ -6,8 +6,13 @@ import {
 import { PasteDto } from '../dto/db/pasteDto'
 import { error, ErrorKind, success } from '../helpers/responseHelper'
 import { Paste } from '../schemas'
+import {controller} from "../helpers/controllers";
+import {$s} from "../../container";
 
-const PasteController: Controller = async (app, { db, emitter }) => {
+export default controller(async (app) => {
+  const db = $s("db");
+  const emitter = $s("emitter")
+
   app.get<Paste.ById>('/:id', { schema: Paste.byId }, async (req, res) =>
     withOptionalUserContext(
       {
@@ -164,8 +169,4 @@ const PasteController: Controller = async (app, { db, emitter }) => {
       }
     )
   )
-}
-
-export const routePrefix = '/paste'
-
-export default PasteController
+}, '/api/paste')

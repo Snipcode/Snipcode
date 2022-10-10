@@ -8,9 +8,13 @@ import { createActionEmitter } from '../helpers/createActionEmitter'
 import { Paste } from '../../http/schemas'
 import socketSend from '../helpers/socketSend'
 import { event } from '../helpers/responseHelper'
+import {controller} from "../../http/helpers/controllers";
+import {$s} from "../../container";
 
-const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
+export default controller(async (app) => {
   const ajv = new Ajv()
+  const db = $s("db");
+  const emitter = $s("emitter")
 
   app.route({
     method: 'GET',
@@ -219,8 +223,4 @@ const PasteWebsocketController: Controller = async (app, { db, emitter }) => {
       })
     },
   })
-}
-
-export const routePrefix = '/paste'
-
-export default PasteWebsocketController
+}, '/api/paste')

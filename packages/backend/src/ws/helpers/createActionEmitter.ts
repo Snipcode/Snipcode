@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3'
-import { SocketStream } from 'fastify-websocket'
+import { SocketStream } from '@fastify/websocket'
 import { ReceivedMessage } from '../../types'
 
 const createActionEmitter = (conn: SocketStream) => {
