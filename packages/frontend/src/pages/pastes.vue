@@ -38,19 +38,15 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  reactive,
-} from 'vue'
-import { PasteDto } from '@snipcode/backend/src/http/dto/db/pasteDto'
-import { Paste } from '@snipcode/backend/src/http/schemas'
-import socketSend from '@snipcode/backend/src/ws/helpers/socketSend'
+import { computed, defineComponent, reactive } from 'vue'
+import { PasteDto } from '@snipcode/backend/src/dto/db/pasteDto'
+import { Paste } from '@snipcode/backend/src/schemas'
+import socketSend from '@snipcode/backend/src/utils/ws/socketSend'
 import { CreateWebSocket } from '../api/ws/createWebSocket'
 import Header from '../components/layout/Header.vue'
-import {user, socket as sock} from "../store";
-import {addTimedAlert, Alert} from "../store/Alert";
-import {remove} from "../api/paste";
+import { user, socket as sock } from '../store'
+import { addTimedAlert, Alert } from '../store/Alert'
+import { remove } from '../api/paste'
 
 export default defineComponent({
   components: { Header },
@@ -64,11 +60,11 @@ export default defineComponent({
     state.pastes = user.value ? user.value.pastes ?? [] : []
 
     if (!sock.value) {
-      throw new Error("Websockets are not supported")
+      throw new Error('Websockets are not supported')
     }
 
     // WebSocket connection in store
-    const [socket, emitter]: CreateWebSocket = sock.value;
+    const [socket, emitter]: CreateWebSocket = sock.value
 
     const removePaste = async (data: Paste.ById['Params']) => {
       try {

@@ -1,20 +1,19 @@
 import { Paste as DBPaste } from '@prisma/client'
 import Ajv from 'ajv'
-import { Controller, ReceivedMessage } from '../../types'
-import { createUserContext } from '../../http/context/userContext'
-import { PasteDto } from '../../http/dto/db/pasteDto'
-import { error, ErrorKind } from '../../http/helpers/responseHelper'
-import { createActionEmitter } from '../helpers/createActionEmitter'
-import { Paste } from '../../http/schemas'
-import socketSend from '../helpers/socketSend'
-import { event } from '../helpers/responseHelper'
-import {controller} from "../../http/helpers/controllers";
-import {$s} from "../../container";
+import { ReceivedMessage } from '../../types'
+import { createUserContext } from '../context/userContext'
+import { PasteDto } from '../../dto/db/pasteDto'
+import { createActionEmitter } from '../../utils/ws/createActionEmitter'
+import { Paste } from '../../schemas'
+import socketSend from '../../utils/ws/socketSend'
+import { event, error, ErrorKind } from '../../utils/response'
+import { controller } from '../../utils/controllers'
+import { $s } from '../../container'
 
 export default controller(async (app) => {
   const ajv = new Ajv()
-  const db = $s("db");
-  const emitter = $s("emitter")
+  const db = $s('db')
+  const emitter = $s('emitter')
 
   app.route({
     method: 'GET',

@@ -1,37 +1,38 @@
 import path from 'path'
 import fs from 'fs'
-import {createFasteer} from '@fasteerjs/fasteer'
+import { createFasteer } from '@fasteerjs/fasteer'
 import { PrismaClient } from '@prisma/client'
 import fastifySecureSession from '@fastify/secure-session'
 import fastifyWebsocket from '@fastify/websocket'
 import EventEmitter from 'eventemitter3'
-import { error, ErrorKind } from './http/helpers/responseHelper'
+import { error, ErrorKind } from './utils/response'
 import sodium from 'sodium-native'
-import {controllers} from "./http/helpers/controllers";
-import {registerContainerServices} from "contairy";
+import { controllers } from './utils/controllers'
+import { registerContainerServices } from 'contairy'
+import fastify from 'fastify'
+import cors from '@fastify/cors'
+import helmet from '@fastify/helmet'
 
 const db = new PrismaClient()
 
 const emitter = new EventEmitter()
 
-const app = createFasteer({
-  controllers: [],
-  port: 4200,
-  host: '0.0.0.0',
-  cors: {
-    origin:
-      process.env.NODE_ENV === 'production'
-        ? 'https://pastte.vott.us'
-        : 'http://localhost:5173',
-    credentials: true,
-  },
-  helmet: true,
-  logRequests: process.env.NODE_ENV === 'development' ? 'all' : 'file',
-  development: process.env.NODE_ENV === 'development',
-  globalPrefix: '/api',
+const server = fastify({
+  logger:
+    process.env.NODE_ENV === 'development'
+      ? {
+          transport: {
+            target: 'pino-pretty',
+            options: {
+              translateTime: 'HH:MM:ss Z',
+              ignore: 'pid,hostname',
+            },
+          },
+        }
+      : true,
 })
-// @ts-ignore
-app.fastify.setErrorHandler(async (e, _, res) => {
+
+server.setErrorHandler(async (e, _, res) => {
   if (e.validation)
     return res.send(
       error({
@@ -48,20 +49,25 @@ app.fastify.setErrorHandler(async (e, _, res) => {
   )
 })
 
-app.fastify.register(controllers, {
-  paths: [
-    'src/http/controllers/*Controller.{ts,js}',
-    'src/ws/controllers/*Controller.{ts,js}'
-  ],
+server.register(cors, {
+  origin:
+    process.env.FRONTEND_URL ?? process.env.NODE_ENV === 'production'
+      ? 'https://snipcode.link'
+      : 'http://localhost:5173',
+  credentials: true,
+})
+
+server.register(helmet)
+
+server.register(controllers, {
+  paths: ['src/server/controllers/*Controller.{ts,js}'],
 })
 
 registerContainerServices({
   db,
-  server: app.fastify,
-  emitter
+  server,
+  emitter,
 })
-
-app.inject({ db, emitter })
 
 const sessionKeyPath = path.join(__dirname, '..', '..', '..', '.session_key')
 
@@ -71,28 +77,27 @@ if (!fs.existsSync(sessionKeyPath)) {
   fs.writeFileSync(sessionKeyPath, buf)
 }
 
-app.fastify.register(fastifySecureSession, {
-  cookieName: 'snipcode_sess_key',
+server.register(fastifySecureSession, {
+  cookieName: '_session',
   key: fs.readFileSync(sessionKeyPath),
   cookie: {
     path: '/',
   },
 })
 
-app.fastify.register(fastifyWebsocket, {
+server.register(fastifyWebsocket, {
   options: {
     maxPayload: 1048576,
   },
 })
-// Close Fastify on e
-;['SIGINT', 'SIGTERM'].forEach((sig) =>
-  process.on(sig, () => app.fastify.close())
-)
+
+// Close Fastify server on exit
+;['SIGINT', 'SIGTERM'].forEach((sig) => process.on(sig, () => server.close()))
 
 const start = async () => {
-  const addr = await app.start()
-  app.logger.info(`Backend started`)
+  await server.listen({
+    port: process.env.PORT ? parseInt(process.env.PORT) : 4200,
+  })
 }
 
-// This is a wild one.
 start()

@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { Injected } from '../../types'
-import { FullUser, UserDto } from '../dto/db/userDto'
-import { BaseError, Error, error, ErrorKind } from '../helpers/responseHelper'
+import { FullUser, UserDto } from '../../dto/db/userDto'
+import { BaseError, Error, error, ErrorKind } from '../../utils/response'
 interface UseUserContext {
   req: FastifyRequest
   res?: FastifyReply

@@ -16,7 +16,12 @@
               <label for="public" class="text-xs text-white font-mono"
                 >Public?</label
               >
-              <input type="checkbox" id="public" name="public" v-model="state.public" />
+              <input
+                type="checkbox"
+                id="public"
+                name="public"
+                v-model="state.public"
+              />
             </div>
           </invite-only>
         </div>
@@ -40,24 +45,18 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  onMounted,
-  reactive,
-  ref,
-  watch,
-} from 'vue'
+import { defineComponent, onMounted, reactive, ref, watch } from 'vue'
 import * as monaco from 'monaco-editor'
 import { create as apiCreatePaste, edit, get } from '../../api/paste'
 import Button from '../../components/elements/Button.vue'
 import InviteOnly from '../../components/logic/InviteOnly.vue'
 import { configureEditor, getTheme } from '../../editor'
-import { PasteDto } from '@snipcode/backend/src/http/dto/db/pasteDto'
+import { PasteDto } from '@snipcode/backend/src/dto/db/pasteDto'
 import { CreateWebSocket } from '../../api/ws/createWebSocket'
-import socketSend from '@snipcode/backend/src/ws/helpers/socketSend'
-import {useRouter} from "vue-router";
-import {socket as sock} from "../../store";
-import {addTimedAlert, Alert} from "../../store/Alert";
+import socketSend from '@snipcode/backend/src/utils/ws/socketSend'
+import { useRouter } from 'vue-router'
+import { socket as sock } from '../../store'
+import { addTimedAlert, Alert } from '../../store/Alert'
 
 export default defineComponent({
   middleware: 'requiredAuth',
@@ -86,7 +85,7 @@ export default defineComponent({
 
       try {
         if (!state.currentPaste) {
-          const {data} = await apiCreatePaste({
+          const { data } = await apiCreatePaste({
             content: state.newPaste,
             public: state.public,
           })
@@ -109,8 +108,7 @@ export default defineComponent({
             addTimedAlert(new Alert('Paste updateed'), 1000)
           })
         }
-      } catch (_) {
-      }
+      } catch (_) {}
 
       state.loading = false
     }
@@ -119,7 +117,7 @@ export default defineComponent({
       const pasteId = router.currentRoute.value.params.id?.toString()
       if (pasteId && pasteId.trim().length > 1) {
         try {
-          const {data} = await get({id: pasteId})
+          const { data } = await get({ id: pasteId })
           if (!data.success) throw new Error()
 
           state.currentPaste = data.data.paste
@@ -156,7 +154,7 @@ export default defineComponent({
       }
     })
 
-    return {editor, state, createPaste}
+    return { editor, state, createPaste }
   },
 })
 </script>

@@ -1,17 +1,16 @@
-import { Controller } from '../../types'
 import {
   withOptionalUserContext,
   withUserContext,
 } from '../context/userContext'
-import { PasteDto } from '../dto/db/pasteDto'
-import { error, ErrorKind, success } from '../helpers/responseHelper'
-import { Paste } from '../schemas'
-import {controller} from "../helpers/controllers";
-import {$s} from "../../container";
+import { PasteDto } from '../../dto/db/pasteDto'
+import { error, ErrorKind, success } from '../../utils/response'
+import { Paste } from '../../schemas'
+import { controller } from '../../utils/controllers'
+import { $s } from '../../container'
 
 export default controller(async (app) => {
-  const db = $s("db");
-  const emitter = $s("emitter")
+  const db = $s('db')
+  const emitter = $s('emitter')
 
   app.get<Paste.ById>('/:id', { schema: Paste.byId }, async (req, res) =>
     withOptionalUserContext(
