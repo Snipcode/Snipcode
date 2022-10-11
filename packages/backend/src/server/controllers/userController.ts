@@ -1,26 +1,25 @@
-import {Controller} from '../../types'
-import {withUserContext} from '../context/userContext'
-import {error, ErrorKind, success} from '../helpers/responseHelper'
-import {User} from '../schemas'
-import {controller} from "../helpers/controllers";
-import {$s} from "../../container";
+import { withUserContext } from '../context/userContext'
+import { error, ErrorKind, success } from '../../utils/response'
+import { User } from '../../schemas'
+import { controller } from '../../utils/controllers'
+import { $s } from '../../container'
 
 export default controller(async (app) => {
-  const db = $s("db");
+  const db = $s('db')
 
   app.get('/', async (req, res) =>
     withUserContext(
       {
         req,
         res,
-        deps: {db},
+        deps: { db },
       },
-      ({dtoUser}) => res.send(success({user: dtoUser}))
+      ({ dtoUser }) => res.send(success({ user: dtoUser }))
     )
   )
 
-  app.post<User.Invite>('/invite', {schema: User.invite}, async (req, res) =>
-    withUserContext({req, res, deps: {db}}, async ({user}) => {
+  app.post<User.Invite>('/invite', { schema: User.invite }, async (req, res) =>
+    withUserContext({ req, res, deps: { db } }, async ({ user }) => {
       if (user.invite)
         return res.send(
           error({
@@ -30,7 +29,7 @@ export default controller(async (app) => {
         )
 
       const code = await db.invite.findUnique({
-        where: {id: req.body.data.code},
+        where: { id: req.body.data.code },
       })
       if (!code)
         return res.send(
@@ -58,7 +57,7 @@ export default controller(async (app) => {
               id: code.id,
             },
           },
-          invites: {create: Array(10).fill({})},
+          invites: { create: Array(10).fill({}) },
         },
       })
 

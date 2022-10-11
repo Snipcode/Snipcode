@@ -29,20 +29,16 @@ pre.highlight {
 </style>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  reactive,
-} from 'vue'
-import { PasteDto } from '@snipcode/backend/src/http/dto/db/pasteDto'
-import { ErrorKind } from '@snipcode/backend/src/http/helpers/responseHelper'
+import { computed, defineComponent, reactive } from 'vue'
+import { PasteDto } from '@snipcode/backend/src/dto/db/pasteDto'
+import { ErrorKind } from '@snipcode/backend/src/utils/response'
 import { get, remove } from '../api/paste'
 import Button from '../components/elements/Button.vue'
 import WithArrow from '../components/elements/WithArrow.vue'
 import Header from '../components/layout/Header.vue'
-import {useRouter} from "vue-router";
-import {addTimedAlert, Alert} from "../store/Alert";
-import {user} from "../store";
+import { useRouter } from 'vue-router'
+import { addTimedAlert, Alert } from '../store/Alert'
+import { user } from '../store'
 
 export default defineComponent({
   components: { Header, WithArrow, Button },
@@ -83,7 +79,10 @@ export default defineComponent({
 
         router.push('/')
       } catch (e) {
-        addTimedAlert(new Alert((e as any)?.message ?? 'Unknown error has occurred'), 1000)
+        addTimedAlert(
+          new Alert((e as any)?.message ?? 'Unknown error has occurred'),
+          1000
+        )
       }
     }
 
