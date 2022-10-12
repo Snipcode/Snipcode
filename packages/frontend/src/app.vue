@@ -1,42 +1,25 @@
 <template>
-  <div
-    class="w-full h-full bg-black min-w-screen min-h-screen flex overflow-hidden"
-  >
-    <div
-      class="flex bg-transparent shadow-2xl w-full border-gray-700 bg-gray-main"
-    >
-      <div class="w-full h-full">
-        <router-view />
-      </div>
-    </div>
-    <div
-      class="border-2 bg-gray-main p-4 absolute z-10 bottom-5 left-5"
-      v-if="alert"
-    >
-      <div class="flex">
-        <div class="flex-1 md:flex md:justify-between">
-          <p class="text-sm text-white font-mono">
-            {{ alert.message }}
-          </p>
-        </div>
-      </div>
+  <router-view v-if="globalLoaded" />
+  <div v-else class="w-screen h-screen flex justify-center items-center bg-gray-900 text-white">
+    <div class="text-center flex flex-col items-center gap-y-6">
+      <h1 class="text-5xl italic">{{ global.name }}</h1>
+      <Spinner class="w-8 h-8"/>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { alert, socket, user } from './store'
-import { useRouter } from 'vue-router'
+import { defineComponent } from 'vue'
+import { global } from './constants'
+import { globalLoaded } from './store'
+import Spinner from "./components/elements/Spinner.vue"
 
 export default defineComponent({
+  components: {Spinner},
   setup() {
-    const router = useRouter();
-    const loaded = ref(false)
-
     return {
-      loaded,
-      alert,
+      global,
+      globalLoaded,
     }
   },
 })

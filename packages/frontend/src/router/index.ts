@@ -1,12 +1,12 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router'
-import { socket, user } from '../store'
+import { globalLoaded, socket, user } from '../store'
 import { createWebSocket } from '../api/ws/createWebSocket'
 import { me } from '../api/user'
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('../app.vue'),
+    component: () => import('../layouts/default.vue'),
     children: [
       {
         path: '/',
@@ -38,6 +38,12 @@ const routes: RouteRecordRaw[] = [
         meta: { requiredAuth: true },
         component: () => import('../pages/editor/index.vue'),
       },
+    ],
+  },
+  {
+    path: '/',
+    component: () => import('../layouts/auth.vue'),
+    children: [
       {
         path: '/auth/login',
         meta: { requiredUnauth: true },
@@ -79,6 +85,8 @@ router.beforeEach(async (to) => {
   if (to.meta.requiredUnauth && loggedIn) {
     return { path: '/' }
   }
+
+  globalLoaded.value = true
 })
 
 export { router }

@@ -163,7 +163,7 @@ module.exports = {
       },
       fontFamily: {
         sans: [
-          'Quicksand',
+          'DM Sans',
           'Source Sans Pro',
           '-apple-system',
           'BlinkMacSystemFont',

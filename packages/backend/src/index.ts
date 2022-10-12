@@ -1,6 +1,5 @@
 import path from 'path'
 import fs from 'fs'
-import { createFasteer } from '@fasteerjs/fasteer'
 import { PrismaClient } from '@prisma/client'
 import fastifySecureSession from '@fastify/secure-session'
 import fastifyWebsocket from '@fastify/websocket'

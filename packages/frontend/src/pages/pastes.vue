@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Header />
     <div class="px-5 py-6">
       <h1 class="font-mono text-white text-2xl">Your Pastes</h1>
 
@@ -12,10 +11,25 @@
           v-for="(paste, i) in state.pastes"
           :key="i"
           :to="`/${paste.id}`"
-          class="rounded-2xl flex flex-col border px-4 py-2 border-gray-700 text-white font-mono"
+          class="
+            rounded-2xl
+            flex flex-col
+            border
+            px-4
+            py-2
+            border-gray-700
+            text-white
+            font-mono
+          "
         >
           <span
-            class="truncate break-all overflow-ellipsis overflow-hidden tracking-tighter max-w-4xl"
+            class="
+              truncate
+              break-all
+              overflow-ellipsis overflow-hidden
+              tracking-tighter
+              max-w-4xl
+            "
           >
             {{ paste.content }}
           </span>
@@ -43,13 +57,11 @@ import { PasteDto } from '@snipcode/backend/src/dto/db/pasteDto'
 import { Paste } from '@snipcode/backend/src/schemas'
 import socketSend from '@snipcode/backend/src/utils/ws/socketSend'
 import { CreateWebSocket } from '../api/ws/createWebSocket'
-import Header from '../components/layout/Header.vue'
 import { user, socket as sock } from '../store'
 import { addTimedAlert, Alert } from '../store/Alert'
 import { remove } from '../api/paste'
 
 export default defineComponent({
-  components: { Header },
   middleware: 'requiredAuth',
   setup() {
     const state = reactive({

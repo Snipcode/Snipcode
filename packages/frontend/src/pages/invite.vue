@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Header/>
     <div class="px-5 py-6">
       <error v-if="form.error">
         {{ form.error }}
@@ -27,7 +26,7 @@
             <span
               v-if="v.code.$error"
               class="text-red-500 text-sm font-mono md:ml-2"
-            >You need to enter the invite code.</span
+              >You need to enter the invite code.</span
             >
           </with-arrow>
           <div>
@@ -46,10 +45,25 @@
             <a
               v-for="(invite, i) in user.invites"
               :key="i"
-              class="rounded-2xl flex flex-col border px-4 py-2 border-gray-700 text-white font-mono"
+              class="
+                rounded-2xl
+                flex flex-col
+                border
+                px-4
+                py-2
+                border-gray-700
+                text-white
+                font-mono
+              "
             >
               <span
-                class="truncate break-all overflow-ellipsis overflow-hidden tracking-tighter max-w-4xl"
+                class="
+                  truncate
+                  break-all
+                  overflow-ellipsis overflow-hidden
+                  tracking-tighter
+                  max-w-4xl
+                "
               >
                 {{ invite }}
               </span>
@@ -79,26 +93,21 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  reactive,
-} from 'vue'
+import { defineComponent, reactive } from 'vue'
 import useVuelidate from '@vuelidate/core'
-import {required} from '@vuelidate/validators'
-import {parseInviteCodeFromRoute} from '../api/user'
+import { required } from '@vuelidate/validators'
+import { parseInviteCodeFromRoute } from '../api/user'
 import Button from '../components/elements/Button.vue'
 import Error from '../components/elements/Error.vue'
 import WithArrow from '../components/elements/WithArrow.vue'
 import Input from '../components/form/Input.vue'
-import Header from '../components/layout/Header.vue'
-import {activateInviteCode as apiActivateCode} from '../api/user'
-import {useRouter} from "vue-router";
-import {user} from "../store";
-import {addTimedAlert, Alert} from "../store/Alert";
+import { activateInviteCode as apiActivateCode } from '../api/user'
+import { useRouter } from 'vue-router'
+import { user } from '../store'
+import { addTimedAlert, Alert } from '../store/Alert'
 
 export default defineComponent({
-  components: {Header, Error, WithArrow, Input, Button},
+  components: { Error, WithArrow, Input, Button },
   middleware: 'requiredAuth',
   setup() {
     const router = useRouter()
@@ -122,7 +131,7 @@ export default defineComponent({
       if (v.value.$error) return
 
       try {
-        const {data} = await apiActivateCode(form)
+        const { data } = await apiActivateCode(form)
 
         if (!data.success)
           return (form.error =
@@ -142,7 +151,7 @@ export default defineComponent({
       try {
         await navigator.clipboard.writeText(link)
       } catch (e) {
-        console.log('[client] error while copying link', {e})
+        console.log('[client] error while copying link', { e })
       }
       return link
     }
