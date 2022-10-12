@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.eggy > div.open {
+  @apply !bg-gray-800 !rounded-xl;
+}
+
+.eggy > div.open > div > p.title {
+  @apply !text-white !text-xl
+}
+
+.eggy > div.open > div > p.message {
+  @apply !text-gray-200 !text-sm
+}

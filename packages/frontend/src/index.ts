@@ -1,12 +1,13 @@
 import { createApp } from 'vue'
-import { RouterView } from 'vue-router'
 import highlightPlugin from '@highlightjs/vue-plugin'
 import { router } from './router'
 
-import './assets/tailwind.css'
+import './assets/app.css'
 import 'highlight.js/styles/atom-one-dark.css'
 
-const $app = createApp(RouterView)
+import App from "./app.vue"
+
+const $app = createApp(App)
 
 $app.use(router)
 $app.use(highlightPlugin)

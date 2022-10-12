@@ -1,20 +1,31 @@
 <template>
-  <div>
-    <Header>
-      <Button
-        @click.prevent="deletePaste"
-        v-if="state.paste && user && user.id === state.paste.userId"
-        >Delete Paste</Button
-      >
-    </Header>
+  <highlightjs
+    v-if="state.paste"
+    :code="state.paste.content"
+    autodetect
+    class="px-2 py-4 highlight"
+  />
+  <div class="text-white font-mono px-4 py-6" v-else>Loading...</div>
 
-    <highlightjs
-      v-if="state.paste"
-      :code="state.paste.content"
-      autodetect
-      class="px-2 py-4 highlight"
-    />
-    <div class="text-white font-mono px-4 py-6" v-else>Loading...</div>
+  <div
+    class="
+      absolute
+      bg-gray-800
+      bottom-0
+      right-0
+      rounded-tl-xl
+      shadow-xl
+      inline-block
+      px-4
+      py-3
+    "
+  >
+    <Button
+      @click.prevent="deletePaste"
+      v-if="state.paste && user && user.id === state.paste.userId"
+    >
+      Delete Paste
+    </Button>
   </div>
 </template>
 
@@ -35,13 +46,12 @@ import { ErrorKind } from '@snipcode/backend/src/utils/response'
 import { get, remove } from '../api/paste'
 import Button from '../components/elements/Button.vue'
 import WithArrow from '../components/elements/WithArrow.vue'
-import Header from '../components/layout/Header.vue'
 import { useRouter } from 'vue-router'
 import { addTimedAlert, Alert } from '../store/Alert'
 import { user } from '../store'
 
 export default defineComponent({
-  components: { Header, WithArrow, Button },
+  components: { WithArrow, Button },
   setup() {
     const state = reactive({
       paste: null as PasteDto | null,

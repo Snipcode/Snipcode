@@ -1,34 +1,47 @@
 <template>
   <div>
-    <Header :showHome="false">
-      <invite-only>
-        <div class="flex flex-col justify-center">
-          <label for="public" class="text-xs text-white font-mono"
-            >Public?</label
-          >
-          <input type="checkbox" id="public" name="public" v-model="state.public" />
-        </div>
-      </invite-only>
-      <Button :disabled="isSaveDisabled()" @click.prevent="createPaste">
-        Save
-      </Button>
-      <Link to="/editor/">Editor</Link>
-    </Header>
     <with-arrow class="px-5 py-6">
       <textarea
         type="text"
         v-model="state.newPaste"
-        class="w-full min-h-full min-w-full text-gray-200 bg-transparent outline-none font-mono resize-none pr-4"
+        class="
+          w-full
+          min-h-full min-w-full
+          text-gray-200
+          bg-transparent
+          outline-none
+          font-mono
+          resize-none
+          pr-4
+        "
         autofocus
         style="height: 74vh"
       />
     </with-arrow>
   </div>
+
+  <div
+    class="
+      absolute
+      bg-gray-800
+      bottom-0
+      right-0
+      rounded-tl-xl
+      shadow-xl
+      inline-block
+      px-4
+      py-3
+    "
+  >
+    <div class="flex justify-center items-center gap-x-4">
+      <Button :disabled="true" @click="createPaste">Save</Button>
+      <p class="text-gray-400">or use <span class="font-mono">Ctrl+S</span></p>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
-import Header from '../components/layout/Header.vue'
+import { computed, defineComponent, reactive } from 'vue'
 import Button from '../components/elements/Button.vue'
 import WithArrow from '../components/elements/WithArrow.vue'
 import { create as apiCreatePaste } from '../api/paste'
@@ -36,11 +49,11 @@ import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import InviteOnly from '../components/logic/InviteOnly.vue'
 import Link from '../components/elements/Link.vue'
-import {useRouter} from "vue-router";
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   middleware: 'requiredAuth',
-  components: { Header, Button, WithArrow, InviteOnly, Link },
+  components: { Button, WithArrow, InviteOnly, Link },
   setup() {
     const state = reactive({
       newPaste: '',
@@ -81,14 +94,13 @@ export default defineComponent({
     }
 
     // Is the save button disabled?
-    const isSaveDisabled = () => {
-      if (state.loading) return true
-      return state.newPaste.trim().length < 1
-    }
+    const isSaveDisabled = computed(
+      () => state.loading ?? state.newPaste.trim().length < 1
+    )
 
     // Ctrl+V event
     window.addEventListener('paste', async () => {
-      if (!isSaveDisabled()) return
+      if (!isSaveDisabled.value) return
       if (
         document.activeElement &&
         document.activeElement.tagName === 'TEXTAREA'

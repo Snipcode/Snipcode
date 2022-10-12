@@ -2,28 +2,26 @@
   <div>
     <div ref="editor" class="w-full h-full min-w-screen min-h-screen"></div>
     <div
-      class="z-10 absolute bottom-0 right-0 bg-gray-main flex justify-center py-4 px-6"
+      class="
+        z-10
+        absolute
+        bottom-0
+        right-0
+        bg-gray-800
+        shadow-2xl
+        rounded-tl-xl
+        flex
+        justify-center
+        items-center
+        gap-x-8
+        py-4
+        px-6
+      "
     >
       <div>
         <div class="text-white font-mono">
-          <nuxt-link to="/" class="border-b">Snipcode</nuxt-link> Editor (beta)
-        </div>
-
-        <div class="flex mt-2 justify-center gap-x-2">
-          <Button @click.prevent="createPaste">Save</Button>
-          <invite-only>
-            <div class="flex flex-col justify-center">
-              <label for="public" class="text-xs text-white font-mono"
-                >Public?</label
-              >
-              <input
-                type="checkbox"
-                id="public"
-                name="public"
-                v-model="state.public"
-              />
-            </div>
-          </invite-only>
+          <router-link to="/" class="border-b">Snipcode</router-link> Editor
+          (beta)
         </div>
 
         <div class="flex mt-6 justify-center">
@@ -40,6 +38,25 @@
           </select>
         </div>
       </div>
+
+      <div>
+        <div class="flex justify-center gap-x-2">
+          <Button @click.prevent="createPaste">Save</Button>
+          <invite-only>
+            <div class="flex flex-col justify-center">
+              <label for="public" class="text-xs text-white font-mono"
+                >Public?</label
+              >
+              <input
+                type="checkbox"
+                id="public"
+                name="public"
+                v-model="state.public"
+              />
+            </div>
+          </invite-only>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -50,7 +67,7 @@ import * as monaco from 'monaco-editor'
 import { create as apiCreatePaste, edit, get } from '../../api/paste'
 import Button from '../../components/elements/Button.vue'
 import InviteOnly from '../../components/logic/InviteOnly.vue'
-import { configureEditor, getTheme } from '../../editor'
+import { configureEditor, editorThemeName, getTheme } from '../../editor'
 import { PasteDto } from '@snipcode/backend/src/dto/db/pasteDto'
 import { CreateWebSocket } from '../../api/ws/createWebSocket'
 import socketSend from '@snipcode/backend/src/utils/ws/socketSend'
@@ -130,14 +147,14 @@ export default defineComponent({
       }
 
       if (editor.value) {
-        // Configure Monacop
+        // Configure Monaco
         await configureEditor(monaco)
 
         // Create the editor instance
         const $m = monaco.editor.create(editor.value, {
           value: state.newPaste,
           language: state.language,
-          theme: getTheme(),
+          theme: editorThemeName,
         })
 
         // Sync changes with state
