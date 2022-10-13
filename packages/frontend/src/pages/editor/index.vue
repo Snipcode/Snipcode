@@ -5,8 +5,10 @@
       class="
         z-10
         absolute
-        bottom-0
-        right-0
+        bottom-24
+        left-0
+        rounded-xl
+        md:bottom-0 md:right-0 md:left-auto md:rounded-b-none md:rounded-tr-none
         bg-gray-800
         shadow-2xl
         rounded-tl-xl
@@ -114,7 +116,7 @@ export default defineComponent({
           await apiEditPaste({
             id: state.currentPaste.id,
             content: state.newPaste,
-            public: state.public
+            public: state.public,
           })
         }
         notify({
