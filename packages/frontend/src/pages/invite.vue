@@ -104,7 +104,7 @@ import Input from '../components/form/Input.vue'
 import { activateInviteCode as apiActivateCode } from '../api/user'
 import { useRouter } from 'vue-router'
 import { user } from '../store'
-import { addTimedAlert, Alert } from '../store/Alert'
+import { notify } from '../notify'
 
 export default defineComponent({
   components: { Error, WithArrow, Input, Button },
@@ -113,7 +113,7 @@ export default defineComponent({
     const router = useRouter()
 
     const form = reactive({
-      code: parseInviteCodeFromRoute(router.currentRoute),
+      code: parseInviteCodeFromRoute(router.currentRoute.value),
       error: '',
     })
 
@@ -137,9 +137,11 @@ export default defineComponent({
           return (form.error =
             data.error.message ?? 'An unexpected error has occurred.')
 
-        addTimedAlert(new Alert('Invite redeemed successfully'), 1000)
-
         router.push('/')
+        notify({
+          type: 'success',
+          message: 'Redeemed',
+        })
       } catch (_) {
         form.error = 'An unexpected error has occurred.'
       }
@@ -147,9 +149,12 @@ export default defineComponent({
 
     const copyLink = async (code: string, kind = 'invite') => {
       const link = `${window.location.origin}/${kind}?invite=${code}`
-      addTimedAlert(new Alert('Link copied'), 1000)
       try {
         await navigator.clipboard.writeText(link)
+        notify({
+          type: 'success',
+          message: 'Copied',
+        })
       } catch (e) {
         console.log('[client] error while copying link', { e })
       }

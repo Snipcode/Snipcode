@@ -7,26 +7,9 @@
   />
   <div class="text-white font-mono px-3" v-else>Loading...</div>
 
-  <div
+  <Corner
     v-if="state.paste"
-    class="
-      absolute
-      bg-gray-800
-      bottom-24
-      left-0
-      rounded-xl
-      md:bottom-0
-      md:right-0
-      md:left-auto
-      md:rounded-b-none
-      md:rounded-tr-none
-      shadow-xl
-      px-4
-      py-3
-      inline-flex
-      w-fit
-      gap-x-2
-    "
+    class="inline-flex gap-x-2"
   >
     <Link :to="`/editor/${state.paste.id}`">Open in editor</LInk>
     <Button
@@ -35,7 +18,7 @@
     >
       Delete Paste
     </Button>
-  </div>
+  </Corner>
 </template>
 
 <style lang="scss">
@@ -56,12 +39,13 @@ import { get, remove } from '../api/paste'
 import Button from '../components/elements/Button.vue'
 import WithArrow from '../components/elements/WithArrow.vue'
 import { useRouter } from 'vue-router'
-import { addTimedAlert, Alert } from '../store/Alert'
 import { user } from '../store'
 import Link from '../components/elements/Link.vue'
+import Corner from '../components/elements/Corner.vue'
+import { notify } from '../notify'
 
 export default defineComponent({
-  components: { WithArrow, Button, Link },
+  components: { WithArrow, Button, Link, Corner },
   setup() {
     const state = reactive({
       paste: null as PasteDto | null,
@@ -83,7 +67,10 @@ export default defineComponent({
 
         state.paste = data.data.paste
       } catch (_) {
-        addTimedAlert(new Alert('Paste not found'), 1000)
+        notify({
+          type: 'error',
+          message: 'Paste not found'
+        })
         router.push('/')
       }
     }
@@ -99,10 +86,10 @@ export default defineComponent({
 
         router.push('/')
       } catch (e) {
-        addTimedAlert(
-          new Alert((e as any)?.message ?? 'Unknown error has occurred'),
-          1000
-        )
+        notify({
+          type: 'error',
+          message: (e as any)?.message ?? 'Unknown error occurred'
+        })
       }
     }
 

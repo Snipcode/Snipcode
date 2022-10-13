@@ -20,31 +20,10 @@
     </with-arrow>
   </div>
 
-  <div
-    class="
-      z-10
-      absolute
-      bg-gray-800
-      bottom-24
-      left-0
-      rounded-xl
-      md:bottom-0
-      md:right-0
-      md:left-auto
-      md:rounded-b-none
-      md:rounded-tr-none
-      rounded-tl-xl
-      shadow-xl
-      inline-block
-      px-4
-      py-3
-    "
-  >
-    <div class="flex justify-center items-center gap-x-4">
-      <Button :disabled="isSaveDisabled" @click="createPaste">Save</Button>
-      <p class="text-gray-400">or use <span class="font-mono">Ctrl+S</span></p>
-    </div>
-  </div>
+  <Corner class="inline-flex justify-center items-center gap-x-4">
+    <Button :disabled="isSaveDisabled" @click="createPaste">Save</Button>
+    <p class="text-gray-400">or use <span class="font-mono">Ctrl+S</span></p>
+  </Corner>
 </template>
 
 <script lang="ts">
@@ -58,10 +37,11 @@ import InviteOnly from '../components/logic/InviteOnly.vue'
 import Link from '../components/elements/Link.vue'
 import { useRouter } from 'vue-router'
 import { notify } from '../notify'
+import Corner from '../components/elements/Corner.vue'
 
 export default defineComponent({
   middleware: 'requiredAuth',
-  components: { Button, WithArrow, InviteOnly, Link },
+  components: { Button, WithArrow, InviteOnly, Link, Corner },
   setup() {
     const state = reactive({
       newPaste: '',
@@ -97,30 +77,34 @@ export default defineComponent({
 
         router.push(`/${data.data.paste.id}`)
         notify({
-            duration: 1000,
-            type: 'success',
-            message: 'Saved'
-          })
+          duration: 1000,
+          type: 'success',
+          message: 'Saved',
+        })
       } catch (_) {}
 
       state.loading = false
     }
 
-    // Is the save button disabled?
+    // Is saving the paste disabled
     const isSaveDisabled = computed(
       () => state.loading ?? state.newPaste.trim().length < 1
     )
 
     // Ctrl+V event
     window.addEventListener('paste', async () => {
-      if (!isSaveDisabled.value) return
+      // Do not do anything if there is already text in the textarea,
+      // a paste is already being created or the textarea is currently focused.
       if (
-        document.activeElement &&
-        document.activeElement.tagName === 'TEXTAREA'
-      )
+        !isSaveDisabled.value ||
+        state.loading ||
+        (document.activeElement &&
+          document.activeElement.tagName === 'TEXTAREA')
+      ) {
         return
+      }
 
-      console.log('[client] paste event triggered')
+      // Read the clipboard and create a new paste.
       try {
         const clipboard = await navigator.clipboard.readText()
         if (!clipboard) return
@@ -128,13 +112,14 @@ export default defineComponent({
         state.newPaste = clipboard
         createPaste()
       } catch (e) {
-        console.log("[client] couldn't paste", { e })
+        console.log('Could not read the clipboard', { e })
       }
     })
 
+    // Ctrl+S shortcut
     document.addEventListener('keydown', (e) => {
       if (e.ctrlKey && e.key === 's') {
-        e.preventDefault();
+        e.preventDefault()
         return createPaste()
       }
     })

@@ -61,12 +61,10 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive } from 'vue'
-import { PasteDto } from '@snipcode/backend/src/dto/db/pasteDto'
 import { Paste } from '@snipcode/backend/src/schemas'
 import { user as sock, user } from '../store'
-import { addTimedAlert, Alert } from '../store/Alert'
-import { remove, getAll as getAllPastes } from '../api/paste'
-import { me, refreshMe } from '../api/user'
+import { remove } from '../api/paste'
+import { refreshMe } from '../api/user'
 import { notify } from '../notify'
 
 export default defineComponent({

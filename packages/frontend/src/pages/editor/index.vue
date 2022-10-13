@@ -1,25 +1,7 @@
 <template>
   <div>
     <div ref="editor" class="w-full h-full min-w-screen min-h-screen"></div>
-    <div
-      class="
-        z-10
-        absolute
-        bottom-24
-        left-0
-        rounded-xl
-        md:bottom-0 md:right-0 md:left-auto md:rounded-b-none md:rounded-tr-none
-        bg-gray-800
-        shadow-2xl
-        rounded-tl-xl
-        flex
-        justify-center
-        items-center
-        gap-x-8
-        py-4
-        px-6
-      "
-    >
+    <Corner class="flex justify-center items-center gap-x-8">
       <div>
         <div class="text-white font-mono">
           <router-link to="/" class="border-b">Snipcode</router-link> Editor
@@ -59,7 +41,7 @@
           </invite-only>
         </div>
       </div>
-    </div>
+    </Corner>
   </div>
 </template>
 
@@ -76,13 +58,13 @@ import InviteOnly from '../../components/logic/InviteOnly.vue'
 import { configureEditor, editorThemeName } from '../../editor'
 import { PasteDto } from '@snipcode/backend/src/dto/db/pasteDto'
 import { useRouter } from 'vue-router'
-import { addTimedAlert, Alert } from '../../store/Alert'
 import { notify } from '../../notify'
+import Corner from '../../components/elements/Corner.vue'
 
 export default defineComponent({
   middleware: 'requiredAuth',
-  components: { Button, InviteOnly },
-  setup: function () {
+  components: { Button, InviteOnly, Corner },
+  setup() {
     const editor = ref<HTMLDivElement | null>(null)
 
     const state = reactive({
@@ -110,7 +92,6 @@ export default defineComponent({
           })
           if (!data.success) throw new Error(data.error.message)
 
-          addTimedAlert(new Alert('Paste created'), 1000)
           router.push(`/editor/${data.data.paste.id}`)
         } else {
           await apiEditPaste({
@@ -120,7 +101,6 @@ export default defineComponent({
           })
         }
         notify({
-          duration: 1000,
           type: 'success',
           message: 'Saved',
         })
@@ -140,7 +120,10 @@ export default defineComponent({
           state.newPaste = data.data.paste.content
           state.public = data.data.paste.public!
         } catch (_) {
-          alert('Paste not found.')
+          notify({
+            type: 'error',
+            message: 'Paste not found'
+          })
           router.push('/editor/')
         }
       }

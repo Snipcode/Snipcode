@@ -66,7 +66,7 @@ import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 import { parseInviteCodeFromRoute } from '../../api/user'
 import { useRouter } from 'vue-router'
-import { addTimedAlert, Alert } from '../../store/Alert'
+import { notify } from '../../notify'
 
 export default defineComponent({
   components: { WithArrow, Button, Input, Error },
@@ -104,7 +104,10 @@ export default defineComponent({
           return (form.error =
             data.error.message ?? 'An unexpected error has occurred.')
 
-        addTimedAlert(new Alert('Registered successfully'), 1000)
+        notify({
+          type: 'success',
+          message: 'Registered'
+        })
 
         router.push('/login')
       } catch (_) {

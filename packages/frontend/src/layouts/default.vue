@@ -44,7 +44,7 @@
 import { defineComponent } from 'vue'
 import Button from '../components/elements/Button.vue'
 import Link from '../components/elements/Link.vue'
-import { alert, globalLoaded, user } from '../store'
+import { globalLoaded, user } from '../store'
 import {logout as apiLogout} from "../api/auth"
 import { useRouter } from 'vue-router'
 
@@ -65,7 +65,6 @@ export default defineComponent({
     }
 
     return {
-      alert,
       logout,
       editor,
       route: router.currentRoute,
