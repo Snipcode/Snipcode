@@ -4,14 +4,14 @@
       class="
         w-full
         h-full
-        flex flex-col-reverse
+        flex flex-col
         md:flex-row
         justify-center
         items-center
         bg-gray-900
       "
     >
-      <div class="w-full h-full p-32 flex justify-start items-center text-whiter">
+      <div class="w-full h-full p-8 md:p-32 flex justify-start items-center text-whiter">
         <router-view/>
       </div>
       <div
@@ -19,8 +19,8 @@
           w-full
           md:h-full
           bg-gray-800 md:bg-transparent
-          p-32
-          flex justify-end items-center
+          p-8 md:p-32
+          flex md:justify-end items-center
         "
       >
         <div class="">

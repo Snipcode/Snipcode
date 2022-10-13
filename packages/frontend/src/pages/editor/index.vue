@@ -64,16 +64,18 @@
 <script lang="ts">
 import { defineComponent, onMounted, reactive, ref, watch } from 'vue'
 import * as monaco from 'monaco-editor'
-import { create as apiCreatePaste, edit, get } from '../../api/paste'
+import {
+  create as apiCreatePaste,
+  get,
+  edit as apiEditPaste,
+} from '../../api/paste'
 import Button from '../../components/elements/Button.vue'
 import InviteOnly from '../../components/logic/InviteOnly.vue'
-import { configureEditor, editorThemeName, getTheme } from '../../editor'
+import { configureEditor, editorThemeName } from '../../editor'
 import { PasteDto } from '@snipcode/backend/src/dto/db/pasteDto'
-import { CreateWebSocket } from '../../api/ws/createWebSocket'
-import socketSend from '@snipcode/backend/src/utils/ws/socketSend'
 import { useRouter } from 'vue-router'
-import { socket as sock } from '../../store'
 import { addTimedAlert, Alert } from '../../store/Alert'
+import { notify } from '../../notify'
 
 export default defineComponent({
   middleware: 'requiredAuth',
@@ -92,8 +94,6 @@ export default defineComponent({
 
     const router = useRouter()
 
-    const [socket, emitter] = sock.value as CreateWebSocket
-
     const createPaste = async () => {
       if (state.loading) return
       state.loading = true
@@ -111,20 +111,17 @@ export default defineComponent({
           addTimedAlert(new Alert('Paste created'), 1000)
           router.push(`/editor/${data.data.paste.id}`)
         } else {
-          socketSend(socket, {
-            action: 'paste_edit',
-            data: {
-              id: state.currentPaste.id,
-              content: state.newPaste,
-              public: state.public,
-            },
-          })
-
-          emitter.once('action_paste_edit', (msg) => {
-            state.currentPaste = msg.data.data.paste
-            addTimedAlert(new Alert('Paste updateed'), 1000)
+          await apiEditPaste({
+            id: state.currentPaste.id,
+            content: state.newPaste,
+            public: state.public
           })
         }
+        notify({
+          duration: 1000,
+          type: 'success',
+          message: 'Saved',
+        })
       } catch (_) {}
 
       state.loading = false

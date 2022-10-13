@@ -1,6 +1,6 @@
 <template>
   <div>
-    <with-arrow class="px-5 py-6">
+    <with-arrow class="px-3">
       <textarea
         type="text"
         v-model="state.newPaste"
@@ -12,7 +12,7 @@
           outline-none
           font-mono
           resize-none
-          pr-4
+          pr-1
         "
         autofocus
         style="height: 74vh"
@@ -22,6 +22,7 @@
 
   <div
     class="
+      z-10
       absolute
       bg-gray-800
       bottom-0
@@ -34,7 +35,7 @@
     "
   >
     <div class="flex justify-center items-center gap-x-4">
-      <Button :disabled="true" @click="createPaste">Save</Button>
+      <Button :disabled="isSaveDisabled" @click="createPaste">Save</Button>
       <p class="text-gray-400">or use <span class="font-mono">Ctrl+S</span></p>
     </div>
   </div>
@@ -50,6 +51,7 @@ import { required } from '@vuelidate/validators'
 import InviteOnly from '../components/logic/InviteOnly.vue'
 import Link from '../components/elements/Link.vue'
 import { useRouter } from 'vue-router'
+import { notify } from '../notify'
 
 export default defineComponent({
   middleware: 'requiredAuth',
@@ -88,6 +90,11 @@ export default defineComponent({
         if (!data.success) throw new Error(data.error.message)
 
         router.push(`/${data.data.paste.id}`)
+        notify({
+            duration: 1000,
+            type: 'success',
+            message: 'Saved'
+          })
       } catch (_) {}
 
       state.loading = false
@@ -116,6 +123,13 @@ export default defineComponent({
         createPaste()
       } catch (e) {
         console.log("[client] couldn't paste", { e })
+      }
+    })
+
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        return createPaste()
       }
     })
 

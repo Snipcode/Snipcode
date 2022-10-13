@@ -8,7 +8,7 @@
         style="height: 74vh"
       >
         <router-link
-          v-for="(paste, i) in state.pastes"
+          v-for="(paste, i) in pastes"
           :key="i"
           :to="`/${paste.id}`"
           class="
@@ -34,6 +34,7 @@
             {{ paste.content }}
           </span>
           <span class="text-xs text-gray-400">
+            ID: {{ paste.id }} &ndash;
             {{ new Date(paste.createdAt).toLocaleString() }} &ndash;
             <span
               class="text-gray-200 border-b border-gray-200 cursor-pointer"
@@ -41,9 +42,16 @@
             >
               Delete
             </span>
+            &ndash;
+            <span
+              class="text-gray-200 border-b border-gray-200 cursor-pointer"
+              @click.prevent="() => copyPaste(paste.id)"
+            >
+              Copy URL
+            </span>
           </span>
         </router-link>
-        <div v-if="state.pastes.length < 1" class="text-white font-mono">
+        <div v-if="pastes.length < 1" class="text-white font-mono">
           You have no pastes yet.
         </div>
       </div>
@@ -55,55 +63,44 @@
 import { computed, defineComponent, reactive } from 'vue'
 import { PasteDto } from '@snipcode/backend/src/dto/db/pasteDto'
 import { Paste } from '@snipcode/backend/src/schemas'
-import socketSend from '@snipcode/backend/src/utils/ws/socketSend'
-import { CreateWebSocket } from '../api/ws/createWebSocket'
-import { user, socket as sock } from '../store'
+import { user as sock, user } from '../store'
 import { addTimedAlert, Alert } from '../store/Alert'
-import { remove } from '../api/paste'
+import { remove, getAll as getAllPastes } from '../api/paste'
+import { me, refreshMe } from '../api/user'
+import { notify } from '../notify'
 
 export default defineComponent({
   middleware: 'requiredAuth',
   setup() {
-    const state = reactive({
-      pastes: [] as PasteDto[],
-    })
-
-    // Loads pastes from User Store
-    state.pastes = user.value ? user.value.pastes ?? [] : []
+    const pastes = computed(() => (user.value ? user.value.pastes ?? [] : []))
 
     if (!sock.value) {
       throw new Error('Websockets are not supported')
     }
 
-    // WebSocket connection in store
-    const [socket, emitter]: CreateWebSocket = sock.value
-
     const removePaste = async (data: Paste.ById['Params']) => {
       try {
         await remove(data)
-        addTimedAlert(new Alert('Paste deleted successfully'), 1000)
+        await refreshMe()
+        notify({
+          message: 'Deleted',
+          type: 'success',
+        })
       } catch (_) {}
     }
 
-    socket.addEventListener('open', () => {
-      socketSend(socket!, { action: 'paste_fetch' })
-    })
-
-    emitter.on('fetch_pastes', (msg) => {
-      state.pastes = msg.data.pastes
-    })
-
-    emitter.on('paste_create', (msg) => {
-      state.pastes = [msg.data.paste, ...state.pastes]
-    })
-
-    emitter.on('paste_delete', (msg) => {
-      state.pastes = state.pastes.filter((el) => el.id !== msg.data.paste.id)
-    })
+    const copyPaste = async (id: string) => {
+      await navigator.clipboard.writeText(`${window.location.origin}/${id}`)
+      notify({
+        message: 'Copied',
+        type: 'success',
+      })
+    }
 
     return {
-      state,
+      pastes,
       removePaste,
+      copyPaste,
     }
   },
 })

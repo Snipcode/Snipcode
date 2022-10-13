@@ -1,9 +1,9 @@
-import { Paste } from '@snipcode/backend/src/http/schemas'
-import { PasteDto } from '@snipcode/backend/src/http/dto/db/pasteDto'
-import { Error, Success } from '@snipcode/backend/src/http/helpers/responseHelper'
+import { Paste } from '@snipcode/backend/src/schemas'
+import { PasteDto } from '@snipcode/backend/src/dto/db/pasteDto'
+import { Error, Success } from '@snipcode/backend/src/utils/response'
 import { $axios } from '../axios'
 
-const create = ({ content, public: _public }: Paste.Create['Body']['data']) =>
+export const create = ({ content, public: _public }: Paste.Create['Body']['data']) =>
   $axios.request<Success<{ paste: PasteDto }> | Error<any>>({
     url: '/paste',
     method: 'PUT',
@@ -12,7 +12,7 @@ const create = ({ content, public: _public }: Paste.Create['Body']['data']) =>
     },
   })
 
-const edit = ({ id, content, public: _public }: Paste.Edit['Body']['data']) =>
+export const edit = ({ id, content, public: _public }: Paste.Edit['Body']['data']) =>
   $axios.request<Success<{ paste: PasteDto }> | Error<any>>({
     url: '/paste',
     method: 'POST',
@@ -21,16 +21,20 @@ const edit = ({ id, content, public: _public }: Paste.Edit['Body']['data']) =>
     },
   })
 
-const get = ({ id }: Paste.ById['Params']) =>
+export  const get = ({ id }: Paste.ById['Params']) =>
   $axios.request<Success<{ paste: PasteDto }> | Error<any>>({
     url: `/paste/${id}`,
     method: 'GET',
   })
 
-const remove = ({ id }: Paste.ById['Params']) =>
+export const getAll = () =>
+  $axios.request<Success<{ pastes: PasteDto[] }> | Error<any>>({
+    url: `/paste`,
+    method: 'GET',
+  })
+
+export const remove = ({ id }: Paste.ById['Params']) =>
   $axios.request<Success<{ paste: PasteDto }> | Error<any>>({
     url: `/paste/${id}`,
     method: 'DELETE',
   })
-
-export { create, get, remove, edit }

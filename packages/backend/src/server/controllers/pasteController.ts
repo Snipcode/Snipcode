@@ -51,6 +51,18 @@ export default controller(async (app) => {
     )
   )
 
+  app.get('/', async (req, res) =>
+    withUserContext({ req, res, deps: { db } }, async ({ user }) => {
+      res.send(
+        success({
+          pastes: PasteDto.makeMany(
+            await db.paste.findMany({ where: { userId: user.id } })
+          ),
+        })
+      )
+    })
+  )
+
   app.put<Paste.Create>('/', { schema: Paste.create }, async (req, res) =>
     withUserContext({ req, res, deps: { db } }, async ({ user }) => {
       if (req.body.data.public && !user.invite)
@@ -168,4 +180,4 @@ export default controller(async (app) => {
       }
     )
   )
-}, '/api/paste')
+}, '/paste')

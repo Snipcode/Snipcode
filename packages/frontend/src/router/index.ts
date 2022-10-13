@@ -1,6 +1,5 @@
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router'
-import { globalLoaded, socket, user } from '../store'
-import { createWebSocket } from '../api/ws/createWebSocket'
+import { globalLoaded, user } from '../store'
 import { me } from '../api/user'
 
 const routes: RouteRecordRaw[] = [
@@ -12,6 +11,16 @@ const routes: RouteRecordRaw[] = [
         path: '/',
         meta: { requiredAuth: true },
         component: () => import('../pages/index.vue'),
+      },
+      {
+        path: '/editor',
+        meta: { requiredAuth: true },
+        component: () => import('../pages/editor/index.vue'),
+      },
+      {
+        path: '/editor/:id',
+        meta: { requiredAuth: true },
+        component: () => import('../pages/editor/index.vue'),
       },
       {
         path: '/:id',
@@ -27,17 +36,7 @@ const routes: RouteRecordRaw[] = [
         path: '/pastes',
         meta: { requiredAuth: true },
         component: () => import('../pages/pastes.vue'),
-      },
-      {
-        path: '/editor',
-        meta: { requiredAuth: true },
-        component: () => import('../pages/editor/index.vue'),
-      },
-      {
-        path: '/editor/:id',
-        meta: { requiredAuth: true },
-        component: () => import('../pages/editor/index.vue'),
-      },
+      }
     ],
   },
   {
@@ -64,9 +63,6 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  const initSocketStore = () => {
-    socket.value = createWebSocket()
-  }
 
   const fetchMe = async () => {
     const { data } = await me()
@@ -76,7 +72,6 @@ router.beforeEach(async (to) => {
   }
 
   const loggedIn = await fetchMe()
-  if (loggedIn && !socket.value) initSocketStore()
 
   if (to.meta.requiredAuth && !loggedIn) {
     return { path: '/auth/login' }
@@ -85,8 +80,8 @@ router.beforeEach(async (to) => {
   if (to.meta.requiredUnauth && loggedIn) {
     return { path: '/' }
   }
-
-  globalLoaded.value = true
 })
+
+router.afterEach(() => globalLoaded.value = true)
 
 export { router }

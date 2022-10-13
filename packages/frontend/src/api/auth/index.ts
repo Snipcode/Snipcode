@@ -1,8 +1,8 @@
-import { Auth } from '@snipcode/backend/src/http/schemas'
-import { Error, Success } from '@snipcode/backend/src/http/helpers/responseHelper'
+import { Auth } from '@snipcode/backend/src/schemas'
+import { Error, Success } from '@snipcode/backend/src/utils/response'
 import { $axios, SuccessMessage } from '../axios'
 
-const login = ({ username, password }: Auth.AuthSchema['Body']['data']) =>
+export const login = ({ username, password }: Auth.AuthSchema['Body']['data']) =>
   $axios.request<Success<SuccessMessage> | Error<any>>({
     url: '/auth/login',
     method: 'POST',
@@ -14,7 +14,7 @@ const login = ({ username, password }: Auth.AuthSchema['Body']['data']) =>
     },
   })
 
-const register = ({
+export const register = ({
   username,
   password,
   code,
@@ -31,10 +31,8 @@ const register = ({
     },
   })
 
-const logout = () =>
+export const logout = () =>
   $axios.request<Success<SuccessMessage>>({
     url: '/auth/logout',
     method: 'GET',
   })
-
-export { login, register, logout }

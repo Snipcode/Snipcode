@@ -13,3 +13,7 @@
 .eggy > div.open > div > p.message {
   @apply !text-gray-200 !text-sm
 }
+
+pre code.hljs {
+  padding: 0 !important
+}

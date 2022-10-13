@@ -2,7 +2,6 @@ import path from 'path'
 import fs from 'fs'
 import { PrismaClient } from '@prisma/client'
 import fastifySecureSession from '@fastify/secure-session'
-import fastifyWebsocket from '@fastify/websocket'
 import EventEmitter from 'eventemitter3'
 import { error, ErrorKind } from './utils/response'
 import sodium from 'sodium-native'
@@ -81,12 +80,6 @@ server.register(fastifySecureSession, {
   key: fs.readFileSync(sessionKeyPath),
   cookie: {
     path: '/',
-  },
-})
-
-server.register(fastifyWebsocket, {
-  options: {
-    maxPayload: 1048576,
   },
 })
 

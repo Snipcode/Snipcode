@@ -3,26 +3,35 @@
     v-if="state.paste"
     :code="state.paste.content"
     autodetect
-    class="px-2 py-4 highlight"
+    class="highlight px-3 py-1"
   />
-  <div class="text-white font-mono px-4 py-6" v-else>Loading...</div>
+  <div class="text-white font-mono px-3" v-else>Loading...</div>
 
   <div
+    v-if="state.paste"
     class="
       absolute
       bg-gray-800
-      bottom-0
-      right-0
-      rounded-tl-xl
+      bottom-24
+      left-0
+      rounded-xl
+      md:bottom-0
+      md:right-0
+      md:left-auto
+      md:rounded-b-none
+      md:rounded-tr-none
       shadow-xl
-      inline-block
       px-4
       py-3
+      inline-flex
+      w-fit
+      gap-x-2
     "
   >
+    <Link :to="`/editor/${state.paste.id}`">Open in editor</LInk>
     <Button
       @click.prevent="deletePaste"
-      v-if="state.paste && user && user.id === state.paste.userId"
+      v-if="user && user.id === state.paste.userId"
     >
       Delete Paste
     </Button>
@@ -40,7 +49,7 @@ pre.highlight {
 </style>
 
 <script lang="ts">
-import { computed, defineComponent, reactive } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import { PasteDto } from '@snipcode/backend/src/dto/db/pasteDto'
 import { ErrorKind } from '@snipcode/backend/src/utils/response'
 import { get, remove } from '../api/paste'
@@ -49,9 +58,10 @@ import WithArrow from '../components/elements/WithArrow.vue'
 import { useRouter } from 'vue-router'
 import { addTimedAlert, Alert } from '../store/Alert'
 import { user } from '../store'
+import Link from '../components/elements/Link.vue'
 
 export default defineComponent({
-  components: { WithArrow, Button },
+  components: { WithArrow, Button, Link },
   setup() {
     const state = reactive({
       paste: null as PasteDto | null,

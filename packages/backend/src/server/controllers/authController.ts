@@ -107,4 +107,4 @@ export default controller(async (app) => {
       })
     )
   })
-}, '/api/auth')
+}, '/auth')

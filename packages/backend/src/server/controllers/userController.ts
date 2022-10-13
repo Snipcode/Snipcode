@@ -68,4 +68,4 @@ export default controller(async (app) => {
       )
     })
   )
-}, '/api/user')
+}, '/user')
