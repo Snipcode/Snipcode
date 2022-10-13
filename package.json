@@ -7,6 +7,7 @@
     "packages/*"
   ],
   "scripts": {
+    "build": "yarn backend build && yarn frontend build",
     "lint": "eslint --ignore-path .gitignore .",
     "backend": "yarn workspace @snipcode/backend",
     "frontend": "yarn workspace @snipcode/frontend",

@@ -2,7 +2,6 @@ import path from 'path'
 import fs from 'fs'
 import { PrismaClient } from '@prisma/client'
 import fastifySecureSession from '@fastify/secure-session'
-import EventEmitter from 'eventemitter3'
 import { error, ErrorKind } from './utils/response'
 import sodium from 'sodium-native'
 import { controllers } from './utils/controllers'
@@ -12,8 +11,6 @@ import cors from '@fastify/cors'
 import helmet from '@fastify/helmet'
 
 const db = new PrismaClient()
-
-const emitter = new EventEmitter()
 
 const server = fastify({
   logger:
@@ -64,7 +61,6 @@ server.register(controllers, {
 registerContainerServices({
   db,
   server,
-  emitter,
 })
 
 const sessionKeyPath = path.join(__dirname, '..', '..', '..', '.session_key')

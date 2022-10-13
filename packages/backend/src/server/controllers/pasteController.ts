@@ -10,7 +10,6 @@ import { $s } from '../../container'
 
 export default controller(async (app) => {
   const db = $s('db')
-  const emitter = $s('emitter')
 
   app.get<Paste.ById>('/:id', { schema: Paste.byId }, async (req, res) =>
     withOptionalUserContext(
@@ -81,8 +80,6 @@ export default controller(async (app) => {
           public: req.body.data.public,
         },
       })
-
-      emitter.emit(`paste_create__${user.id}`, paste)
 
       res.send(
         success({
@@ -169,8 +166,6 @@ export default controller(async (app) => {
             id: req.params.id,
           },
         })
-
-        emitter.emit(`paste_delete__${user.id}`, paste)
 
         res.send(
           success({
