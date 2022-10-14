@@ -24,9 +24,8 @@
       "
     >
       <div class="inline-flex gap-x-2 justify-center">
-        <Link v-if="route.path !== '/'"> Home </Link>
-        <Link to="/pastes"> Your Pastes </Link>
-        <Button @click="editor"> Editor </Button>
+        <Link v-if="route.path !== '/'" to="/"> + </Link>
+        <Link to="/pastes"> Pastes </Link>
         <Button @click="logout"> Logout </Button>
       </div>
     </div>
@@ -59,14 +58,8 @@ export default defineComponent({
       router.push('/auth/login')
     }
 
-    const editor = async () => {
-      globalLoaded.value = false;
-      router.push("/editor")
-    }
-
     return {
       logout,
-      editor,
       route: router.currentRoute,
     }
   },

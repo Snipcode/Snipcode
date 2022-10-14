@@ -12,12 +12,7 @@ export default controller(async (app) => {
   const db = $s('db')
 
   app.get<Paste.ById>('/:id', { schema: Paste.byId }, async (req, res) =>
-    withOptionalUserContext(
-      {
-        req,
-        res,
-        deps: { db },
-      },
+    withOptionalUserContext({ req, res },
       async (ctx) => {
         const paste = await db.paste.findUnique({
           where: {
@@ -51,7 +46,7 @@ export default controller(async (app) => {
   )
 
   app.get('/', async (req, res) =>
-    withUserContext({ req, res, deps: { db } }, async ({ user }) => {
+    withUserContext({ req, res }, async ({ user }) => {
       res.send(
         success({
           pastes: PasteDto.makeMany(
@@ -63,7 +58,7 @@ export default controller(async (app) => {
   )
 
   app.put<Paste.Create>('/', { schema: Paste.create }, async (req, res) =>
-    withUserContext({ req, res, deps: { db } }, async ({ user }) => {
+    withUserContext({ req, res }, async ({ user }) => {
       if (req.body.data.public && !user.invite)
         return res.send(
           error({
@@ -90,7 +85,7 @@ export default controller(async (app) => {
   )
 
   app.post<Paste.Edit>('/', { schema: Paste.edit }, async (req, res) =>
-    withUserContext({ req, res, deps: { db } }, async ({ user }) => {
+    withUserContext({ req, res }, async ({ user }) => {
       const paste = await db.paste.findUnique({
         where: {
           id: req.body.data.id,
@@ -132,47 +127,40 @@ export default controller(async (app) => {
   )
 
   app.delete<Paste.ById>('/:id', { schema: Paste.byId }, async (req, res) =>
-    withUserContext(
-      {
-        req,
-        res,
-        deps: { db },
-      },
-      async ({ user }) => {
-        const paste = await db.paste.findUnique({
-          where: {
-            id: req.params.id,
-          },
-        })
+    withUserContext({ req, res }, async ({ user }) => {
+      const paste = await db.paste.findUnique({
+        where: {
+          id: req.params.id,
+        },
+      })
 
-        if (!paste)
-          return res.send(
-            error({
-              kind: ErrorKind.USER_INPUT,
-              message: 'Paste not found',
-            })
-          )
-
-        if (paste.userId !== user.id)
-          return res.send(
-            error({
-              kind: ErrorKind.FORBIDDEN,
-              message: 'This is not your paste',
-            })
-          )
-
-        await db.paste.delete({
-          where: {
-            id: req.params.id,
-          },
-        })
-
-        res.send(
-          success({
-            paste: PasteDto.make(paste),
+      if (!paste)
+        return res.send(
+          error({
+            kind: ErrorKind.USER_INPUT,
+            message: 'Paste not found',
           })
         )
-      }
-    )
+
+      if (paste.userId !== user.id)
+        return res.send(
+          error({
+            kind: ErrorKind.FORBIDDEN,
+            message: 'This is not your paste',
+          })
+        )
+
+      await db.paste.delete({
+        where: {
+          id: req.params.id,
+        },
+      })
+
+      res.send(
+        success({
+          paste: PasteDto.make(paste),
+        })
+      )
+    })
   )
 }, '/paste')

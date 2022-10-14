@@ -36,6 +36,8 @@ server.setErrorHandler(async (e, _, res) => {
       })
     )
 
+  console.log({ e })
+
   res.send(
     error({
       kind: ErrorKind.INTERNAL,

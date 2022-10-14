@@ -1,5 +1,5 @@
 <template>
-  <router-view v-if="globalLoaded" />
+  <router-view v-if="globalLoaded" :key="$route.name" />
   <div v-else class="w-screen h-screen flex justify-center items-center bg-gray-900 text-white">
     <div class="text-center flex flex-col items-center gap-y-6">
       <h1 class="text-5xl italic">{{ global.name }}</h1>

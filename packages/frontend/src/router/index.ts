@@ -10,22 +10,14 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/',
         meta: { requiredAuth: true },
+        name: 'Editor',
         component: () => import('../pages/index.vue'),
-      },
-      {
-        path: '/editor',
-        meta: { requiredAuth: true },
-        component: () => import('../pages/editor/index.vue'),
-      },
-      {
-        path: '/editor/:id',
-        meta: { requiredAuth: true },
-        component: () => import('../pages/editor/index.vue'),
       },
       {
         path: '/:id',
         meta: { requiredAuth: true },
-        component: () => import('../pages/_id.vue'),
+        name: 'EditorView',
+        component: () => import('../pages/index.vue'),
       },
       {
         path: '/invite',

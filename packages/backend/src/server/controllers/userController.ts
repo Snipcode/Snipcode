@@ -8,18 +8,13 @@ export default controller(async (app) => {
   const db = $s('db')
 
   app.get('/', async (req, res) =>
-    withUserContext(
-      {
-        req,
-        res,
-        deps: { db },
-      },
-      ({ dtoUser }) => res.send(success({ user: dtoUser }))
+    withUserContext({ req, res }, ({ dtoUser }) =>
+      res.send(success({ user: dtoUser }))
     )
   )
 
   app.post<User.Invite>('/invite', { schema: User.invite }, async (req, res) =>
-    withUserContext({ req, res, deps: { db } }, async ({ user }) => {
+    withUserContext({ req, res }, async ({ user }) => {
       if (user.invite)
         return res.send(
           error({

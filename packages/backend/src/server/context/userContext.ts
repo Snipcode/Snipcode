@@ -1,13 +1,10 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { Injected } from '../../types'
+import { $s } from '../../container'
 import { FullUser, UserDto } from '../../dto/db/userDto'
 import { BaseError, Error, error, ErrorKind } from '../../utils/response'
 interface UseUserContext {
   req: FastifyRequest
   res?: FastifyReply
-  deps: {
-    db: Injected['db']
-  }
 }
 
 interface UserContext {
@@ -20,13 +17,13 @@ interface UserContext {
  * Creates the User Context and returns it,
  * if an error occurs it returns and Error according to the response-spec.
  *
- * @param {Omit<UseUserContext, 'res'>} _
+ * @param {Omit<UseUserContext, 'res'>}
  * @returns {UserContext | Error<BaseError>}
  */
 const createUserContext = async ({
   req,
-  deps: { db },
 }: Omit<UseUserContext, 'res'>): Promise<UserContext | Error<BaseError>> => {
+  const db = $s("db");
   const userId = req.session.get('userId')
 
   if (!userId)
