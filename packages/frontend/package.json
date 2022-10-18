@@ -17,7 +17,7 @@
     "emmet-monaco-es": "^5.1.2",
     "eventemitter3": "^4.0.7",
     "highlight.js": "^11.6.0",
-    "monaco-editor": "^0.34.0",
+    "monaco-editor": "^0.34.1",
     "tailwindcss": "^3.1.8",
     "vue": "^3.2.37",
     "vue-router": "^4.1.5"
