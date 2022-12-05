@@ -22,7 +22,7 @@
     "contairy": "^1.0.1-1",
     "fastify": "^4.8.1",
     "glob": "^8.0.3",
-    "prisma": "^4.4.0",
+    "prisma": "^4.7.1",
     "sodium-native": "^3.4.1"
   },
   "devDependencies": {
